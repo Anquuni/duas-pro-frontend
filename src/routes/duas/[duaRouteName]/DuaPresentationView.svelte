@@ -14,7 +14,6 @@
             const header = document.querySelector('header');
             const audioPlayer = document.querySelector('.audio-player'); // Annahme: Ihr Audioplayer hat diese Klasse
             headerHeight = header ? header.offsetHeight : 0;
-            console.log("headerHeight ", headerHeight)
             audioPlayerHeight = audioPlayer ? audioPlayer.offsetHeight : 0;
         };
 

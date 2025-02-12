@@ -11,6 +11,7 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import { User, Share2, Bookmark } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
+	import type { Dua } from '../../ambient';
 
 	export let dua: Dua;
 	const isPopular = dua.tags.includes('popular');
@@ -49,13 +50,10 @@
 		>
 			<div class="relative z-20 flex items-start justify-between">
 				<div>
-					<CardTitle class="text-xl font-semibold text-white">{dua.title['translit']}</CardTitle>
-					<CardDescription class="text-sm text-gray-200">{dua.title['en']}</CardDescription>
+					<CardTitle class="text-xl font-semibold text-white">{dua.title['TL']}</CardTitle>
+					<CardDescription class="text-sm text-gray-200">{dua.title['EN']}</CardDescription>
 				</div>
-				<!-- <CardTitle class="font-arabic text-right text-2xl text-white">{dua.title['ar']}</CardTitle> -->
-				<CardTitle class="font-arabic text-right text-2xl text-white">
-					دعاء ابي حمزة الثمالي
-				</CardTitle>
+				<CardTitle class="font-arabic text-right text-2xl text-white">{dua.title['AR']}</CardTitle>
 			</div>
 		</CardHeader>
 		<CardContent class="pt-4">
@@ -63,13 +61,15 @@
 				<!-- {dua.description['en'] || 'No description available'} -->
 				A powerful prayer known for seeking forgiveness and protection.
 			</p>
-			<div class="mt-2 flex items-center justify-between">
-				<p class="text-xs font-semibold text-primary">Major Supplications</p>
-				<div class="flex items-center text-xs text-muted-foreground">
-					<User size={14} class="mr-1" />
-					<span>Imam Ali</span>
+			{#if dua.narratedBy['EN'] !== null}
+				<div class="mt-2 flex items-center justify-between">
+					<p class="text-xs font-semibold text-primary">Major Supplications</p>
+					<div class="flex items-center text-xs text-muted-foreground">
+						<User size={14} class="mr-1" />
+						<span>{dua.narratedBy['EN']}</span>
+					</div>
 				</div>
-			</div>
+			{/if}
 		</CardContent>
 		<CardFooter class="flex items-center justify-between">
 			<Button variant="outline" size="sm">Read Full Dua</Button>

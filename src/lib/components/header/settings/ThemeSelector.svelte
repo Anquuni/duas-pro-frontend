@@ -3,6 +3,7 @@
     import { Sun, Moon } from 'lucide-svelte';
     import { settingsStore, stringToTheme, type Theme } from '$lib/stores/settings';
     import { onMount } from 'svelte';
+	import { t } from '$lib/components/translations/i18n';
 
     let theme: Theme;
 
@@ -54,11 +55,11 @@
     <TabsList class="grid w-full grid-cols-2">
         <TabsTrigger class="flex-1" value="light">
             <Sun class="mr-2 h-4 w-4" />
-            Light
+            {$t("settings.system.theme.light")}
         </TabsTrigger>
         <TabsTrigger class="flex-1" value="dark">
             <Moon class="mr-2 h-4 w-4" />
-            Dark
+            {$t("settings.system.theme.dark")}
         </TabsTrigger>
     </TabsList>
 </Tabs>

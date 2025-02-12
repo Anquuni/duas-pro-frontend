@@ -2,6 +2,8 @@
     import { settingsStore, getLanguageLabel, type LanguageCode } from '$lib/stores/settings';
     import LanguageSelector from './LanguageSelector.svelte';
     import FontSizeAdjuster from './FontSizeAdjuster.svelte';
+	import { maxFontSize, minFontSize } from '$lib/utils';
+	import { t } from '$lib/components/translations/i18n';
 
     let primaryLanguage: LanguageCode;
     let secondaryLanguage: LanguageCode;
@@ -29,7 +31,7 @@
     function adjustFontSize(type: 'primary' | 'secondary' | 'tertiary', increment: boolean) {
         settingsStore.update(settings => {
             const currentSize = settings[`${type}DuaFontSize`];
-            const newSize = increment ? Math.min(24, currentSize + 1) : Math.max(12, currentSize - 1);
+            const newSize = increment ? Math.min(maxFontSize, currentSize + 1) : Math.max(minFontSize, currentSize - 1);
             return {
                 ...settings,
                 [`${type}DuaFontSize`]: newSize
@@ -40,7 +42,8 @@
 
 <div class="space-y-4">
     <div>
-        <h5 class="mb-2 font-medium">1. Dua Language</h5>
+        <h5 class="font-medium">{$t("settings.dua.language.title", {index: 1})}</h5>
+        <p class="text-gray-500 text-xs mb-2">{$t("settings.dua.language.note")}</p>
         <LanguageSelector type="primary" languageCode={primaryLanguage} onSelect={setLanguage} />
         <div class="mt-2">
             <FontSizeAdjuster type="primary" fontSize={primaryFontSize} onAdjust={adjustFontSize} />
@@ -48,7 +51,7 @@
     </div>
 
     <div>
-        <h5 class="mb-2 font-medium">2. Dua Language</h5>
+        <h5 class="mb-2 font-medium">{$t("settings.dua.language.title", {index: 2})}</h5>
         <LanguageSelector type="secondary" languageCode={secondaryLanguage} onSelect={setLanguage} />
         <div class="mt-2">
             <FontSizeAdjuster type="secondary" fontSize={secondaryFontSize} onAdjust={adjustFontSize} />
@@ -56,7 +59,7 @@
     </div>
 
     <div>
-        <h5 class="mb-2 font-medium">3. Dua Language</h5>
+        <h5 class="mb-2 font-medium">{$t("settings.dua.language.title", {index: 3})}</h5>
         <LanguageSelector type="tertiary" languageCode={tertiaryLanguage} onSelect={setLanguage} />
         <div class="mt-2">
             <FontSizeAdjuster type="tertiary" fontSize={tertiaryFontSize} onAdjust={adjustFontSize} />

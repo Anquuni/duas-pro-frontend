@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/components/translations/i18n';
 	import { Toggle } from '$lib/components/ui/toggle';
 	import { Expand, Shrink } from 'lucide-svelte';
 	import { onMount } from 'svelte';
@@ -47,5 +48,5 @@
 	{:else}
 		<Expand class="mr-2 h-4 w-4" />
 	{/if}
-	Vollbildmodus
+	{$t("settings.system.fullscreen")}
 </Toggle>

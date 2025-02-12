@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Card, CardContent } from '$lib/components/ui/card';
 	import { settingsStore } from '$lib/stores/settings';
+	import type { DuaLine } from '../../../ambient';
 
 	export let lines: DuaLine[];
 	export let currentVerseIndex: number;
@@ -11,15 +12,15 @@
 		<CardContent class="p-6">
 			<div class="font-arabic text-right text-xl leading-loose">
 				{#each lines as line, index}
+					{#if line.begin_of_section && index !== 0}
+						<div class="my-1"></div>
+					{/if}
 					<span
 						id="verse-{index}"
-						class="verse-span {index === currentVerseIndex ? 'current-verse' : ''}"
+						class="primary-dua-font-size verse-span {index === currentVerseIndex ? 'current-verse' : ''}"
 					>
 						{line[$settingsStore.primaryDuaLanguage]}
 					</span>
-					{#if line.endOfSection && index !== lines.length - 1}
-						<div class="my-1"></div>
-					{/if}
 				{/each}
 			</div>
 		</CardContent>

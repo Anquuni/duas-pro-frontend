@@ -4,12 +4,15 @@
     import { Check, ChevronsUpDown } from 'lucide-svelte';
     import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '$lib/components/ui/command';
     import { languages, getLanguageLabel, type LanguageCode } from '$lib/stores/settings';
+	import { t } from '$lib/components/translations/i18n';
 
+    export let isSystemLanguage: boolean = false;
     export let type: 'primary' | 'secondary' | 'tertiary';
     export let languageCode: LanguageCode;
     export let onSelect: (type: 'primary' | 'secondary' | 'tertiary', languageCode: LanguageCode) => void;
 
     let open = false;
+    const filteredLanguages = isSystemLanguage ? languages.filter(l => l.value !== 'TL') : languages;
 
     function handleSelect(lang: LanguageCode) {
         onSelect(type, lang);
@@ -33,9 +36,9 @@
     <PopoverContent class="w-full p-0">
         <Command>
             <CommandInput placeholder="Search language..." />
-            <CommandEmpty>No language found.</CommandEmpty>
+            <CommandEmpty>{$t("settings.dua.language.not-found")}</CommandEmpty>
             <CommandGroup>
-                {#each languages as lang}
+                {#each filteredLanguages as lang}
                     <CommandItem onSelect={() => handleSelect(lang.value)}>
                         <Check
                             class={languageCode === lang.value ? 'opacity-100' : 'opacity-0'}

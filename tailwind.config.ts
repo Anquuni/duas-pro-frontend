@@ -31,6 +31,36 @@ const config: Config = {
 					DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
 					foreground: "hsl(var(--secondary-foreground) / <alpha-value>)"
 				},
+				tertiary: {
+					DEFAULT: "hsl(var(--tertiary) / <alpha-value>)",
+					foreground: "hsl(var(--tertiary-foreground) / <alpha-value>)"
+				},
+				// primary: {
+				// 	50: '#f0fdf4',
+				// 	100: '#dcfce7',
+				// 	200: '#bbf7d0',
+				// 	300: '#86efac',
+				// 	400: '#4ade80',
+				// 	500: '#027435',  // base color
+				// 	600: '#026830',
+				// 	700: '#025828',
+				// 	800: '#014b22',
+				// 	900: '#013d1b',
+				// 	950: '#002811'
+				// },
+				// secondary: {
+				// 	50: '#fdf2f6',
+				// 	100: '#fce7ee',
+				// 	200: '#fac5d8',
+				// 	300: '#f59eb9',
+				// 	400: '#ed6894',
+				// 	500: '#740240',  // base-color
+				// 	600: '#68023a',
+				// 	700: '#570231',
+				// 	800: '#490229',
+				// 	900: '#3d021e',
+				// 	950: '#2b0116'
+				// },
 				destructive: {
 					DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
 					foreground: "hsl(var(--destructive-foreground) / <alpha-value>)"

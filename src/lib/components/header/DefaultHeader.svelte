@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button } from '$lib/components/ui/button';
     import { Popover, PopoverTrigger } from '$lib/components/ui/popover';
-    import { Settings, Github, User } from 'lucide-svelte';
+    import { Settings, Github } from 'lucide-svelte';
     import SettingsPopover from './settings/SettingsPopover.svelte';
 </script>
 
@@ -18,21 +18,6 @@
                 <span class="sr-only">GitHub</span>
             </Button>
         </a>
-
-        {#if false}
-            <a href="/profile">
-                <Button variant="ghost" size="icon">
-                    <User class="h-5 w-5" />
-                    <span class="sr-only">Profil</span>
-                </Button>
-            </a>
-        {:else}
-            <a href="/login">
-                <Button variant="ghost" size="sm">
-                    Login
-                </Button>
-            </a>
-        {/if}
 
         <Popover>
             <PopoverTrigger asChild let:builder>

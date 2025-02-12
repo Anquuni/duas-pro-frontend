@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { settingsStore } from '$lib/stores/settings';
 </script>
 
 <h1>Welcome to SvelteKit</h1>

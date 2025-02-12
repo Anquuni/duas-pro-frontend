@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Button } from '$lib/components/ui/button';
+	import { maxFontSize, minFontSize } from '$lib/utils';
     import { Minus, Plus } from 'lucide-svelte';
 
     export let type: 'primary' | 'secondary' | 'tertiary';
@@ -12,7 +13,7 @@
         variant="outline"
         size="icon"
         on:click={() => onAdjust(type, false)}
-        disabled={fontSize <= 12}
+        disabled={fontSize <= minFontSize}
     >
         <Minus class="h-4 w-4" />
     </Button>
@@ -21,7 +22,7 @@
         variant="outline"
         size="icon"
         on:click={() => onAdjust(type, true)}
-        disabled={fontSize >= 24}
+        disabled={fontSize >= maxFontSize}
     >
         <Plus class="h-4 w-4" />
     </Button>

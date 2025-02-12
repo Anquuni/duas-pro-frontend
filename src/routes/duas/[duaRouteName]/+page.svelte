@@ -9,6 +9,8 @@
 	import { duaStore } from '$lib/stores/dua';
 	import { headerStore } from '$lib/stores/headerStore';
 	import { onMount } from 'svelte';
+	import type { Dua } from '../../../ambient';
+	import { t } from '$lib/components/translations/i18n';
 	
     export let data: {
         dua: Dua
@@ -20,14 +22,17 @@
 	let scrollThreshold = 75; // Schwellenwert für Header-Änderungen
 	let isExpandedHeader = true;
 
-	onMount(() => {
+    onMount(() => {
 		headerStore.update((state) => ({
 			...state,
-			duaTitle: data.dua.title['en'],
+			duaTitle: data.dua.title['EN'],
 			showViewTabs: false,
 			isDuaPage: true,
 			isExpandedHeader: true
 		}));
+		
+		// Reset to zero
+		duaStore.update((state) => ({ ...state, currentVerse: 0 }));
 
 		const handleScroll = () => {
 			const currentScrollTop = Math.round(window.scrollY || document.documentElement.scrollTop);
@@ -56,9 +61,9 @@
 				showViewTabs
 			}));
 		};
-
+		
 		window.addEventListener('scroll', handleScroll);
-
+		
 		return () => {
 			window.removeEventListener('scroll', handleScroll);
 			headerStore.update((state) => ({
@@ -67,8 +72,8 @@
 				showViewTabs: false,
 				isExpandedHeader: true
 			}));
-		};
-	});
+		}
+    });
 
 	$: if (typeof window !== 'undefined') {
 		scrollToCurrentVerse($duaStore.currentVerse);
@@ -87,8 +92,8 @@
 		}
 	}
 </script>
-
-<div class="container mx-auto px-4 py-8">
+	
+<div class="container mx-auto px-4 pt-8">
 	<DuaContent dua={data.dua} />
 
 	<div class="mb-8 flex justify-center" bind:this={viewTabsElement}>
@@ -96,15 +101,15 @@
 			<TabsList class="grid w-full grid-cols-3">
 				<TabsTrigger value="translation" class="flex items-center justify-center">
 					<Languages class="mr-2 h-5 w-5" />
-					Translation
+					{$t("dua.views.translation")}
 				</TabsTrigger>
 				<TabsTrigger value="reading" class="flex items-center justify-center">
 					<Book class="mr-2 h-5 w-5" />
-					Reading
+					{$t("dua.views.reading")}
 				</TabsTrigger>
 				<TabsTrigger value="presentation" class="flex items-center justify-center">
 					<Presentation class="mr-2 h-5 w-5" />
-					Presentation
+					{$t("dua.views.presentation")}
 				</TabsTrigger>
 			</TabsList>
 			<TabsContent value="translation">
@@ -120,4 +125,4 @@
 	</div>
 </div>
 
-<AudioPlayer totalVerses={data.dua.lines.length} />
+<AudioPlayer dua={data.dua} />

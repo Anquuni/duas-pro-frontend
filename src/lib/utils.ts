@@ -3,6 +3,9 @@ import { twMerge } from "tailwind-merge";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
 
+export const minFontSize = 8;
+export const maxFontSize = 32;
+
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
