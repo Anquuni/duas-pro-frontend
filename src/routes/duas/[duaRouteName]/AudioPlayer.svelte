@@ -29,6 +29,10 @@
 		currentReciter = reciters[0].full_name_tl;
 	}
 
+	duaStore.subscribe(duaSettings => {
+		seekToVerse(duaSettings.currentVerse);
+	});
+
 	function formatTime(timeInSeconds: number): string {
 		const minutes = Math.floor(timeInSeconds / 60);
 		const seconds = Math.floor(timeInSeconds % 60);
@@ -56,7 +60,6 @@
 	function handleSliderChange(value: number[]) {
 		const newVerseIndex = value[0];
 		duaStore.update((state) => ({ ...state, currentVerse: newVerseIndex }));
-		seekToVerse(newVerseIndex);
 	}
 
 	function updateProgress() {
@@ -129,6 +132,7 @@
 		if (isPlaying) {
 			audio?.pause();
 		} else {
+			seekToVerse($duaStore.currentVerse);
 			audio?.play();
 		}
 		isPlaying = !isPlaying;
@@ -137,14 +141,12 @@
 	function previousVerse() {
 		if ($duaStore.currentVerse > 0) {
 			duaStore.update((state) => ({ ...state, currentVerse: state.currentVerse - 1 }));
-			seekToVerse($duaStore.currentVerse);
 		}
 	}
 
 	function nextVerse() {
 		if ($duaStore.currentVerse < totalVerses - 1) {
 			duaStore.update((state) => ({ ...state, currentVerse: state.currentVerse + 1 }));
-			seekToVerse($duaStore.currentVerse);
 		}
 	}
 
