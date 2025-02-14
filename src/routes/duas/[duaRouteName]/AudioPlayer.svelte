@@ -7,6 +7,8 @@
 	import AudioSettingsPopover from './AudioSettingsPopover.svelte';
 	import { supabase } from '$lib/supabaseClient';
 	import { toast } from "svelte-sonner";
+	import { liveReadingStore } from '$lib/live-reading/live-reading.store';
+	import { showNoLeaderToast } from '$lib/live-reading/live-reading.utils';
 
 	export let dua: Dua;	
 
@@ -139,38 +141,23 @@
 	}
 
 	function previousVerse() {
-		if ($duaStore.currentVerse > 0) {
+		if ($liveReadingStore.isLiveReading && !$liveReadingStore.leads) {
+			showNoLeaderToast()
+		} else if ($duaStore.currentVerse > 0) {
 			duaStore.update((state) => ({ ...state, currentVerse: state.currentVerse - 1 }));
 		}
 	}
 
 	function nextVerse() {
-		if ($duaStore.currentVerse < totalVerses - 1) {
+		if ($liveReadingStore.isLiveReading && !$liveReadingStore.leads) {
+			showNoLeaderToast()
+		} else if ($duaStore.currentVerse < totalVerses - 1) {
 			duaStore.update((state) => ({ ...state, currentVerse: state.currentVerse + 1 }));
 		}
 	}
 
 	function toggleHidden() {
 		isHidden = !isHidden;
-
-		// Join a room/topic. Can be anything except for 'realtime'.
-		const channelB = supabase.channel('mahdi')
-
-		channelB.subscribe((status) => {
-		// Wait for successful connection
-		if (status !== 'SUBSCRIBED') {
-			return null
-		}
-
-		// Send a message once the client is subscribed
-		channelB.send({
-			type: 'broadcast',
-			event: 'test',
-			payload: { message: 'hello, world' },
-		})
-		console.log("send broadcast message")
-		})
-
 	}
 </script>
 

@@ -12,6 +12,8 @@
 	import type { DuaLine } from '../../../ambient';
 	import { duaStore } from '$lib/stores/dua';
 	import { toast } from 'svelte-sonner';
+	import { showNoLeaderToast } from '$lib/live-reading/live-reading.utils';
+	import { liveReadingStore } from '$lib/live-reading/live-reading.store';
 
 	export let line: DuaLine;
 	export let index: number;
@@ -44,7 +46,13 @@
 			</span>
 			
 			<button class="text-gray-600 dark:text-gray-300"
-			  on:click={() => duaStore.update((state) => ({ ...state, currentVerse: index }))}>
+			  on:click={() => {
+				if ($liveReadingStore.isLiveReading && !$liveReadingStore.leads) {
+					showNoLeaderToast()
+				} else {
+					duaStore.update((state) => ({ ...state, currentVerse: index }))
+				}
+			  }}>
 			  <Redo class="h-4 w-4" />
 			</button>
 			

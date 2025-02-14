@@ -3,8 +3,8 @@
     import { duaStore } from '$lib/stores/dua';
     import { Tabs, TabsList, TabsTrigger } from '$lib/components/ui/tabs';
     import { Book, Languages, Presentation } from 'lucide-svelte';
-    import LiveReadingDialog from './LiveReadingDialog.svelte';
-	import { liveReadingStore } from '$lib/stores/liveReading';
+	import LiveReadingDialog from '$lib/live-reading/ManageLiveReadingDialog.svelte';
+	import ManageLiveReadingDialog from '$lib/live-reading/ManageLiveReadingDialog.svelte';
 
     function setActiveTab(tab: string | undefined) {
         if (tab) {
@@ -35,11 +35,6 @@
     {/if}
 
     <div class="flex w-1/4 justify-end">
-        {#if $liveReadingStore.isLiveReading}
-            <div class="flex items-center text-xs">
-                Join [{$liveReadingStore.liveReadingCode}] ({$liveReadingStore.liveReadingUsers})
-            </div>
-        {/if}
-        <LiveReadingDialog />
+        <ManageLiveReadingDialog />
     </div>
 </div>
