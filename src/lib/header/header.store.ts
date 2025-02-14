@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable } from "svelte/store";
 
 interface HeaderState {
   isDuaPage: boolean;
@@ -11,5 +11,5 @@ export const headerStore = writable<HeaderState>({
   isDuaPage: false,
   duaTitle: undefined,
   showViewTabs: false,
-  isExpandedHeader: true
+  isExpandedHeader: true,
 });

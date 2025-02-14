@@ -1,16 +1,16 @@
-import { writable } from 'svelte/store';
+import { writable } from "svelte/store";
 
 interface LiveReadingState {
   duaRouteName: string;
-    isLiveReading: boolean;
-    liveReadingCode: string | null;
-    leads: boolean;
+  isLiveReading: boolean;
+  liveReadingCode: string | null;
+  leads: boolean;
 }
 
 export const liveReadingStore = writable<LiveReadingState>({
-  duaRouteName: '',
+  duaRouteName: "",
   isLiveReading: false,
-  liveReadingCode: '',
+  liveReadingCode: "",
   leads: false,
 });
 

@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { writable } from "svelte/store";
 
 interface DuaState {
   currentView: string;
@@ -6,6 +6,6 @@ interface DuaState {
 }
 
 export const duaStore = writable<DuaState>({
-  currentView: 'translation',
+  currentView: "translation",
   currentVerse: 0,
 });

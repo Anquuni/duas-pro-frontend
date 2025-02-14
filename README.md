@@ -32,13 +32,13 @@ You can access the live version of Duas.pro at [https://duas.pro](https://duas.p
 To set up the project locally:
 
 1. Clone the repository:
-   ```git clone https://github.com/duas-pro/duas-pro-frontend.git```
+   `git clone https://github.com/duas-pro/duas-pro-frontend.git`
 2. Navigate to the project directory:
-   ```cd duas-pro-frontend```
+   `cd duas-pro-frontend`
 3. Install dependencies:
-   ```npm install```
+   `npm install`
 4. Start the development server:
-   ```npm run dev```
+   `npm run dev`
 
 ## API Integration
 

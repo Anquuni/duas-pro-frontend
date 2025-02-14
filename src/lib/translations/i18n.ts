@@ -1,6 +1,6 @@
 import { derived } from "svelte/store";
 import translations from "./translations";
-import { settingsStore } from '$lib/stores/settings';
+import { settingsStore } from "$lib/settings/settings.store";
 
 export const locales = Object.keys(translations);
 
@@ -28,6 +28,9 @@ function translate(locale: string, key: string, vars) {
 }
 
 // Verwenden des systemlanguage-Werts aus settingsstore anstelle von locale
-export const t = derived(settingsStore, ($settingsStore) => (key: string, vars = {}) => 
-  translate($settingsStore.systemLanguage, key, vars)
+export const t = derived(
+  settingsStore,
+  ($settingsStore) =>
+    (key: string, vars = {}) =>
+      translate($settingsStore.systemLanguage, key, vars),
 );
