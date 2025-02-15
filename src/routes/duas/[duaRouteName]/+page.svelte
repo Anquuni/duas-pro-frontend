@@ -7,7 +7,7 @@
   import { headerStore } from "$lib/header/header.store";
   import HowToLiveReadingDialog from "$lib/live-reading/HowToLiveReadingDialog.svelte";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
-  import { joinLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
+  import { joinLiveReadingRoom, leaveLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
   import { t } from "$lib/translations/i18n";
   import { Book, Languages, Presentation } from "lucide-svelte";
   import { onMount } from "svelte";
@@ -109,23 +109,15 @@
     }
   }
 
-  function beforeUnload(event: any) {
-    console.log("beforeUnload " + JSON.stringify(event));
+  function beforeUnload() {
     if ($liveReadingStore.inLiveReadingRoom) {
-      event.preventDefault();
-      event.returnValue = "Du bist noch in einer Live-Lesung. Willst du wirklich gehen?";
-      return "Du bist noch in einer Live-Lesung. Willst du wirklich gehen?";
+      leaveLiveReadingRoom();
     }
   }
 
-  beforeNavigate((nav) => {
-    console.log("in before navigate");
-    if (
-      $liveReadingStore.inLiveReadingRoom &&
-      !confirm("Du bist noch in einer Live-Lesung. Willst du wirklich gehen?")
-    ) {
-      console.log("cancel navigation");
-      nav.cancel();
+  beforeNavigate(() => {
+    if ($liveReadingStore.inLiveReadingRoom) {
+      leaveLiveReadingRoom();
     }
   });
 </script>
