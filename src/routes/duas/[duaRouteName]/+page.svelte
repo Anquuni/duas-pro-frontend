@@ -1,29 +1,22 @@
 <script lang="ts">
   import { beforeNavigate } from "$app/navigation";
-  import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs";
   import { duaStore } from "$lib/dua-detail/dua.store";
-  import DuaReadingView from "$lib/dua-detail/views/DuaReadingView.svelte";
-  import DuaTranslationView from "$lib/dua-detail/views/DuaTranslationView.svelte";
+  import DuaLineViews from "$lib/dua-detail/DuaLineViews.svelte";
   import { headerStore } from "$lib/header/header.store";
   import HowToLiveReadingDialog from "$lib/live-reading/HowToLiveReadingDialog.svelte";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { joinLiveReadingRoom, leaveLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
-  import { t } from "$lib/translations/i18n";
-  import { Book, Languages, Presentation } from "lucide-svelte";
   import { onMount } from "svelte";
   import AudioPlayer from "../../../lib/dua-detail/audio-player/AudioPlayer.svelte";
   import DuaContent from "../../../lib/dua-detail/DuaContent.svelte";
-  import DuaPresentationView from "../../../lib/dua-detail/views/DuaPresentationView.svelte";
 
   // TODO: Rename folder of components to dua-reader
 
   let { data } = $props();
 
   let viewTabsElement: HTMLElement;
-
   let scrollReference = 0;
   let scrollThreshold = 75; // Schwellenwert für Header-Änderungen
-  let isExpandedHeader = true;
 
   onMount(() => {
     liveReadingStore.update((state) => ({
@@ -54,11 +47,10 @@
       if (Math.abs(scrollDistance) >= scrollThreshold) {
         const scrollingUp = scrollDistance < 0;
 
-        if (scrollingUp !== isExpandedHeader) {
-          isExpandedHeader = scrollingUp;
+        if (scrollingUp !== $headerStore.isExpandedHeader) {
           headerStore.update((state) => ({
             ...state,
-            isExpandedHeader,
+            isExpandedHeader: scrollingUp,
           }));
         }
 
@@ -100,12 +92,6 @@
     }
   }
 
-  function setActiveTab(tab: string | undefined) {
-    if (tab) {
-      duaStore.update((state) => ({ ...state, currentTab: tab }));
-    }
-  }
-
   function beforeUnload() {
     if ($liveReadingStore.inLiveReadingRoom) {
       leaveLiveReadingRoom();
@@ -127,31 +113,7 @@
   <DuaContent dua={data.dua} />
 
   <div class="mb-8 flex justify-center" bind:this={viewTabsElement}>
-    <Tabs class="w-full" bind:value={$duaStore.currentView} onValueChange={setActiveTab}>
-      <TabsList class="grid w-full grid-cols-3">
-        <TabsTrigger value="translation" class="flex items-center justify-center">
-          <Languages class="mr-2 h-5 w-5" />
-          {$t("dua.views.translation")}
-        </TabsTrigger>
-        <TabsTrigger value="reading" class="flex items-center justify-center">
-          <Book class="mr-2 h-5 w-5" />
-          {$t("dua.views.reading")}
-        </TabsTrigger>
-        <TabsTrigger value="presentation" class="flex items-center justify-center">
-          <Presentation class="mr-2 h-5 w-5" />
-          {$t("dua.views.presentation")}
-        </TabsTrigger>
-      </TabsList>
-      <TabsContent value="translation">
-        <DuaTranslationView lines={data.dua.lines} currentVerseIndex={$duaStore.currentVerse} />
-      </TabsContent>
-      <TabsContent value="reading">
-        <DuaReadingView lines={data.dua.lines} currentVerseIndex={$duaStore.currentVerse} />
-      </TabsContent>
-      <TabsContent value="presentation">
-        <DuaPresentationView lines={data.dua.lines} />
-      </TabsContent>
-    </Tabs>
+    <DuaLineViews dua={data.dua} />
   </div>
 </div>
 
