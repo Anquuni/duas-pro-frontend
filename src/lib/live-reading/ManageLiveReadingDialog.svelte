@@ -19,12 +19,12 @@
   import SvgQR from "@svelte-put/qr/svg/QR.svelte";
   import { Copy, Users, X } from "lucide-svelte";
 
-  let copied = false;
+  let copied = $state(false);
   let qrSize = 150;
   let logo = "https://svelte-put.vnphanquang.com/images/svelte-put-logo.svg";
-  let dialogOpen = false;
-  let inputCode = "";
-  let isInputError = false;
+  let dialogOpen = $state(false);
+  let inputCode = $state("");
+  let isInputError = $state(false);
 
   function validateAndJoinLiveReading() {
     if (!inputCode.trim()) {
@@ -49,9 +49,11 @@
     setTimeout(() => (copied = false), 2000);
   }
 
-  $: liveReadingLink = $liveReadingStore.liveReadingRoomCode
-    ? `https://duas.pro/duas/${$liveReadingStore.duaRouteName}?code=${$liveReadingStore.liveReadingRoomCode}`
-    : "";
+  const liveReadingLink = $derived(
+    $liveReadingStore.liveReadingRoomCode
+      ? `https://duas.pro/duas/${$liveReadingStore.duaRouteName}?code=${$liveReadingStore.liveReadingRoomCode}`
+      : "",
+  );
 </script>
 
 <Dialog bind:open={dialogOpen}>
@@ -84,7 +86,7 @@
       <button
         type="button"
         class="text-sm text-blue-600 hover:underline focus:outline-none"
-        on:click={() => howToLiveReadingDialogStore.set(true)}>
+        onclick={() => howToLiveReadingDialogStore.set(true)}>
         Wie funktioniert Live-Reading?
       </button>
       {#if !$liveReadingStore.inLiveReadingRoom}
@@ -97,7 +99,7 @@
               id="inputc"
               bind:value={inputCode}
               placeholder="Code der Live-Lesung"
-              class="mb-3 mt-1 w-full {isInputError ? 'border-red-500' : 'border-gray-300'}"
+              class="mt-1 mb-3 w-full {isInputError ? 'border-red-500' : 'border-gray-300'}"
               on:keydown={(event) => event.key === "Enter" && validateAndJoinLiveReading()} />
             {#if isInputError}
               <p class="mb-3 text-xs text-red-500">Bitte einen Code eingeben!</p>
@@ -146,7 +148,7 @@
         <div>
           <Label for="link" class="mb-1 block">Einladungs-Link</Label>
           <div class="flex flex-col sm:flex-row">
-            <Input id="link" value={liveReadingLink} readonly class="mb-2 sm:mb-0 sm:mr-2" />
+            <Input id="link" value={liveReadingLink} readonly class="mb-2 sm:mr-2 sm:mb-0" />
             <Button on:click={copyLiveReadingLink} class="whitespace-nowrap">
               {#if copied}
                 Kopiert!

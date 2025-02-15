@@ -11,18 +11,13 @@
   import { t } from "$lib/translations/i18n";
   import { Book, Languages, Presentation } from "lucide-svelte";
   import { onMount } from "svelte";
-  import type { Dua } from "../../../ambient";
   import AudioPlayer from "../../../lib/dua-detail/audio-player/AudioPlayer.svelte";
   import DuaContent from "../../../lib/dua-detail/DuaContent.svelte";
   import DuaPresentationView from "../../../lib/dua-detail/views/DuaPresentationView.svelte";
 
   // TODO: Rename folder of components to dua-reader
 
-  export let data: {
-    dua: Dua;
-    routeName: string;
-    code: string;
-  };
+  let { data } = $props();
 
   let viewTabsElement: HTMLElement;
 
@@ -92,9 +87,11 @@
     };
   });
 
-  $: if (typeof window !== "undefined") {
-    scrollToCurrentVerse($duaStore.currentVerse);
-  }
+  $effect(() => {
+    if (typeof window !== "undefined") {
+      scrollToCurrentVerse($duaStore.currentVerse);
+    }
+  });
 
   function scrollToCurrentVerse(index: number) {
     const verseElement = document.getElementById(`verse-${index}`);

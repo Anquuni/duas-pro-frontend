@@ -3,11 +3,11 @@
   import { supabase } from "$lib/supabase.config";
   import type { Dua } from "../../ambient";
 
-  let searchQuery = "";
-  let selectedType = "Alle";
-  let sortByPopularity = false;
-  let duas: Dua[] = [];
-  let loading = false;
+  let searchQuery = $state("");
+  let selectedType = $state("Alle");
+  let sortByPopularity = $state(false);
+  let duas: Dua[] = $state([]);
+  let loading = $state(false);
 
   let types = ["Alle", "Bittgebete", "Ziyarat", "Gebete", "Tasbihat", "Munajat"];
 
@@ -24,7 +24,9 @@
   }
 
   // Neue Duas abrufen, wenn eine Änderung erfolgt
-  $: fetchDuas();
+  $effect(() => {
+    fetchDuas();
+  });
 </script>
 
 <div class="p-4 sm:p-6 md:p-8">
@@ -42,7 +44,7 @@
 
     <!-- Sortierung nach Beliebtheit -->
     <button
-      on:click={() => (sortByPopularity = !sortByPopularity)}
+      onclick={() => (sortByPopularity = !sortByPopularity)}
       class="rounded-md border bg-gray-100 p-2 hover:bg-gray-200">
       {sortByPopularity ? "Nach Beliebtheit: Hoch -> Niedrig" : "Standard-Sortierung"}
     </button>

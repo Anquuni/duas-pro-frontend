@@ -1,11 +1,10 @@
 <script lang="ts">
   import { Badge } from "$lib/components/ui/badge";
   import { Button } from "$lib/components/ui/button";
-  import { Share2, Bookmark } from "lucide-svelte";
-  import type { Dua } from "../../ambient";
+  import { Bookmark, Share2 } from "lucide-svelte";
   import { toast } from "svelte-sonner";
 
-  export let dua: Dua;
+  let { dua } = $props();
 </script>
 
 <div class="mb-12 text-center">
