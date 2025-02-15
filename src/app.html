@@ -7,28 +7,43 @@
 </script>
 <!doctype html>
 <html lang="en">
-  <head>
-    <style>
-      :root {
-        --custom-font-size: 16px; /* Standardwert */
-      }
-      .primary-dua-font-size {
-        font-size: var(--primary-dua-font-size);
-      }
-      .secondary-dua-font-size {
-        font-size: var(--secondary-dua-font-size);
-      }
-      .tertiary-dua-font-size {
-        font-size: var(--tertiary-dua-font-size);
-      }
-    </style>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%sveltekit.assets%/favicon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    %sveltekit.head%
-  </head>
 
-  <body data-sveltekit-preload-data="hover">
-    <div style="display: contents">%sveltekit.body%</div>
-  </body>
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD59M3PRTP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-RD59M3PRTP');
+  </script>
+
+  <style>
+    :root {
+      --custom-font-size: 16px;
+      /* Standardwert */
+    }
+
+    .primary-dua-font-size {
+      font-size: var(--primary-dua-font-size);
+    }
+
+    .secondary-dua-font-size {
+      font-size: var(--secondary-dua-font-size);
+    }
+
+    .tertiary-dua-font-size {
+      font-size: var(--tertiary-dua-font-size);
+    }
+  </style>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%sveltekit.assets%/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  %sveltekit.head%
+</head>
+
+<body data-sveltekit-preload-data="hover">
+  <div style="display: contents">%sveltekit.body%</div>
+</body>
+
 </html>
