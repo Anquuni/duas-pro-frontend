@@ -1,20 +1,22 @@
 <script lang="ts">
+  import { beforeNavigate } from "$app/navigation";
   import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs";
-  import { Book, Languages, Presentation } from "lucide-svelte";
-  import DuaContent from "../../../lib/dua-detail/DuaContent.svelte";
-  import DuaPresentationView from "../../../lib/dua-detail/views/DuaPresentationView.svelte";
+  import { duaStore } from "$lib/dua-detail/dua.store";
   import DuaReadingView from "$lib/dua-detail/views/DuaReadingView.svelte";
   import DuaTranslationView from "$lib/dua-detail/views/DuaTranslationView.svelte";
-  import AudioPlayer from "../../../lib/dua-detail/audio-player/AudioPlayer.svelte";
-  import { duaStore } from "$lib/dua-detail/dua.store";
   import { headerStore } from "$lib/header/header.store";
+  import HowToLiveReadingDialog from "$lib/live-reading/HowToLiveReadingDialog.svelte";
+  import { liveReadingStore } from "$lib/live-reading/live-reading.store";
+  import { joinLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
+  import { t } from "$lib/translations/i18n";
+  import { Book, Languages, Presentation } from "lucide-svelte";
   import { onMount } from "svelte";
   import type { Dua } from "../../../ambient";
-  import { t } from "$lib/translations/i18n";
-  import HowToLiveReadingDialog from "$lib/live-reading/HowToLiveReadingDialog.svelte";
-  import { joinLiveReading } from "$lib/live-reading/live-reading.utils";
-  import { liveReadingStore } from "$lib/live-reading/live-reading.store";
-  import { beforeNavigate } from "$app/navigation";
+  import AudioPlayer from "../../../lib/dua-detail/audio-player/AudioPlayer.svelte";
+  import DuaContent from "../../../lib/dua-detail/DuaContent.svelte";
+  import DuaPresentationView from "../../../lib/dua-detail/views/DuaPresentationView.svelte";
+
+  // TODO: Rename folder of components to dua-reader
 
   export let data: {
     dua: Dua;
@@ -33,9 +35,9 @@
       ...state,
       duaRouteName: data.routeName,
     }));
-    const sessionId = data.code;
-    if (sessionId) {
-      joinLiveReading(sessionId);
+    const liveReadingRoomCode = data.code;
+    if (liveReadingRoomCode) {
+      joinLiveReadingRoom(liveReadingRoomCode);
     }
 
     headerStore.update((state) => ({
@@ -109,7 +111,7 @@
 
   function beforeUnload(event: any) {
     console.log("beforeUnload " + JSON.stringify(event));
-    if ($liveReadingStore.isLiveReading) {
+    if ($liveReadingStore.inLiveReadingRoom) {
       event.preventDefault();
       event.returnValue = "Du bist noch in einer Live-Lesung. Willst du wirklich gehen?";
       return "Du bist noch in einer Live-Lesung. Willst du wirklich gehen?";
@@ -118,7 +120,10 @@
 
   beforeNavigate((nav) => {
     console.log("in before navigate");
-    if ($liveReadingStore.isLiveReading && !confirm("Du bist noch in einer Live-Lesung. Willst du wirklich gehen?")) {
+    if (
+      $liveReadingStore.inLiveReadingRoom &&
+      !confirm("Du bist noch in einer Live-Lesung. Willst du wirklich gehen?")
+    ) {
       console.log("cancel navigation");
       nav.cancel();
     }

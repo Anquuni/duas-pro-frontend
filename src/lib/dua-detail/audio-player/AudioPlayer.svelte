@@ -3,7 +3,7 @@
   import { Slider } from "$lib/components/ui/slider";
   import { duaStore } from "$lib/dua-detail/dua.store";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
-  import { showNoLeaderToast } from "$lib/live-reading/live-reading.utils";
+  import { showNoHostToast } from "$lib/live-reading/live-reading.utils";
   import { supabase } from "$lib/supabase.config";
   import { Ellipsis, Eye, EyeOff, Pause, Play, SkipBack, SkipForward } from "lucide-svelte";
   import { toast } from "svelte-sonner";
@@ -139,8 +139,8 @@
   }
 
   function previousVerse() {
-    if ($liveReadingStore.isLiveReading && !$liveReadingStore.leads) {
-      showNoLeaderToast();
+    if ($liveReadingStore.inLiveReadingRoom && !$liveReadingStore.isHost) {
+      showNoHostToast();
     } else if ($duaStore.currentVerse > 0) {
       duaStore.update((state) => ({
         ...state,
@@ -150,8 +150,8 @@
   }
 
   function nextVerse() {
-    if ($liveReadingStore.isLiveReading && !$liveReadingStore.leads) {
-      showNoLeaderToast();
+    if ($liveReadingStore.inLiveReadingRoom && !$liveReadingStore.isHost) {
+      showNoHostToast();
     } else if ($duaStore.currentVerse < totalVerses - 1) {
       duaStore.update((state) => ({
         ...state,

@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-interface DuaState {
+export interface DuaState {
   currentView: string;
   currentVerse: number;
 }

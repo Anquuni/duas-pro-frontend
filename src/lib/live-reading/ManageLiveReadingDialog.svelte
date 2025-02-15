@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
-  import { Users, Copy, X } from "lucide-svelte";
   import {
     Dialog,
     DialogContent,
@@ -9,11 +8,16 @@
     DialogTitle,
     DialogTrigger,
   } from "$lib/components/ui/dialog";
-  import { Label } from "$lib/components/ui/label";
   import { Input } from "$lib/components/ui/input";
-  import SvgQR from "@svelte-put/qr/svg/QR.svelte";
-  import { joinLiveReading, leftLiveReadingSession, startLiveReading } from "$lib/live-reading/live-reading.utils";
+  import { Label } from "$lib/components/ui/label";
   import { howToLiveReadingDialogStore, liveReadingStore } from "$lib/live-reading/live-reading.store";
+  import {
+    joinLiveReadingRoom,
+    leaveLiveReadingRoom,
+    startLiveReadingRoom,
+  } from "$lib/live-reading/live-reading.utils";
+  import SvgQR from "@svelte-put/qr/svg/QR.svelte";
+  import { Copy, Users, X } from "lucide-svelte";
 
   let copied = false;
   let qrSize = 150;
@@ -28,11 +32,14 @@
       return;
     }
     isInputError = false;
-    joinLiveReading(inputCode);
+    joinLiveReadingRoom(inputCode);
   }
 
   function endLiveReadingAndCloseDialog() {
-    leftLiveReadingSession();
+    if ($liveReadingStore.isHost) {
+      console.log("TODO: Confirm ending of live reading session");
+    }
+    leaveLiveReadingRoom();
     dialogOpen = false;
   }
 
@@ -42,15 +49,15 @@
     setTimeout(() => (copied = false), 2000);
   }
 
-  $: liveReadingLink = $liveReadingStore.liveReadingCode
-    ? `https://duas.pro/duas/${$liveReadingStore.duaRouteName}?code=${$liveReadingStore.liveReadingCode}`
+  $: liveReadingLink = $liveReadingStore.liveReadingRoomCode
+    ? `https://duas.pro/duas/${$liveReadingStore.duaRouteName}?code=${$liveReadingStore.liveReadingRoomCode}`
     : "";
 </script>
 
 <Dialog bind:open={dialogOpen}>
   <DialogTrigger>
     <Button variant="ghost" size="sm">
-      {#if !$liveReadingStore.isLiveReading}
+      {#if !$liveReadingStore.inLiveReadingRoom}
         <Users class="mr-2 h-4 w-4" />
         <span>Join</span>
       {:else}
@@ -58,7 +65,12 @@
           <!-- Roter Punkt als Live-Indikator -->
           <div class="h-2 w-2 animate-pulse rounded-full bg-red-500"></div>
           <span class="font-semibold text-red-500">Live</span>
-          <span class="text-sm font-medium text-gray-700">(Code: {$liveReadingStore.liveReadingCode})</span>
+          <span class="hidden text-sm font-medium text-gray-500 md:inline">
+            • Code: {$liveReadingStore.liveReadingRoomCode}
+            • {$liveReadingStore.participantsNumber} Teilnehmer • Host {$liveReadingStore.isHostOnline
+              ? "online"
+              : "offline"}
+          </span>
         </div>
       {/if}
     </Button>
@@ -68,15 +80,15 @@
       <DialogTitle>Gemeinsames Lesen</DialogTitle>
     </DialogHeader>
     <div class="grid gap-4">
-      {#if !$liveReadingStore.isLiveReading}
+      <!-- Infobutton zum Öffnen des Dialogs -->
+      <button
+        type="button"
+        class="text-sm text-blue-600 hover:underline focus:outline-none"
+        on:click={() => howToLiveReadingDialogStore.set(true)}>
+        Wie funktioniert Live-Reading?
+      </button>
+      {#if !$liveReadingStore.inLiveReadingRoom}
         <div class="space-y-6">
-          <!-- Infobutton zum Öffnen des Dialogs -->
-          <button
-            type="button"
-            class="text-sm text-blue-600 hover:underline focus:outline-none"
-            on:click={() => howToLiveReadingDialogStore.set(true)}>
-            Wie funktioniert Live-Reading?
-          </button>
           <!-- Bestehender Live-Lesung beitreten -->
           <div class="rounded-lg border p-4">
             <h2 class="mb-2 text-lg font-semibold">Einer bestehenden Live-Lesung beitreten</h2>
@@ -108,18 +120,25 @@
               Starte eine Live-Lesung und lade Freunde ein, gemeinsam zu lesen. Du bestimmst bei welchem Vers ihr gerade
               seid.
             </DialogDescription>
-            <Button on:click={() => startLiveReading()} class="mt-3 w-full">Live-Lesung starten</Button>
+            <Button on:click={() => startLiveReadingRoom()} class="mt-3 w-full">Live-Lesung starten</Button>
           </div>
         </div>
       {:else}
         <div class="text-center">
           <p class="font-semibold">Live-Lesung aktiv</p>
-          <p>Code: {$liveReadingStore.liveReadingCode}</p>
           <p>
-            {$liveReadingStore.leads
-              ? "Du bestimmst bei welchem Vers ihr gerade seid!"
-              : "Wenn der Leiter zum nächsten Vers geht, wirst du automatisch dahin gescrollt."}
+            Du nimmst
+            {#if $liveReadingStore.isHost}
+              <span class="font-semibold">als Host</span>
+            {/if}
+            am Live-Reading-Room <span class="font-semibold">#{$liveReadingStore.liveReadingRoomCode}</span> teil.
           </p>
+          <span class="mt-2">
+            <p>Aktuelle Teilnehmer: <span class="font-semibold">{$liveReadingStore.participantsNumber}</span></p>
+            <p>
+              Der Host ist <span class="font-semibold">{$liveReadingStore.isHostOnline ? "online" : "offline"}</span>.
+            </p>
+          </span>
         </div>
         <div class="flex justify-center">
           <SvgQR data={liveReadingLink} {logo} width={qrSize} height={qrSize} />
