@@ -1,10 +1,11 @@
 import { supabase } from "$lib/supabase.config";
+import { error } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params, url }) {
-  const { data, error } = await supabase.functions.invoke("duas/" + params.duaRouteName + "?languages=ar,tl,en");
-  if (error) {
-    console.error("Error fetching single dua:", error);
+  const { data, error: fetchError } = await supabase.functions.invoke("duas/" + params.duaRouteName + "?languages=ar,tl,en");
+  if (fetchError) {
+    error(404);
   }
 
   const code = url.searchParams.get("code");
