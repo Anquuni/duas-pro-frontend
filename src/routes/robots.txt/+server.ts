@@ -1,11 +1,11 @@
-import { BASE_URL } from "$env/static/private";
+import { PUBLIC_BASE_URL } from "$env/static/public";
 
 export async function GET() {
   return new Response(
     `
 		User-agent: *
 		Disallow: 
-		Sitemap: ${BASE_URL}/sitemap.xml
+		Sitemap: ${PUBLIC_BASE_URL}/sitemap.xml
 		`.trim(),
     { headers: { 'Content-Type': 'text/plain' } }
   );
