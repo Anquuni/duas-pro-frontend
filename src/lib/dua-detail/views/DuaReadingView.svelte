@@ -18,7 +18,7 @@
           <span
             id="verse-{index}"
             class="primary-dua-font-size verse-span {index === currentVerseIndex ? 'current-verse' : ''}">
-            {line[$settingsStore.primaryDuaLanguage]}
+            {line[$settingsStore.systemLanguage]}
           </span>
         {/each}
       </div>

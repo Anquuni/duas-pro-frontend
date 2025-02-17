@@ -34,14 +34,16 @@
     <CardContent class="flex h-full items-center justify-center p-6">
       <div class="max-w-2xl space-y-4 text-center">
         <p class="font-arabic mb-6 text-4xl">
-          {lines[$duaStore.currentVerse][$settingsStore.primaryDuaLanguage]}
+          {lines[$duaStore.currentVerse]["AR"]}
         </p>
         <p class="mb-4 text-2xl italic">
-          {lines[$duaStore.currentVerse][$settingsStore.secondaryDuaLanguage]}
+          {lines[$duaStore.currentVerse]["TL"]}
         </p>
-        <p class="text-xl">
-          {lines[$duaStore.currentVerse][$settingsStore.tertiaryDuaLanguage]}
-        </p>
+        {#if $settingsStore.systemLanguage !== "AR"}
+          <p class="text-xl">
+            {lines[$duaStore.currentVerse][$settingsStore.systemLanguage]}
+          </p>
+        {/if}
       </div>
     </CardContent>
   </Card>

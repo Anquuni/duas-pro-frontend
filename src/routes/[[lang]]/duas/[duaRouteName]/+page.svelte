@@ -1,14 +1,14 @@
 <script lang="ts">
   import { beforeNavigate } from "$app/navigation";
+  import AudioPlayer from "$lib/dua-detail/audio-player/AudioPlayer.svelte";
   import { duaStore } from "$lib/dua-detail/dua.store";
+  import DuaContent from "$lib/dua-detail/DuaContent.svelte";
   import DuaLineViews from "$lib/dua-detail/DuaLineViews.svelte";
   import { headerStore } from "$lib/header/header.store";
   import HowToLiveReadingDialog from "$lib/live-reading/HowToLiveReadingDialog.svelte";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { joinLiveReadingRoom, leaveLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
   import { onMount } from "svelte";
-  import AudioPlayer from "../../../lib/dua-detail/audio-player/AudioPlayer.svelte";
-  import DuaContent from "../../../lib/dua-detail/DuaContent.svelte";
 
   // TODO: Rename folder of components to dua-reader
 
@@ -19,6 +19,8 @@
   let scrollThreshold = 75; // Schwellenwert für Header-Änderungen
 
   onMount(() => {
+    headerStore.update((state) => ({ ...state, isDuaPage: true }));
+
     liveReadingStore.update((state) => ({
       ...state,
       duaRouteName: data.routeName,

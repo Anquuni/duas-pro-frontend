@@ -1,6 +1,6 @@
+import { settingsStore } from "$lib/settings/settings.store";
 import { derived } from "svelte/store";
 import translations from "./translations";
-import { settingsStore } from "$lib/settings/settings.store";
 
 export const locales = Object.keys(translations);
 

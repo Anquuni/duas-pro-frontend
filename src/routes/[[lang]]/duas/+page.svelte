@@ -1,7 +1,7 @@
 <script lang="ts">
   import DuaCard from "$lib/dua-discovery/DuaCard.svelte";
   import { supabase } from "$lib/supabase.config";
-  import type { Dua } from "../../ambient";
+  import type { Dua } from "../../../ambient";
 
   let searchQuery = $state("");
   let selectedType = $state("Alle");

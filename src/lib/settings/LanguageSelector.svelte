@@ -1,21 +1,20 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
-  import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
-  import { Check, ChevronsUpDown } from "lucide-svelte";
   import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "$lib/components/ui/command";
-  import { languages, getLanguageLabel, type LanguageCode } from "$lib/settings/settings.store";
+  import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
+  import { getLanguageLabel, languages, type LanguageCode } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
+  import { Check, ChevronsUpDown } from "lucide-svelte";
 
   export let isSystemLanguage: boolean = false;
-  export let type: "primary" | "secondary" | "tertiary";
   export let languageCode: LanguageCode;
-  export let onSelect: (type: "primary" | "secondary" | "tertiary", languageCode: LanguageCode) => void;
+  export let onSelect: (languageCode: LanguageCode) => void;
 
   let open = false;
   const filteredLanguages = isSystemLanguage ? languages.filter((l) => l.value !== "TL") : languages;
 
   function handleSelect(lang: LanguageCode) {
-    onSelect(type, lang);
+    onSelect(lang);
     open = false;
   }
 </script>

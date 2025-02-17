@@ -1,5 +1,5 @@
-import { writable } from "svelte/store";
 import { browser } from "$app/environment";
+import { writable } from "svelte/store";
 
 export type Theme = "light" | "dark";
 export type LanguageCode = string;
@@ -12,9 +12,6 @@ export interface LanguageItem {
 interface Settings {
   theme: Theme;
   systemLanguage: LanguageCode;
-  primaryDuaLanguage: LanguageCode;
-  secondaryDuaLanguage: LanguageCode;
-  tertiaryDuaLanguage: LanguageCode;
   primaryDuaFontSize: number;
   secondaryDuaFontSize: number;
   tertiaryDuaFontSize: number;
@@ -37,9 +34,6 @@ function loadSettings(): Settings {
   return {
     theme: browser && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
     systemLanguage: "EN",
-    primaryDuaLanguage: "AR",
-    secondaryDuaLanguage: "TL",
-    tertiaryDuaLanguage: "EN",
     primaryDuaFontSize: 16,
     secondaryDuaFontSize: 16,
     tertiaryDuaFontSize: 16,

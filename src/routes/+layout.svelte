@@ -1,17 +1,17 @@
 <script lang="ts">
-  import { page } from "$app/state";
   import { Toaster } from "$lib/components/ui/sonner";
   import { headerStore } from "$lib/header/header.store";
   import Header from "$lib/header/Header.svelte";
+  import { settingsStore } from "$lib/settings/settings.store";
+  import { onMount } from "svelte";
   import "../app.css";
   import Footer from "./Footer.svelte";
 
   let { children } = $props();
 
-  $effect(() => {
-    // Überprüfen Sie, ob die aktuelle Route eine Dua-Seite ist
-    const isDuaPage = page.route.id?.startsWith("/duas/") ?? false;
-    headerStore.update((state) => ({ ...state, isDuaPage }));
+  onMount(() => {
+    headerStore.update((state) => ({ ...state, isDuaPage: false }));
+    settingsStore.update((state) => ({ ...state, systemLanguage: "EN" }));
   });
 </script>
 

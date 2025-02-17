@@ -85,14 +85,16 @@
 
         <div class="space-y-2 {isInstruction ? 'text-tertiary-800 dark:text-tertiary-200' : ''}">
           <p class="primary-dua-font-size">
-            {line[$settingsStore.primaryDuaLanguage]}
+            {line["AR"]}
           </p>
           <p class="secondary-dua-font-size">
-            {line[$settingsStore.secondaryDuaLanguage]}
+            {line["TL"]}
           </p>
-          <p class="tertiary-dua-font-size">
-            {line[$settingsStore.tertiaryDuaLanguage]}
-          </p>
+          {#if $settingsStore.systemLanguage !== "AR"}
+            <p class="tertiary-dua-font-size">
+              {line[$settingsStore.systemLanguage]}
+            </p>
+          {/if}
         </div>
       </div>
     </CardContent>

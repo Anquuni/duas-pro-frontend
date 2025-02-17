@@ -1,13 +1,15 @@
 <script lang="ts">
   import { browser } from "$app/environment";
+  import { goto } from "$app/navigation";
+  import { page } from "$app/state";
   import { PopoverContent } from "$lib/components/ui/popover";
   import { Separator } from "$lib/components/ui/separator";
-  import ThemeSelector from "$lib/settings/ThemeSelector.svelte";
   import FullscreenToggle from "$lib/settings/FullscreenToggle.svelte";
-  import DuaLanguageSelector from "./DuaLanguageSelector.svelte";
   import { type LanguageCode, settingsStore } from "$lib/settings/settings.store";
-  import LanguageSelector from "./LanguageSelector.svelte";
+  import ThemeSelector from "$lib/settings/ThemeSelector.svelte";
   import { t } from "$lib/translations/i18n";
+  import DuaLanguageSelector from "./DuaLanguageSelector.svelte";
+  import LanguageSelector from "./LanguageSelector.svelte";
 
   let systemLanguage: LanguageCode;
 
@@ -15,7 +17,15 @@
     systemLanguage = settings.systemLanguage;
   });
 
-  function setLanguage(type: "primary" | "secondary" | "tertiary", languageCode: LanguageCode) {
+  function setLanguage(languageCode: LanguageCode) {
+    const segments = page.url.pathname.split("/").filter(Boolean);
+    if (page.params.lang) {
+      segments[0] = languageCode;
+    } else {
+      segments.unshift(languageCode);
+    }
+    goto("/" + segments.join("/"));
+
     settingsStore.update((settings) => ({
       ...settings,
       systemLanguage: languageCode,
@@ -28,22 +38,19 @@
     <div class="overflow-y-auto">
       <div class="grid gap-4">
         <div class="space-y-2">
-          <h4 class="font-medium leading-none">
+          <p class="text-base font-medium leading-none">
             {$t("settings.system.title")}
-          </h4>
+          </p>
         </div>
         <div class="grid gap-2">
           <ThemeSelector />
 
-          <LanguageSelector
-            isSystemLanguage={true}
-            type="primary"
-            languageCode={systemLanguage}
-            onSelect={setLanguage} />
+          <LanguageSelector isSystemLanguage={true} languageCode={systemLanguage} onSelect={setLanguage} />
+          <p class="text-xs text-gray-500">{$t("settings.dua.language.note")}</p>
 
           <FullscreenToggle />
 
-          <Separator class="my-2" />
+          <Separator class="" />
         </div>
 
         <div class="grid gap-2">
