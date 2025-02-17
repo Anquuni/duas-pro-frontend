@@ -1,14 +1,16 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
   import { Popover, PopoverTrigger } from "$lib/components/ui/popover";
-  import { Settings, Github } from "lucide-svelte";
+  import { settingsStore } from "$lib/settings/settings.store";
+  import { Github, Settings } from "lucide-svelte";
   import SettingsPopover from "../settings/SettingsPopover.svelte";
 </script>
 
 <div class="flex h-[60px] items-center justify-between px-4 py-1">
   <div class="flex items-center space-x-4">
-    <a href="/" class="text-xl font-bold transition-colors hover:text-primary">duas.pro</a>
-    <a href="/duas" class="transition-colors hover:text-primary">Duas</a>
+    <a href="/{$settingsStore.systemLanguage}" class="text-xl font-bold transition-colors hover:text-primary"
+      >duas.pro</a>
+    <a href="/{$settingsStore.systemLanguage}/duas" class="transition-colors hover:text-primary">Duas</a>
   </div>
 
   <div class="flex items-center space-x-2">

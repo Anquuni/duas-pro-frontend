@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "$lib/components/ui/card";
-  import { Button } from "$lib/components/ui/button";
   import { Badge } from "$lib/components/ui/badge";
-  import { User, Share2, Bookmark } from "lucide-svelte";
+  import { Button } from "$lib/components/ui/button";
+  import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "$lib/components/ui/card";
+  import { settingsStore } from "$lib/settings/settings.store";
   import { cn } from "$lib/utils";
+  import { Bookmark, Share2, User } from "lucide-svelte";
   import type { Dua } from "../../ambient";
 
   export let dua: Dua;
@@ -27,7 +28,7 @@
   }
 </script>
 
-<a href="/duas/{dua.route_name}" class="block">
+<a href="/{$settingsStore.systemLanguage}/duas/{dua.route_name}" class="block">
   <Card class="relative overflow-hidden transition-shadow hover:shadow-lg">
     {#if isPopular || isRecommendedToday}
       <Badge class="absolute right-2 top-2 z-20">
