@@ -1,5 +1,6 @@
 <script lang="ts">
   import DuaCard from "$lib/dua-discovery/DuaCard.svelte";
+  import SeoHead from "$lib/SEOHead.svelte";
   import { supabase } from "$lib/supabase.config";
   import type { Dua } from "../../../ambient";
 
@@ -28,6 +29,8 @@
     fetchDuas();
   });
 </script>
+
+<SeoHead title="Discover and search Duas" />
 
 <div class="p-4 sm:p-6 md:p-8">
   <!-- Suchleiste, Filter und Sortierung -->

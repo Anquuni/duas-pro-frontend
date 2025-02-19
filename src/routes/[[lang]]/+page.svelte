@@ -1,6 +1,9 @@
 <script lang="ts">
+  import SeoHead from "$lib/SEOHead.svelte";
   import { t } from "$lib/translations/i18n";
 </script>
+
+<SeoHead title="duas.pro" />
 
 <h1>Welcome to SvelteKit</h1>
 <p>

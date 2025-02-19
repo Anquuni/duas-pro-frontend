@@ -8,6 +8,8 @@
   import HowToLiveReadingDialog from "$lib/live-reading/HowToLiveReadingDialog.svelte";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { joinLiveReadingRoom, leaveLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
+  import SeoHead from "$lib/SEOHead.svelte";
+  import { settingsStore } from "$lib/settings/settings.store.js";
   import { onMount } from "svelte";
 
   // TODO: Rename folder of components to dua-reader
@@ -106,6 +108,8 @@
     }
   });
 </script>
+
+<SeoHead title={data.dua.title[$settingsStore.systemLanguage]} />
 
 <svelte:window on:beforeunload={beforeUnload} />
 
