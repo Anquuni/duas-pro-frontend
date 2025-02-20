@@ -85,12 +85,12 @@
 
         <div class="space-y-2 {isInstruction ? 'text-tertiary-800 dark:text-tertiary-200' : ''}">
           <p class="primary-dua-font-size">
-            {line["AR"]}
+            {line["ar"]}
           </p>
           <p class="secondary-dua-font-size">
-            {line["TL"]}
+            {line["translit"]}
           </p>
-          {#if $settingsStore.systemLanguage !== "AR"}
+          {#if $settingsStore.systemLanguage !== "ar"}
             <p class="tertiary-dua-font-size">
               {line[$settingsStore.systemLanguage]}
             </p>

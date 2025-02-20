@@ -11,7 +11,7 @@
 
   onMount(() => {
     headerStore.update((state) => ({ ...state, isDuaPage: false }));
-    settingsStore.update((state) => ({ ...state, systemLanguage: "EN" }));
+    settingsStore.update((state) => ({ ...state, systemLanguage: "en" }));
   });
 </script>
 

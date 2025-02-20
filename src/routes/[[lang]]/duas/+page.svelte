@@ -4,7 +4,7 @@
   import type { Dua } from "../../../ambient";
 
   // TODO: Add filtering by book (Mafatih-ul-Jinan, Sahifa-Sadschadiyya, ...)
-  //  and/ or type (Dua, Ziyarat, Muanajat, ...)
+  //  and by type (Dua, Ziyarat, Muanajat, ...)
   // TODO: Create pagination component
 
   let { data } = $props();

@@ -34,7 +34,7 @@
 
     headerStore.update((state) => ({
       ...state,
-      duaTitle: data.dua.title["EN"],
+      duaTitle: data.dua.title["en"],
       showViewTabs: false,
       isDuaPage: true,
       isExpandedHeader: true,

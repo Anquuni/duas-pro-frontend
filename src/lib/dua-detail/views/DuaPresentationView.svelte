@@ -34,12 +34,12 @@
     <CardContent class="flex h-full items-center justify-center p-6">
       <div class="max-w-2xl space-y-4 text-center">
         <p class="font-arabic mb-6 text-4xl">
-          {lines[$duaStore.currentVerse]["AR"]}
+          {lines[$duaStore.currentVerse]["ar"]}
         </p>
         <p class="mb-4 text-2xl italic">
-          {lines[$duaStore.currentVerse]["TL"]}
+          {lines[$duaStore.currentVerse]["translit"]}
         </p>
-        {#if $settingsStore.systemLanguage !== "AR"}
+        {#if $settingsStore.systemLanguage !== "ar"}
           <p class="text-xl">
             {lines[$duaStore.currentVerse][$settingsStore.systemLanguage]}
           </p>

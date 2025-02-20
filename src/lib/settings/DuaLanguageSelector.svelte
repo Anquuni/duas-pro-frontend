@@ -41,7 +41,7 @@
     <FontSizeAdjuster type="secondary" fontSize={secondaryFontSize} onAdjust={adjustFontSize} />
   </div>
 
-  {#if $settingsStore.systemLanguage !== "AR"}
+  {#if $settingsStore.systemLanguage !== "ar"}
     <div>
       <p class="text-base font-medium">
         {$t("settings.dua.language.title", { index: 3 })}: {getLanguageLabel($settingsStore.systemLanguage)}

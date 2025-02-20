@@ -18,11 +18,13 @@ interface Settings {
 }
 
 export const languages: LanguageItem[] = [
-  { value: "AR", label: "Arabic" },
-  { value: "TL", label: "Transliteration" },
-  { value: "EN", label: "English" },
-  { value: "DE", label: "Deutsch" },
+  { value: "ar", label: "Arabic" },
+  { value: "translit", label: "Transliteration" },
+  { value: "en", label: "English" },
+  { value: "de", label: "German" },
 ];
+
+export const filteredLanguages = languages.filter((l) => l.value !== "translit");
 
 function loadSettings(): Settings {
   if (browser) {
@@ -33,7 +35,7 @@ function loadSettings(): Settings {
   }
   return {
     theme: browser && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
-    systemLanguage: "EN",
+    systemLanguage: "en",
     primaryDuaFontSize: 16,
     secondaryDuaFontSize: 16,
     tertiaryDuaFontSize: 16,

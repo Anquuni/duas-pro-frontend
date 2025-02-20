@@ -11,7 +11,7 @@
   export let onSelect: (languageCode: LanguageCode) => void;
 
   let open = false;
-  const filteredLanguages = isSystemLanguage ? languages.filter((l) => l.value !== "TL") : languages;
+  const filteredLanguages = isSystemLanguage ? languages.filter((l) => l.value !== "translit") : languages;
 
   function handleSelect(lang: LanguageCode) {
     onSelect(lang);

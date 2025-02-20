@@ -8,8 +8,8 @@
 </script>
 
 <div class="mb-12 text-center">
-  <h1 class="font-arabic mb-2 text-4xl font-bold">{dua.title["AR"]}</h1>
-  <h2 class="mb-6 text-3xl">{dua.title["TL"]}</h2>
+  <h1 class="font-arabic mb-2 text-4xl font-bold">{dua.title["ar"]}</h1>
+  <h2 class="mb-6 text-3xl">{dua.title["translit"]}</h2>
 
   <div class="mb-4 flex items-center justify-center space-x-4">
     <!-- <Badge variant="secondary">{dua.category}</Badge> -->
@@ -24,7 +24,7 @@
 
   <p class="mb-6 text-sm text-gray-600">By Imam Ali</p>
 
-  <!-- <p class="mx-auto mb-6 max-w-2xl text-gray-700">{dua.description['EN']}</p> -->
+  <!-- <p class="mx-auto mb-6 max-w-2xl text-gray-700">{dua.description["en"]}</p> -->
   <p class="mx-auto mb-6 max-w-2xl text-gray-700">
     The author of Mafatih al-Jinan, Shaykh Abbas al-Qummi (d. 1941 CE) says about this supplication: “This is one of the
     famous supplications. ʿAllāma al-Majlisī says that it is the best of all supplications, which ʾAmīr al-Muʾminīn Ali
