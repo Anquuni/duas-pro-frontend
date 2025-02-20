@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 export async function load({ params, url }) {
   const systemLang = params.lang?.toUpperCase();
   const languages = ["ar", "translit", systemLang && systemLang !== "ar" ? systemLang : "en"];
-  const { data: response, error: errorResponse } = await supabase.functions.invoke(`duas?languages=ar,tl,${languages}&page=1&size=100`);
+  const { data: response, error: errorResponse } = await supabase.functions.invoke(`duas?languages=ar,translit,${languages}&page=1&size=100`);
   if (errorResponse) {
     error(404);
   }

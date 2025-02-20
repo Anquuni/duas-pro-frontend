@@ -1,5 +1,5 @@
 export default {
-  AR: {
+  ar: {
     "settings.system.title": "إعدادات النظام",
     "settings.system.theme.light": "وضع الضوء",
     "settings.system.theme.dark": "وضع الظلام",
@@ -11,7 +11,7 @@ export default {
     "dua.views.reading": "Reading",
     "dua.views.presentation": "Presentation",
   },
-  EN: {
+  en: {
     "settings.system.title": "System Settings",
     "settings.system.theme.light": "Light",
     "settings.system.theme.dark": "Dark",
@@ -23,7 +23,7 @@ export default {
     "dua.views.reading": "Reading",
     "dua.views.presentation": "Presentation",
   },
-  DE: {
+  de: {
     "settings.system.title": "System Einstellungen",
     "settings.system.theme.light": "Hell",
     "settings.system.theme.dark": "Dunkel",

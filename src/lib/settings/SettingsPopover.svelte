@@ -45,7 +45,7 @@
         <div class="grid gap-2">
           <ThemeSelector />
 
-          <LanguageSelector isSystemLanguage={true} languageCode={systemLanguage} onSelect={setLanguage} />
+          <LanguageSelector languageCode={systemLanguage} onSelect={setLanguage} />
           <p class="text-xs text-gray-500">{$t("settings.dua.language.note")}</p>
 
           <FullscreenToggle />

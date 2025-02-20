@@ -2,16 +2,14 @@
   import { Button } from "$lib/components/ui/button";
   import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "$lib/components/ui/command";
   import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
-  import { getLanguageLabel, languages, type LanguageCode } from "$lib/settings/settings.store";
+  import { getLanguageLabel, nonTranslitLanguages, type LanguageCode } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
   import { Check, ChevronsUpDown } from "lucide-svelte";
 
-  export let isSystemLanguage: boolean = false;
   export let languageCode: LanguageCode;
   export let onSelect: (languageCode: LanguageCode) => void;
 
   let open = false;
-  const filteredLanguages = isSystemLanguage ? languages.filter((l) => l.value !== "translit") : languages;
 
   function handleSelect(lang: LanguageCode) {
     onSelect(lang);
@@ -31,7 +29,7 @@
       <CommandInput placeholder="Search language..." />
       <CommandEmpty>{$t("settings.dua.language.not-found")}</CommandEmpty>
       <CommandGroup>
-        {#each filteredLanguages as lang}
+        {#each nonTranslitLanguages as lang}
           <CommandItem onSelect={() => handleSelect(lang.value)}>
             <Check class={languageCode === lang.value ? "opacity-100" : "opacity-0"} />
             {lang.label}

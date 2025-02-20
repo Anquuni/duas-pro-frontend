@@ -1,5 +1,5 @@
 import { PUBLIC_BASE_URL } from "$env/static/public";
-import { languages } from "$lib/settings/settings.store";
+import { nonTranslitLanguages } from "$lib/settings/settings.store";
 import { supabase } from "$lib/supabase.config";
 import { error } from "@sveltejs/kit";
 
@@ -18,10 +18,10 @@ export async function GET() {
 			xmlns:xhtml="https://www.w3.org/1999/xhtml"
 		>
     ${duas.map(dua => `
-      ${languages.map(lang => lang.value).map(lang => `
+      ${nonTranslitLanguages.map(lang => lang.value).map(lang => `
         <url>
           <loc>${PUBLIC_BASE_URL}/${lang}/${dua}</loc>
-          ${languages.map(lang => lang.value).map(otherLang => `
+          ${nonTranslitLanguages.map(lang => lang.value).map(otherLang => `
             <xhtml:link rel="alternate" hreflang="${otherLang}" href="${PUBLIC_BASE_URL}/${otherLang}/duas/${dua}" />
           `).join("")}
           <xhtml:link rel="alternate" hreflang="x-default" href="${PUBLIC_BASE_URL}/${defaultLang}/duas/${dua}" />

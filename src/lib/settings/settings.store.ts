@@ -24,7 +24,7 @@ export const languages: LanguageItem[] = [
   { value: "de", label: "German" },
 ];
 
-export const filteredLanguages = languages.filter((l) => l.value !== "translit");
+export const nonTranslitLanguages = languages.filter((l) => l.value !== "translit");
 
 function loadSettings(): Settings {
   if (browser) {
