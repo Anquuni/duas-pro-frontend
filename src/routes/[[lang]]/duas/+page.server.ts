@@ -5,16 +5,12 @@ import { error } from '@sveltejs/kit';
 export async function load({ params, url }) {
   const systemLang = params.lang?.toUpperCase();
   const languages = ["AR", "TL", systemLang && systemLang !== "AR" ? systemLang : "EN"];
-  const { data: response, error: errorResponse } = await supabase.functions.invoke(`duas/${params.duaRouteName}?languages=ar,tl,${languages}`);
+  const { data: response, error: errorResponse } = await supabase.functions.invoke(`duas?languages=ar,tl,${languages}&page=1&size=100`);
   if (errorResponse) {
     error(404);
   }
 
-  const code = url.searchParams.get("code");
-
   return {
-    dua: response.data,
-    routeName: params.duaRouteName,
-    code: code,
+    duas: response.data,
   };
 }
