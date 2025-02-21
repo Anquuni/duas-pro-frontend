@@ -10,14 +10,18 @@
 <div class="flex justify-center">
   <Card class="w-full max-w-5xl">
     <CardContent class="p-6">
-      <div class="font-arabic text-right text-xl leading-loose">
+      <div class="text-xl leading-loose">
         {#each lines as line, index}
           {#if line.begin_of_section && index !== 0}
             <div class="my-1"></div>
           {/if}
           <span
             id="verse-{index}"
-            class="primary-dua-font-size verse-span {index === currentVerseIndex ? 'current-verse' : ''}">
+            class="verse-span
+            {index === currentVerseIndex ? 'current-verse' : ''}"
+            class:primary-dua-font-size={$settingsStore.systemLanguage === "ar"}
+            class:tertiary-dua-font-size={$settingsStore.systemLanguage !== "ar"}
+            class:arabic-font={$settingsStore.systemLanguage === "ar"}>
             {line[$settingsStore.systemLanguage]}
           </span>
         {/each}
@@ -27,9 +31,6 @@
 </div>
 
 <style>
-  .font-arabic {
-    font-family: "Amiri", serif;
-  }
   .verse-span {
     transition: background-color 0.3s ease;
   }

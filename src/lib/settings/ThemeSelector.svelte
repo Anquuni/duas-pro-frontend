@@ -1,9 +1,9 @@
 <script lang="ts">
   import { Tabs, TabsList, TabsTrigger } from "$lib/components/ui/tabs";
-  import { Sun, Moon } from "lucide-svelte";
   import { settingsStore, stringToTheme, type Theme } from "$lib/settings/settings.store";
-  import { onMount } from "svelte";
   import { t } from "$lib/translations/i18n";
+  import { Moon, Sun } from "lucide-svelte";
+  import { onMount } from "svelte";
 
   let theme: Theme;
 
@@ -53,11 +53,11 @@
   }}>
   <TabsList class="grid w-full grid-cols-2">
     <TabsTrigger class="flex-1" value="light">
-      <Sun class="mr-2 h-4 w-4" />
+      <Sun class="mx-2 h-4 w-4" />
       {$t("settings.system.theme.light")}
     </TabsTrigger>
     <TabsTrigger class="flex-1" value="dark">
-      <Moon class="mr-2 h-4 w-4" />
+      <Moon class="mx-2 h-4 w-4" />
       {$t("settings.system.theme.dark")}
     </TabsTrigger>
   </TabsList>

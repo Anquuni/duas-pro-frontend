@@ -2,7 +2,7 @@
   import { Toaster } from "$lib/components/ui/sonner";
   import { headerStore } from "$lib/header/header.store";
   import Header from "$lib/header/Header.svelte";
-  import { settingsStore } from "$lib/settings/settings.store";
+  import { languages, settingsStore } from "$lib/settings/settings.store";
   import { onMount } from "svelte";
   import "../app.css";
   import Footer from "./Footer.svelte";
@@ -11,16 +11,21 @@
 
   onMount(() => {
     headerStore.update((state) => ({ ...state, isDuaPage: false }));
-    settingsStore.update((state) => ({ ...state, systemLanguage: "en" }));
   });
+
+  const currentLanguage = $derived(
+    languages.find((lang) => lang.value === $settingsStore.systemLanguage) || { rtl: false },
+  );
 </script>
 
 <Toaster />
 
 <div class="flex min-h-screen flex-col">
   <Header />
-  <main class="flex-1">
-    {@render children?.()}
-  </main>
-  <Footer />
+  <div class="flex flex-1 flex-col" class:rtl={currentLanguage.rtl}>
+    <main class="flex-1">
+      {@render children?.()}
+    </main>
+    <Footer />
+  </div>
 </div>

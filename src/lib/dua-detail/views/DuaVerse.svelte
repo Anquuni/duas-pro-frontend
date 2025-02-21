@@ -35,7 +35,7 @@
               ? 'bg-tertiary/10 text-tertiary dark:bg-tertiary/20 dark:text-tertiary-foreground'
               : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300'}">
             {#if isInstruction}
-              <BookOpen class="mr-1 h-3 w-3" />
+              <BookOpen class="mx-1 h-3 w-3" />
             {/if}
             {index + 1}
           </span>
@@ -84,7 +84,7 @@
         </div>
 
         <div class="space-y-2 {isInstruction ? 'text-tertiary-800 dark:text-tertiary-200' : ''}">
-          <p class="primary-dua-font-size">
+          <p class="primary-dua-font-size arabic-font">
             {line["ar"]}
           </p>
           <p class="secondary-dua-font-size">

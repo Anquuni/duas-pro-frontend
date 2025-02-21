@@ -19,15 +19,15 @@
 <Tabs class="w-full" bind:value={$duaStore.currentView} onValueChange={setActiveTab}>
   <TabsList class="grid w-full grid-cols-3">
     <TabsTrigger value="translation" class="flex items-center justify-center">
-      <Languages class="mr-2 h-5 w-5" />
+      <Languages class="mx-1 h-5 w-5" />
       {$t("dua.views.translation")}
     </TabsTrigger>
     <TabsTrigger value="reading" class="flex items-center justify-center">
-      <Book class="mr-2 h-5 w-5" />
+      <Book class="mx-1 h-5 w-5" />
       {$t("dua.views.reading")}
     </TabsTrigger>
     <TabsTrigger value="presentation" class="flex items-center justify-center">
-      <Presentation class="mr-2 h-5 w-5" />
+      <Presentation class="mx-1 h-5 w-5" />
       {$t("dua.views.presentation")}
     </TabsTrigger>
   </TabsList>

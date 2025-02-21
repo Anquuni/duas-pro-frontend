@@ -170,7 +170,7 @@
   <div class="audio-player relative bg-background">
     <!-- Toggle Button -->
     <button
-      class="fixed bottom-[60px] right-4 flex h-8 items-center space-x-2 rounded-full bg-gray-700 bg-primary px-2 py-1 text-sm text-white shadow-md"
+      class="fixed bottom-[60px] right-4 flex h-8 items-center gap-2 rounded-full bg-gray-700 bg-primary px-2 py-1 text-sm text-white shadow-md"
       on:click={toggleHidden}>
       {#if isHidden}
         <Eye class="h-4 w-4" /> <span>Show</span>

@@ -7,6 +7,7 @@ export type LanguageCode = string;
 export interface LanguageItem {
   value: LanguageCode;
   label: string;
+  rtl: boolean;
 }
 
 interface Settings {
@@ -18,10 +19,10 @@ interface Settings {
 }
 
 export const languages: LanguageItem[] = [
-  { value: "ar", label: "Arabic" },
-  { value: "translit", label: "Transliteration" },
-  { value: "en", label: "English" },
-  { value: "de", label: "German" },
+  { value: "ar", label: "Arabic", rtl: true },
+  { value: "translit", label: "Transliteration", rtl: false },
+  { value: "en", label: "English", rtl: false },
+  { value: "de", label: "German", rtl: false },
 ];
 
 export const nonTranslitLanguages = languages.filter((l) => l.value !== "translit");
@@ -36,9 +37,9 @@ function loadSettings(): Settings {
   return {
     theme: browser && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
     systemLanguage: "en",
-    primaryDuaFontSize: 16,
-    secondaryDuaFontSize: 16,
-    tertiaryDuaFontSize: 16,
+    primaryDuaFontSize: 24,
+    secondaryDuaFontSize: 14,
+    tertiaryDuaFontSize: 20,
   };
 }
 

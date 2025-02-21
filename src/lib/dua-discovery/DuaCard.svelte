@@ -44,25 +44,25 @@
       <div class="relative z-20 flex items-start justify-between">
         <div>
           <CardTitle class="text-xl font-semibold text-white">{dua.title["translit"]}</CardTitle>
-          <CardDescription class="text-sm text-gray-200">{dua.title["en"]}</CardDescription>
+          <CardDescription class="text-sm text-gray-200">{dua.title[$settingsStore.systemLanguage]}</CardDescription>
         </div>
-        <CardTitle class="font-arabic text-right text-2xl text-white">{dua.title["ar"]}</CardTitle>
+        <CardTitle class="arabic-font text-right text-2xl text-white">{dua.title["ar"]}</CardTitle>
       </div>
     </CardHeader>
     <CardContent class="pt-4">
       <p class="mb-2 text-sm text-muted-foreground">
-        <!-- {dua.description['en'] || 'No description available'} -->
+        <!-- {dua.description[$settingsStore.systemLanguage] || 'No description available'} -->
         A powerful prayer known for seeking forgiveness and protection.
       </p>
-      {#if dua.narratedBy["en"] !== null}
-        <div class="mt-2 flex items-center justify-between">
-          <p class="text-xs font-semibold text-primary">Major Supplications</p>
+      <div class="mt-2 flex items-center justify-between">
+        <p class="text-xs font-semibold text-primary">Major Supplications</p>
+        {#if dua.narratedBy[$settingsStore.systemLanguage] !== null}
           <div class="flex items-center text-xs text-muted-foreground">
             <User size={14} class="mr-1" />
-            <span>{dua.narratedBy["en"]}</span>
+            <span>{dua.narratedBy[$settingsStore.systemLanguage]}</span>
           </div>
-        </div>
-      {/if}
+        {/if}
+      </div>
     </CardContent>
     <CardFooter class="flex items-center justify-between">
       <Button variant="outline" size="sm">Read Full Dua</Button>
