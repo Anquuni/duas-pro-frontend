@@ -10,6 +10,7 @@ export async function GET() {
   }
   const duas: string[] = response.data.route_names;
   const defaultLang = "en";
+
   return new Response(
     `
 		<?xml version="1.0" encoding="UTF-8" ?>
@@ -17,6 +18,17 @@ export async function GET() {
 			xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
 			xmlns:xhtml="https://www.w3.org/1999/xhtml"
 		>
+
+    ${nonTranslitLanguages.map(lang => lang.value).map(lang => `
+      <url>
+        <loc>${PUBLIC_BASE_URL}/${lang}/duas</loc>
+        ${nonTranslitLanguages.map(otherLang => otherLang.value).map(otherLang => `
+          <xhtml:link rel="alternate" hreflang="${otherLang}" href="${PUBLIC_BASE_URL}/${otherLang}/duas" />
+        `).join("")}
+        <xhtml:link rel="alternate" hreflang="x-default" href="${PUBLIC_BASE_URL}/${defaultLang}/duas" />
+      </url>
+    `).join("")}
+
     ${duas.map(dua => `
       ${nonTranslitLanguages.map(lang => lang.value).map(lang => `
         <url>
