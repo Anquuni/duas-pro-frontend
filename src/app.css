@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Uthman';
+  src: url('/fonts/UthmanTN_v2-0.ttf') format('truetype');
+  font-weight: 400; /* Normal */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Uthman';
+  src: url('/fonts/UthmanTNB_v2-0.ttf') format('truetype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -76,7 +90,7 @@
   }
 
   .arabic-font {
-    font-family: 'Naksh', 'Hafs';
+    font-family: 'Uthman', serif;
   }
 
   .primary-dua-font-size {
