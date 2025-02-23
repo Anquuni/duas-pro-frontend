@@ -11,8 +11,7 @@
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { showNoHostToast } from "$lib/live-reading/live-reading.utils";
   import { settingsStore } from "$lib/settings/settings.store";
-  import { Bookmark, BookOpen, Redo, Share2 } from "lucide-svelte";
-  import { toast } from "svelte-sonner";
+  import { BookOpen, Redo } from "lucide-svelte";
   import type { DuaLine } from "../../../ambient";
 
   export let line: DuaLine;
@@ -50,36 +49,6 @@
               }
             }}>
             <Redo class="h-4 w-4" />
-          </button>
-
-          <button
-            class="text-gray-600 dark:text-gray-300"
-            on:click={() => {
-              toast.info("Noch nicht verfügbar!", {
-                description:
-                  "Diese Funktion wird bald hinzugefügt. Unterstütze die Entwicklung und hilf uns, es schneller zu realisieren!",
-                action: {
-                  label: "Unterstützen",
-                  onClick: () => console.info("Leite zur Unterstützungsseite weiter"),
-                },
-              });
-            }}>
-            <Share2 class="h-4 w-4" />
-          </button>
-
-          <button
-            class="text-gray-600 dark:text-gray-300"
-            on:click={() => {
-              toast.info("Noch nicht verfügbar!", {
-                description:
-                  "Diese Funktion wird bald hinzugefügt. Unterstütze die Entwicklung und hilf uns, es schneller zu realisieren!",
-                action: {
-                  label: "Unterstützen",
-                  onClick: () => console.info("Leite zur Unterstützungsseite weiter"),
-                },
-              });
-            }}>
-            <Bookmark class="h-4 w-4" />
           </button>
         </div>
 

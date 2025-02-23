@@ -1,11 +1,27 @@
 <script lang="ts">
+  import { page } from "$app/state";
   import { Badge } from "$lib/components/ui/badge";
   import { Button } from "$lib/components/ui/button";
   import { settingsStore } from "$lib/settings/settings.store";
-  import { Bookmark, Share2 } from "lucide-svelte";
-  import { toast } from "svelte-sonner";
+  import { Share2 } from "lucide-svelte";
 
   let { dua } = $props();
+
+  let complete = $state(false);
+
+  async function share() {
+    const url = page.url.toString();
+    const shareData: ShareData = { url, title: "duas.pro" };
+    if (navigator.canShare && navigator.canShare(shareData)) {
+      await navigator.share(shareData);
+    } else {
+      await navigator.clipboard.writeText(url);
+      complete = true;
+      setTimeout(() => {
+        complete = false;
+      }, 500);
+    }
+  }
 </script>
 
 <div class="mb-12 text-center">
@@ -40,37 +56,13 @@
   </p>
 
   <div class="flex justify-center space-x-4">
-    <Button
-      variant="outline"
-      size="sm"
-      on:click={() => {
-        toast.info("Noch nicht verfügbar!", {
-          description:
-            "Diese Funktion wird bald hinzugefügt. Unterstütze die Entwicklung und hilf uns, es schneller zu realisieren!",
-          action: {
-            label: "Unterstützen",
-            onClick: () => console.info("Leite zur Unterstützungsseite weiter"),
-          },
-        });
-      }}>
+    <Button variant="outline" size="sm" on:click={share}>
       <Share2 class="mr-2 h-4 w-4" />
-      Share
-    </Button>
-    <Button
-      variant="outline"
-      size="sm"
-      on:click={() => {
-        toast.info("Noch nicht verfügbar!", {
-          description:
-            "Diese Funktion wird bald hinzugefügt. Unterstütze die Entwicklung und hilf uns, es schneller zu realisieren!",
-          action: {
-            label: "Unterstützen",
-            onClick: () => console.info("Leite zur Unterstützungsseite weiter"),
-          },
-        });
-      }}>
-      <Bookmark class="mr-2 h-4 w-4" />
-      Bookmark
+      {#if complete}
+        Copied!
+      {:else}
+        Share
+      {/if}
     </Button>
   </div>
 </div>

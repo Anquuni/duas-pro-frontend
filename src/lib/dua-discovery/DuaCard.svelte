@@ -1,24 +1,25 @@
 <script lang="ts">
+  import { page } from "$app/state";
   import { Badge } from "$lib/components/ui/badge";
   import { Button } from "$lib/components/ui/button";
   import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { settingsStore } from "$lib/settings/settings.store";
   import { cn } from "$lib/utils";
-  import { Bookmark, Share2, User } from "lucide-svelte";
+  import { Share2, User } from "lucide-svelte";
   import type { Dua } from "../../ambient";
 
   export let dua: Dua;
   const isPopular = dua.tags.includes("popular");
   const isRecommendedToday = dua.tags.includes("daily");
 
-  function shareDua(id: string) {
-    console.log(`Sharing dua ${id}`);
-    // Implement sharing functionality here
-  }
-
-  function bookmarkDua(id: string) {
-    console.log(`Sharing dua ${id}`);
-    // Implement sharing functionality here
+  async function shareDua(id: string) {
+    const url = page.url.toString();
+    const shareData: ShareData = { url, title: "duas.pro" };
+    if (navigator.canShare && navigator.canShare(shareData)) {
+      await navigator.share(shareData);
+    } else {
+      await navigator.clipboard.writeText(url);
+    }
   }
 
   function handleAction(event: Event, action: () => void) {
@@ -51,7 +52,7 @@
     </CardHeader>
     <CardContent class="pt-4">
       <p class="mb-2 text-sm text-muted-foreground">
-        <!-- {dua.description[$settingsStore.systemLanguage] || 'No description available'} -->
+        <!-- {dua.description[$settingsStore.systemLanguage ] || 'No description available'} -->
         A powerful prayer known for seeking forgiveness and protection.
       </p>
       <div class="mt-2 flex items-center justify-between">
@@ -69,9 +70,6 @@
       <div class="flex space-x-2">
         <Button variant="ghost" size="icon" on:click={(e) => handleAction(e, () => shareDua(dua.route_name))}>
           <Share2 size={20} />
-        </Button>
-        <Button variant="ghost" size="icon" on:click={(e) => handleAction(e, () => bookmarkDua(dua.route_name))}>
-          <Bookmark size={20} />
         </Button>
       </div>
     </CardFooter>
