@@ -52,11 +52,12 @@
     </CardHeader>
     <CardContent class="pt-4">
       <p class="mb-2 text-sm text-muted-foreground">
-        <!-- {dua.description[$settingsStore.systemLanguage ] || 'No description available'} -->
-        A powerful prayer known for seeking forgiveness and protection.
+        {dua.description[$settingsStore.systemLanguage]}
       </p>
       <div class="mt-2 flex items-center justify-between">
-        <p class="text-xs font-semibold text-primary">Major Supplications</p>
+        {#each dua.tags as tag}
+          <p class="text-xs font-semibold text-primary">{tag}</p>
+        {/each}
         {#if dua.narratedBy[$settingsStore.systemLanguage] !== null}
           <div class="flex items-center text-xs text-muted-foreground">
             <User size={14} class="mr-1" />
