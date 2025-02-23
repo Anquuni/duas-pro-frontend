@@ -34,5 +34,5 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   // Redirect to the URL with the appropriate language prefix
   const redirectUrl = new URL(`/${language}${pathname}`, event.url);
-  return Response.redirect(redirectUrl, 302);
+  return Response.redirect(redirectUrl, 301);
 };
