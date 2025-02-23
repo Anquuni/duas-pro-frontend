@@ -10,7 +10,6 @@
   <div class="flex items-center space-x-4">
     <a href="/{$settingsStore.systemLanguage}" class="text-xl font-bold transition-colors hover:text-primary"
       >duas.pro</a>
-    <a href="/{$settingsStore.systemLanguage}/duas" class="transition-colors hover:text-primary">Duas</a>
   </div>
 
   <div class="flex items-center space-x-2">

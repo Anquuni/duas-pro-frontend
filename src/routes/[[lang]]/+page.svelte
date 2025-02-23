@@ -1,13 +1,15 @@
 <script lang="ts">
   import SeoHead from "$lib/SEOHead.svelte";
-  import { t } from "$lib/translations/i18n";
 </script>
 
 <SeoHead title="duas.pro" />
 
-<h1>Welcome to SvelteKit</h1>
-<p>
-  Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation Hallo: {$t(
-    "settings.system.title",
-  )}
-</p>
+<h1>Welcome to duas.pro</h1>
+
+<!-- TODO:
+ - Hero section with a promo video in the background and the dua search in the foreground.
+ - Promo video can show how users are reciting duas from duas.pro in the mosque.
+ - Featured duas with the most popular and the currently recommended duas.
+ - Featured articles with teaser about what duas are and why they are imported.
+ - Section about how many users duas.pro has and how satisfied they are. 
+-->
