@@ -4,13 +4,14 @@
   import { settingsStore } from "$lib/settings/settings.store";
   import { Github, Settings } from "lucide-svelte";
   import SettingsPopover from "../settings/SettingsPopover.svelte";
+  import logo from '$lib/assets/duas-pro-logo.svg';
 </script>
 
 <div class="flex h-[60px] items-center justify-between px-4 py-1">
-  <div class="flex items-center space-x-4">
-    <a href="/{$settingsStore.systemLanguage}" class="text-xl font-bold transition-colors hover:text-primary"
-      >duas.pro</a>
-  </div>
+    <a href="/{$settingsStore.systemLanguage}" class="flex items-center space-x-2 text-primary text-xl font-bold transition-colors">
+      <img src={logo} alt="duas.pro logo" class="h-8 w-auto" />
+      <span>duas.pro</span>
+    </a>
 
   <div class="flex items-center space-x-2">
     <a href="https://github.com/duas-pro/" target="_blank" rel="noopener noreferrer">
