@@ -1,9 +1,14 @@
 // src/hooks.server.ts
 import { nonTranslitLanguages } from '$lib/settings/settings.store';
 import type { Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
 
-export const handle: Handle = async ({ event, resolve }) => {
+export const languageRedirect: Handle = async ({ event, resolve }) => {
   const { pathname } = event.url;
+
+  if (pathname.endsWith(".svg") || pathname === "favicon.ico" || pathname === "/sitemap.xml" || pathname === "/robots.txt") {
+    return resolve(event);
+  }
 
   const supportedLanguages = nonTranslitLanguages.map(l => l.value);
 
@@ -36,3 +41,5 @@ export const handle: Handle = async ({ event, resolve }) => {
   const redirectUrl = new URL(`/${language}${pathname}`, event.url);
   return Response.redirect(redirectUrl, 301);
 };
+
+export const handle: Handle = sequence(languageRedirect)

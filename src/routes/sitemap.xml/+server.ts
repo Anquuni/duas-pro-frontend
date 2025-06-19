@@ -4,12 +4,18 @@ import { supabase } from "$lib/supabase.config";
 import { error } from "@sveltejs/kit";
 
 export async function GET() {
+  const pages = [
+    { path: "", priority: 1.0 },
+    { path: "duas", priority: 0.9 }
+  ];
+
   const { data: response, error: fetchError } = await supabase.functions.invoke(`duas/routes`);
   if (fetchError) {
     error(500);
   }
   const duas: string[] = response.data.route_names;
   const defaultLang = "en";
+  const alternativeLangs = nonTranslitLanguages.map(l => l.value).filter(l => l !== defaultLang);
 
   return new Response(
     `
@@ -19,26 +25,28 @@ export async function GET() {
 			xmlns:xhtml="https://www.w3.org/1999/xhtml"
 		>
 
-    ${nonTranslitLanguages.map(lang => lang.value).map(lang => `
+    ${pages.map(({ path, priority }) => `
       <url>
-        <loc>${PUBLIC_BASE_URL}/${lang}/duas</loc>
-        ${nonTranslitLanguages.map(otherLang => otherLang.value).map(otherLang => `
-          <xhtml:link rel="alternate" hreflang="${otherLang}" href="${PUBLIC_BASE_URL}/${otherLang}/duas" />
+        <loc>${PUBLIC_BASE_URL}/${defaultLang}/${path}</loc>
+        <priority>${priority}</priority>
+        <changefreq>monthly</changefreq>
+        ${alternativeLangs.map(otherLang => `
+          <xhtml:link rel="alternate" hreflang="${otherLang}" href="${PUBLIC_BASE_URL}/${otherLang}/${path}" />
         `).join("")}
-        <xhtml:link rel="alternate" hreflang="x-default" href="${PUBLIC_BASE_URL}/${defaultLang}/duas" />
+        <xhtml:link rel="alternate" hreflang="x-default" href="${PUBLIC_BASE_URL}/${defaultLang}/${path}" />
       </url>
     `).join("")}
 
     ${duas.map(dua => `
-      ${nonTranslitLanguages.map(lang => lang.value).map(lang => `
         <url>
-          <loc>${PUBLIC_BASE_URL}/${lang}/${dua}</loc>
-          ${nonTranslitLanguages.map(lang => lang.value).map(otherLang => `
+          <loc>${PUBLIC_BASE_URL}/${defaultLang}/${dua}</loc>
+          <priority>0.8</priority>
+          <changefreq>monthly</changefreq>
+          ${alternativeLangs.map(otherLang => `
             <xhtml:link rel="alternate" hreflang="${otherLang}" href="${PUBLIC_BASE_URL}/${otherLang}/duas/${dua}" />
           `).join("")}
           <xhtml:link rel="alternate" hreflang="x-default" href="${PUBLIC_BASE_URL}/${defaultLang}/duas/${dua}" />
         </url>
-      `).join("")}
     `).join("")}
 		</urlset>`.trim(),
     {
