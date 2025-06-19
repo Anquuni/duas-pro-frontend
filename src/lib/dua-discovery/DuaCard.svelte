@@ -13,13 +13,13 @@
   const isRecommendedToday = dua.tags.includes("daily");
 
   async function shareDua(id: string) {
-    const url = page.url.toString();
+    const url = page.url.toString() + "/duas/" + dua.route_name;
     const shareData: ShareData = { url, title: "duas.pro" };
     if (navigator.canShare && navigator.canShare(shareData)) {
       await navigator.share(shareData);
     } else {
       await navigator.clipboard.writeText(url);
-    }
+    } 
   }
 
   function handleAction(event: Event, action: () => void) {
