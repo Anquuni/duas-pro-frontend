@@ -59,3 +59,9 @@ We are continuously working to improve Duas.pro. Our plans for future developmen
 ## Contribution
 
 We welcome contributions to the Duas.pro frontend! If you have suggestions, bug reports, or want to contribute code, please feel free to open an issue or submit a pull request.
+
+Contributors:
+
+<a href="https://github.com/anquuni/duas-pro-frontend/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=anquuni/duas-pro-frontend" />
+</a>
