@@ -33,7 +33,7 @@
     {/if}
   </div>
 
-  <div class="mb-4 flex items-center justify-center space-x-4">Add commentMore actions
+  <div class="mb-4 flex items-center justify-center space-x-4">
     <!-- <Badge variant="secondary">{dua.category}</Badge> -->
     <Badge variant="secondary">Major Supplications</Badge>
     <Badge variant="outline">Forgiveness</Badge>
