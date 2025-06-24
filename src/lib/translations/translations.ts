@@ -1,5 +1,7 @@
 export default {
   ar: {
+    "seo.home.title": "",
+    "seo.home.description": "",
     "settings.system.title": "إعدادات النظام",
     "settings.system.theme.light": "وضع الضوء",
     "settings.system.theme.dark": "وضع الظلام",
@@ -12,6 +14,8 @@ export default {
     "dua.views.presentation": "Presentation",
   },
   en: {
+    "seo.home.title": "Discover duas",
+    "seo.home.description": "Discover a rich collection of authentic Islamic supplications (duas) with Arabic text, transliteration, and English translation.",
     "settings.system.title": "System Settings",
     "settings.system.theme.light": "Light",
     "settings.system.theme.dark": "Dark",
@@ -24,6 +28,8 @@ export default {
     "dua.views.presentation": "Presentation",
   },
   de: {
+    "seo.home.title": "Entdecke Duas",
+    "seo.home.description": "Entdecke eine umfangreiche Sammlung authentischer islamischer Bittgebete (Duas) mit arabischem Text, Transliteration und deutscher Übersetzung.",
     "settings.system.title": "System Einstellungen",
     "settings.system.theme.light": "Hell",
     "settings.system.theme.dark": "Dunkel",

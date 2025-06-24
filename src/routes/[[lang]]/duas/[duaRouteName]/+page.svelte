@@ -109,7 +109,9 @@
   });
 </script>
 
-<SeoHead title={data.dua.title[$settingsStore.systemLanguage]} />
+<SeoHead title={data.dua.title[$settingsStore.systemLanguage]} 
+  description={data.dua.description[$settingsStore.systemLanguage]} 
+  image={data.dua.image_url} type="webpage" />
 
 <svelte:window on:beforeunload={beforeUnload} />
 
