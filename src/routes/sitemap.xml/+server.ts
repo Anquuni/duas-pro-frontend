@@ -19,10 +19,10 @@ export async function GET() {
 
   return new Response(
     `
-		<?xml version="1.0" encoding="UTF-8" ?>
+		<?xml version="1.0" encoding="UTF-8"?>
 		<urlset
-			xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"
-			xmlns:xhtml="https://www.w3.org/1999/xhtml"
+			xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+			xmlns:xhtml="http://www.w3.org/1999/xhtml"
 		>
 
     ${pages.map(({ path, priority }) => `
