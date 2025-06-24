@@ -5,8 +5,9 @@ import { error } from '@sveltejs/kit';
 export async function load({ params, url }) {
   const systemLang = params.lang?.toUpperCase();
   const languages = ["ar", "translit", systemLang && systemLang !== "ar" ? systemLang : "en"];
-  const { data: response, error: errorResponse } = await supabase.functions.invoke(`duas?languages=ar,translit,${languages}&page=1&size=100`);
+  const { data: response, error: errorResponse } = await supabase.functions.invoke(`duas?languages=${languages}&page=1&size=100`);
   if (errorResponse) {
+    console.error(`Error while fetching for languages ${languages} all duas: ${errorResponse}`)
     error(404);
   }
 
