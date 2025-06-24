@@ -11,7 +11,7 @@
   import DuaLanguageSelector from "./DuaLanguageSelector.svelte";
   import LanguageSelector from "./LanguageSelector.svelte";
 
-  let systemLanguage: LanguageCode;
+  let systemLanguage: LanguageCode = $state("en");
 
   settingsStore.subscribe((settings) => {
     systemLanguage = settings.systemLanguage;
