@@ -2,23 +2,18 @@
   import { headerStore } from "$lib/header/header.store";
   import DefaultHeader from "./DefaultHeader.svelte";
   import DuaHeader from "./DuaHeader.svelte";
-
-  function getHeaderHeight() {
-    if (!$headerStore.isDuaPage) {
-      return 60;
-    }
-    return $headerStore.isExpandedHeader ? 90 : 30;
-  }
 </script>
 
 <header
   class="sticky top-0 z-30 w-full bg-background/100 shadow-md transition-all duration-300"
-  style="height: {getHeaderHeight() + 'px'};">
+  class:h-[60px]={!$headerStore.isDuaPage}
+  class:h-[90px]={$headerStore.isDuaPage && $headerStore.isExpandedHeader}
+  class:h-[30px]={$headerStore.isDuaPage && !$headerStore.isExpandedHeader}>
+
   <div class="relative h-full overflow-hidden">
-    <div
-      class="absolute w-full transition-transform duration-300"
-      class:translate-y-0={$headerStore.isExpandedHeader}
-      class:-translate-y-full={!$headerStore.isExpandedHeader}>
+    <div class={`absolute w-full transition-transform duration-300 ${
+      $headerStore.isExpandedHeader ? 'translate-y-0' : '-translate-y-full'
+    }`}>
       <DefaultHeader />
     </div>
     {#if $headerStore.isDuaPage}

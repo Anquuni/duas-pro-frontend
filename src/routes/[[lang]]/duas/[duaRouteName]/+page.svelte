@@ -21,8 +21,6 @@
   let scrollThreshold = 75; // Schwellenwert für Header-Änderungen
 
   onMount(() => {
-    headerStore.update((state) => ({ ...state, isDuaPage: true }));
-
     liveReadingStore.update((state) => ({
       ...state,
       duaRouteName: data.routeName,
