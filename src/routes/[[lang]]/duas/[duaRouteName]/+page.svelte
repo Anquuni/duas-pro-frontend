@@ -32,7 +32,7 @@
 
     headerStore.update((state) => ({
       ...state,
-      duaTitle: data.dua.title[$settingsStore.systemLanguage],
+      duaTitle: data.dua.title["translit"],
       showViewTabs: false,
       isDuaPage: true,
       isExpandedHeader: true,
@@ -107,7 +107,7 @@
   });
 </script>
 
-<SeoHead title={data.dua.title[$settingsStore.systemLanguage]} 
+<SeoHead title={data.dua.title["translit"]} 
   description={data.dua.description[$settingsStore.systemLanguage]} 
   image={data.dua.image_url} type="webpage" />
 
