@@ -39,7 +39,7 @@ export async function GET() {
 
     ${duas.map(dua => `
         <url>
-          <loc>${PUBLIC_BASE_URL}/${defaultLang}/${dua}</loc>
+          <loc>${PUBLIC_BASE_URL}/${defaultLang}/duas/${dua}</loc>
           <priority>0.8</priority>
           <changefreq>monthly</changefreq>
           ${alternativeLangs.map(otherLang => `
