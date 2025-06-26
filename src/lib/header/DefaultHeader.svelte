@@ -8,7 +8,7 @@
 </script>
 
 <div class="flex h-[60px] items-center justify-between px-4 py-1">
-    <a href="/{$settingsStore.systemLanguage}" class="flex items-center space-x-2 text-xl font-bold transition-colors">
+    <a href="/{$settingsStore.systemLanguage}" class="flex items-center space-x-2 text-xl font-bold transition-transform duration-500 ease-out active:scale-95">
       <img src={logo} alt="duas.pro logo" class="h-8 w-auto" />
       <span>duas.pro</span>
     </a>

@@ -29,7 +29,7 @@
   }
 </script>
 
-<a href="/{$settingsStore.systemLanguage}/duas/{dua.route_name}" class="block">
+<a href="/{$settingsStore.systemLanguage}/duas/{dua.route_name}" class="block transition-transform duration-500 ease-out active:scale-95">
   <Card class="relative overflow-hidden transition-shadow hover:shadow-lg">
     {#if isPopular || isRecommendedToday}
       <Badge class="absolute right-2 top-2 z-20">
