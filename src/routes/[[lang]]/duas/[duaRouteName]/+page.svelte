@@ -11,6 +11,7 @@
   import SeoHead from "$lib/SEOHead.svelte";
   import { settingsStore } from "$lib/settings/settings.store.js";
   import { onMount } from "svelte";
+  import { page } from "$app/state";
 
   // TODO: Rename folder of components to dua-reader
 
@@ -25,7 +26,8 @@
       ...state,
       duaRouteName: data.routeName,
     }));
-    const liveReadingRoomCode = data.code;
+
+    const liveReadingRoomCode = page.url.searchParams.get("code");
     if (liveReadingRoomCode) {
       joinLiveReadingRoom(liveReadingRoomCode);
     }

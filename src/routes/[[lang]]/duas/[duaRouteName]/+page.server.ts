@@ -10,11 +10,8 @@ export async function load({ params, url }) {
     error(404);
   }
 
-  const code = url.searchParams.get("code");
-
   return {
     dua: response.data,
     routeName: params.duaRouteName,
-    code: code,
   };
 }

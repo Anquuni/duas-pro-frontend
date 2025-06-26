@@ -18,10 +18,11 @@
   } from "$lib/live-reading/live-reading.utils";
   import SvgQR from "@svelte-put/qr/svg/QR.svelte";
   import { Copy, Users, X } from "lucide-svelte";
+  import logo from '$lib/assets/duas-pro-logo-no-bg.png';
+  import { PUBLIC_BASE_URL } from "$env/static/public";
 
   let copied = $state(false);
   let qrSize = 150;
-  let logo = "https://svelte-put.vnphanquang.com/images/svelte-put-logo.svg";
   let dialogOpen = $state(false);
   let inputCode = $state("");
   let isInputError = $state(false);
@@ -51,7 +52,7 @@
 
   const liveReadingLink = $derived(
     $liveReadingStore.liveReadingRoomCode
-      ? `https://duas.pro/duas/${$liveReadingStore.duaRouteName}?code=${$liveReadingStore.liveReadingRoomCode}`
+      ? `${PUBLIC_BASE_URL}/duas/${$liveReadingStore.duaRouteName}?code=${$liveReadingStore.liveReadingRoomCode}`
       : "",
   );
 </script>
@@ -67,7 +68,7 @@
           <!-- Roter Punkt als Live-Indikator -->
           <div class="h-2 w-2 animate-pulse rounded-full bg-red-500"></div>
           <span class="font-semibold text-red-500">Live</span>
-          <span class="hidden text-sm font-medium text-gray-500 md:inline">
+          <span class="hidden text-sm font-medium md:inline">
             • Code: {$liveReadingStore.liveReadingRoomCode}
             • {$liveReadingStore.participantsNumber} Teilnehmer • Host {$liveReadingStore.isHostOnline
               ? "online"
@@ -133,7 +134,7 @@
             {#if $liveReadingStore.isHost}
               <span class="font-semibold">als Host</span>
             {/if}
-            am Live-Reading-Room <span class="font-semibold">#{$liveReadingStore.liveReadingRoomCode}</span> teil.
+            am Live-Reading-Room <span class="font-semibold">{$liveReadingStore.liveReadingRoomCode}</span> teil.
           </p>
           <span class="mt-2">
             <p>Aktuelle Teilnehmer: <span class="font-semibold">{$liveReadingStore.participantsNumber}</span></p>
