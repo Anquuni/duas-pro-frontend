@@ -121,6 +121,10 @@
   }
 
   async function togglePlay() {
+    if ($liveReadingStore.inLiveReadingRoom && !$liveReadingStore.isHost) {
+      showNoHostToast();
+      return;
+    }
     if (hasNoRecitations) {
       showNoAudioNotification();
       return;
