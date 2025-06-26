@@ -23,9 +23,10 @@
 
 <div class="verse-span flex justify-center" id="verse-{index}">
   <Card
-    class="w-full max-w-5xl transition-colors duration-300 ease-in-out {index === currentVerseIndex
-      ? 'bg-gray-300 dark:bg-gray-800'
-      : ''} {isInstruction ? 'border-l-4 border-tertiary' : ''}">
+    class="w-full max-w-5xl mb-4 border-0 ring-1 ring-white/5 transition-colors duration-300 ease-in-out {index === currentVerseIndex
+      ? 'bg-gradient-to-b from-secondary/80 to-secondary/50 dark:bg-gray-800'
+      : ''} {isInstruction ? 'border-l-4 border-tertiary' : ''}"
+  >
     <CardContent class="p-2">
       <div class="text-center">
         <div class="mb-1 flex items-center justify-center space-x-2">
