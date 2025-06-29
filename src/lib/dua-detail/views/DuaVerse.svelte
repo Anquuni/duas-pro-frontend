@@ -58,7 +58,7 @@
             {line["ar"]}
           </p>
           <p class="secondary-dua-font-size">
-            {line["translit"].toLowerCase()}
+            {line["translit"]?.toLowerCase()}
           </p>
           {#if $settingsStore.systemLanguage !== "ar"}
             <p class="tertiary-dua-font-size">
