@@ -12,5 +12,9 @@
     <h2 class="mb-2 text-xl">{dua.title[$settingsStore.systemLanguage]}</h2>
   {/if}
 
-  <p class="mb-6 text-sm text-gray-600">{$t("dua.by")} <span class="italic">{dua.narratedBy[$settingsStore.systemLanguage]}</span></p>
+  <div class="mb-6">
+    {#if dua.narratedBy[$settingsStore.systemLanguage]}
+      <p class="text-sm text-gray-600">{$t("dua.by")} <span class="italic">{dua.narratedBy[$settingsStore.systemLanguage]}</span></p>
+    {/if}
+  </div>
 </div>
