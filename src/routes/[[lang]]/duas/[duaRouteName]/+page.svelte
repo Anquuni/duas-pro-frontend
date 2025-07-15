@@ -7,7 +7,7 @@
   import { headerStore } from "$lib/header/header.store";
   import HowToLiveReadingDialog from "$lib/live-reading/HowToLiveReadingDialog.svelte";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
-  import { joinLiveReadingRoom, leaveLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
+  import { joinLiveReadingRoom, leaveLiveReadingRoom, startLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
   import SeoHead from "$lib/SEOHead.svelte";
   import { settingsStore } from "$lib/settings/settings.store.js";
   import { onMount } from "svelte";
@@ -29,7 +29,12 @@
 
     const liveReadingRoomCode = page.url.searchParams.get("code");
     if (liveReadingRoomCode) {
-      joinLiveReadingRoom(liveReadingRoomCode);
+      const isHost = page.url.searchParams.get("isHost");
+      if (isHost) {
+        startLiveReadingRoom(liveReadingRoomCode);
+      } else {
+        joinLiveReadingRoom(liveReadingRoomCode);
+      }
     }
 
     headerStore.update((state) => ({

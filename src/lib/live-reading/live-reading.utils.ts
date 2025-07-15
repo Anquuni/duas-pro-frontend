@@ -66,8 +66,19 @@ export function joinLiveReadingRoom(inputCode: string) {
     });
 }
 
-export function startLiveReadingRoom() {
-  const code = Math.random().toString(36).substring(7).toUpperCase();
+export function generateCode(): string {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // No I, L, O, 0, 1
+  let result = '';
+  length = 5;
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+  for (let i = 0; i < length; i++) {
+    result += chars[array[i] % chars.length];
+  }
+  return result;
+}
+
+export function startLiveReadingRoom(code: string) {
   console.log("Host tries to connect to channel " + code);
   const hostChannel = supabase.channel(code);
   hostChannel
