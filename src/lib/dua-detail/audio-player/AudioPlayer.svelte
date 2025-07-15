@@ -5,28 +5,29 @@
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { showNoHostToast } from "$lib/live-reading/live-reading.utils";
   import { supabase } from "$lib/supabase.config";
-  import { Ellipsis, Eye, EyeOff, Pause, Play, SkipBack, SkipForward } from "lucide-svelte";
+  import { ChevronDown, ChevronUp, Ellipsis, Pause, Play, SkipBack, SkipForward } from "lucide-svelte";
   import { toast } from "svelte-sonner";
-  import type { Dua, DuaRecitationDetail } from "../../../ambient";
+  import type { Dua, DuaRecitation, DuaRecitationDetail } from "../../../ambient";
   import AudioSettingsPopover from "./AudioSettingsPopover.svelte";
 
-  export let dua: Dua;
+  // export let dua: Dua;
+  let { dua } = $props();
 
   let audioData: DuaRecitationDetail;
   let audio: HTMLAudioElement | null = null;
-  let currentTime = 0;
-  let duration = 0;
-  let playbackRate = 1.0;
-  let currentReciter: string | null = null;
-  let isPlaying = false;
-  let isSettingsOpen = false;
-  let isHidden = false;
+  let currentTime = $state(0);
+  let duration = $state(0);
+  let playbackRate = $state(1.0);
+  let currentReciter: string | null = $state(null);
+  let isPlaying = $state(false);
+  let isSettingsOpen = $state(false);
+  let isHidden = $state(false);
 
   const totalVerses = dua.lines.length;
   const hasNoRecitations = dua.recitations.length === 0;
   const speeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
 
-  const reciters = dua.recitations.map((rec) => rec.reciters);
+  const reciters = dua.recitations.map((rec: DuaRecitation) => rec.reciters);
   if (reciters.length > 0) {
     currentReciter = reciters[0].full_name_tl;
   }
@@ -85,7 +86,7 @@
 
   async function fetchAudio() {
     if (!currentReciter) return;
-    const selectedRecitation = dua.recitations.find((rec) => rec.reciters?.full_name_tl === currentReciter);
+    const selectedRecitation = dua.recitations.find((rec: DuaRecitation) => rec.reciters?.full_name_tl === currentReciter);
 
     if (!selectedRecitation) {
       console.error("Kein passender Reciter gefunden");
@@ -169,21 +170,20 @@
   }
 </script>
 
-<!-- <div class="audio-player h-[50px] fixed bottom-0 left-0 right-0 bg-background"> -->
-<div class="fixed bottom-0 left-0 right-0 transition-transform duration-300" class:translate-y-[55px]={isHidden}>
+<div class="fixed bottom-0 left-0 right-0 transition-transform duration-300" class:translate-y-[65px]={isHidden}>
   <div class="audio-player relative bg-background">
     <!-- Toggle Button -->
     <button
-      class="fixed bottom-[60px] right-4 flex h-8 items-center gap-2 rounded-full bg-gray-700 bg-primary px-2 py-1 text-sm text-white shadow-md"
-      on:click={toggleHidden}>
+      class="fixed bottom-[70px] right-4 flex h-8 items-center gap-2 rounded-full bg-gray-700 bg-primary px-2 py-1 text-sm text-white shadow-md"
+      onclick={toggleHidden}>
       {#if isHidden}
-        <Eye class="h-4 w-4" /> <span>Show</span>
+        <ChevronUp class="h-6 w-6" />
       {:else}
-        <EyeOff class="h-4 w-4" /> <span>Hide</span>
+        <ChevronDown class="h-6 w-6" />
       {/if}
     </button>
 
-    <div class="h-[50px]">
+    <div class="h-[60px]">
       <div class="px-4">
         <Slider
           onValueChange={handleSliderChange}
@@ -192,21 +192,21 @@
           step={1}
           class="w-full" />
       </div>
-      <div class="flex items-center justify-between px-4">
+      <div class="flex h-full items-center justify-between px-4">
         <span class="text-sm text-gray-500">{isPlaying || currentTime > 0 ? formatTime(currentTime) : "--:--"}</span>
-        <div class="flex items-center space-x-0 md:space-x-4">
+        <div class="flex items-center space-x-2 md:space-x-8">
           <Button variant="ghost" on:click={previousVerse}>
-            <SkipBack class="h-5 w-5" />
+            <SkipBack class="h-6 w-6" />
           </Button>
           <Button variant="ghost" on:click={togglePlay}>
             {#if isPlaying}
-              <Pause class="h-5 w-5" />
+              <Pause class="h-6 w-6" />
             {:else}
-              <Play class="h-5 w-5" />
+              <Play class="h-6 w-6" />
             {/if}
           </Button>
           <Button variant="ghost" on:click={nextVerse}>
-            <SkipForward class="h-5 w-5" />
+            <SkipForward class="h-6 w-6" />
           </Button>
           <div class="relative">
             <Button
@@ -218,7 +218,7 @@
                   showNoAudioNotification();
                 }
               }}>
-              <Ellipsis class="h-5 w-5" />
+              <Ellipsis class="h-6 w-6" />
             </Button>
             {#if isSettingsOpen}
               <AudioSettingsPopover
