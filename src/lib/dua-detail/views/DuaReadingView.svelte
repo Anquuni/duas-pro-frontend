@@ -17,8 +17,9 @@
           {/if}
           <span
             id="verse-{index}"
-            class="verse-span
-            {index === currentVerseIndex ? 'current-verse' : ''}"
+            class="transition-colors duration-300
+            {index === currentVerseIndex ? 'bg-secondary/50 py-2 rounded' : ''}
+            {line.type === "INSTRUCTION" ? 'italic' : ''}"
             class:primary-dua-font-size={$settingsStore.systemLanguage === "ar"}
             class:tertiary-dua-font-size={$settingsStore.systemLanguage !== "ar"}
             class:arabic-font={$settingsStore.systemLanguage === "ar"}>
@@ -29,15 +30,3 @@
     </CardContent>
   </Card>
 </div>
-
-<style>
-  .verse-span {
-    transition: background-color 0.3s ease;
-  }
-
-  .current-verse {
-    background-color: rgba(0, 0, 0, 0.1); /* Leichter grauer Hintergrund */
-    padding: 2px 4px;
-    border-radius: 4px;
-  }
-</style>
