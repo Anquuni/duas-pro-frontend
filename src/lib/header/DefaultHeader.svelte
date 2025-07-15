@@ -14,7 +14,7 @@
     </a>
 
   <div class="flex items-center space-x-2">
-    <a href="https://github.com/duas-pro/" target="_blank" rel="noopener noreferrer">
+    <a href="https://github.com/Anquuni/duas-pro-frontend" target="_blank" rel="noopener noreferrer">
       <Button variant="ghost" size="icon">
         <Github class="h-5 w-5" />
         <span class="sr-only">GitHub</span>
