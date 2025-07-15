@@ -23,7 +23,7 @@
 
 <div class="verse-span flex justify-center" id="verse-{index}">
   <Card
-    class="w-full max-w-5xl mb-4 border-0 ring-1 ring-white/5 transition-colors duration-300 ease-in-out {index === currentVerseIndex
+    class="w-full mb-4 border-0 ring-1 ring-white/5 transition-colors duration-300 ease-in-out {index === currentVerseIndex
       ? 'bg-gradient-to-b from-secondary/80 to-secondary/50 dark:bg-gray-800'
       : ''} {isInstruction ? 'border-l-4 border-tertiary' : ''}"
   >

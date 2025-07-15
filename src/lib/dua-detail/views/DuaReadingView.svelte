@@ -8,7 +8,7 @@
 </script>
 
 <div class="flex justify-center">
-  <Card class="w-full max-w-5xl">
+  <Card class="w-full">
     <CardContent class="p-6">
       <div class="text-xl leading-loose">
         {#each lines as line, index}

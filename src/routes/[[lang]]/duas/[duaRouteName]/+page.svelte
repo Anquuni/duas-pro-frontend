@@ -122,7 +122,7 @@
 
 <HowToLiveReadingDialog />
 
-<div class="container mx-auto px-4 pt-8">
+<div class="container pt-8">
   <DuaContent dua={data.dua} />
 
   <div class="mb-8 flex justify-center" bind:this={viewTabsElement}>
