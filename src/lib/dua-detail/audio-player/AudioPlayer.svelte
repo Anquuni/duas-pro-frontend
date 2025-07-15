@@ -68,7 +68,12 @@
   function updateProgress() {
     const currentTime = audio!.currentTime * 1000; // Convert to milliseconds
     for (let i = totalVerses; i >= 0; i--) {
-      if (currentTime >= audioData.startTimes[i]) {
+      // Add a small offset (e.g. 200ms) so the transition to the next verse is detected slightly earlier.
+      // This prevents the first part of the next verse (e.g. the first syllable) from being heard twice:
+      // once as the audio naturally continues, and again when the verse index updates and the UI reacts.
+      // Without this offset, the UI update lags slightly behind the actual audio playback.
+      const offset = 200;
+      if (currentTime + offset >= audioData.startTimes[i]) {
         // Avoid updating value if same to be able to scroll to other verses while playing
         if ($duaStore.currentVerse !== i) {
           duaStore.update((state) => ({ ...state, currentVerse: i }));
