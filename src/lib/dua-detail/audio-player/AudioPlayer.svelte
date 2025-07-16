@@ -175,12 +175,13 @@
   }
 </script>
 
-<div class="fixed bottom-0 left-0 right-0 transition-transform duration-300" class:translate-y-[65px]={isHidden}>
+<div class="fixed bottom-0 left-0 right-0 transition-transform duration-300"
+  style:transform={isHidden ? 'translateY(calc(55px + env(safe-area-inset-bottom)))' : 'translateY(0)'}>
   <div class="audio-player relative bg-background">
     <!-- Toggle Button -->
     <button
-      class="fixed bottom-[70px] right-4 flex h-8 items-center gap-2 rounded-full bg-gray-700 bg-primary px-2 py-1 text-sm text-white shadow-md"
-      onclick={toggleHidden}>
+      class="fixed right-4 flex h-8 items-center gap-2 rounded-full bg-gray-700 bg-primary px-2 py-1 text-sm text-white shadow-md"
+        style="bottom: calc(60px + env(safe-area-inset-bottom));" onclick={toggleHidden}>
       {#if isHidden}
         <ChevronUp class="h-6 w-6" />
       {:else}
@@ -188,7 +189,7 @@
       {/if}
     </button>
 
-    <div class="h-[60px]">
+    <div style="height: calc(50px + env(safe-area-inset-bottom));">
       <div class="px-4">
         <Slider
           onValueChange={handleSliderChange}
