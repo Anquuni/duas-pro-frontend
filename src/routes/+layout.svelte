@@ -4,7 +4,7 @@
   import { languages, settingsStore } from "$lib/settings/settings.store";
   import "../app.css";
   import Footer from "./Footer.svelte";
-  import { PUBLIC_BASE_URL } from "$env/static/public";
+  import { PUBLIC_ENVIRONMENT } from "$env/static/public";
 
   let { children } = $props();
 
@@ -14,7 +14,7 @@
 </script>
 
 <svelte:head>
-  {#if PUBLIC_BASE_URL === "https://duas.pro"}
+  {#if PUBLIC_ENVIRONMENT === "prod"}
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD59M3PRTP"></script>
     <script>
