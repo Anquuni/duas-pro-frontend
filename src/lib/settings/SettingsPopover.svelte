@@ -4,6 +4,7 @@
   import { page } from "$app/state";
   import { PopoverContent } from "$lib/components/ui/popover";
   import { Separator } from "$lib/components/ui/separator";
+  import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import FullscreenToggle from "$lib/settings/FullscreenToggle.svelte";
   import { type LanguageCode, languages, settingsStore } from "$lib/settings/settings.store";
   import ThemeSelector from "$lib/settings/ThemeSelector.svelte";
@@ -24,7 +25,16 @@
     } else {
       segments.unshift(languageCode);
     }
-    goto("/" + segments.join("/"));
+
+    const searchParams = new URLSearchParams();
+    if ($liveReadingStore.liveReadingRoomCode != null) {
+      searchParams.set("code", $liveReadingStore.liveReadingRoomCode);
+    }
+    if ($liveReadingStore.isHost === true) {
+      searchParams.set("isHost", "true");
+    }
+
+    goto("/" + segments.join("/") + "?" + searchParams.toString());
 
     settingsStore.update((settings) => ({
       ...settings,

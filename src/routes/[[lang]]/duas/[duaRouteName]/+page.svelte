@@ -20,22 +20,24 @@
   let viewTabsElement: HTMLElement;
   let scrollReference = 0;
   let scrollThreshold = 75; // Schwellenwert für Header-Änderungen
+  
+  $effect(() => {
+    const code = page.url.searchParams.get("code");
+    const isHost = page.url.searchParams.get("isHost") === "true";
+    if (code) {
+      if (isHost) {
+        startLiveReadingRoom(code);
+      } else {
+        joinLiveReadingRoom(code);
+      }
+    }
+  });
 
   onMount(() => {
     liveReadingStore.update((state) => ({
       ...state,
       duaRouteName: data.routeName,
     }));
-
-    const liveReadingRoomCode = page.url.searchParams.get("code");
-    if (liveReadingRoomCode) {
-      const isHost = page.url.searchParams.get("isHost");
-      if (isHost) {
-        startLiveReadingRoom(liveReadingRoomCode);
-      } else {
-        joinLiveReadingRoom(liveReadingRoomCode);
-      }
-    }
 
     headerStore.update((state) => ({
       ...state,
