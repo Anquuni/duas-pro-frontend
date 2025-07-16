@@ -4,6 +4,7 @@
   import { languages, settingsStore } from "$lib/settings/settings.store";
   import "../app.css";
   import Footer from "./Footer.svelte";
+  import { PUBLIC_ENVIRONMENT } from "$env/static/public";
 
   let { children } = $props();
 
@@ -11,6 +12,19 @@
     languages.find((lang) => lang.value === $settingsStore.systemLanguage) || { rtl: false },
   );
 </script>
+
+<svelte:head>
+  {#if PUBLIC_ENVIRONMENT === "prod"}
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD59M3PRTP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-RD59M3PRTP');
+    </script>
+  {/if}
+</svelte:head>
 
 <Toaster />
 
