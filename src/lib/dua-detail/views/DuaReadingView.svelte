@@ -13,7 +13,7 @@
       <div class="text-xl leading-loose">
         {#each lines as line, index}
           {#if line.begin_of_section && index !== 0}
-            <div class="my-1"></div>
+            <div class="my-4"></div>
           {/if}
           <span
             id="verse-{index}"
