@@ -12,7 +12,7 @@
   import { Label } from "$lib/components/ui/label";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import {
-  generateCode,
+    generateCode,
     joinLiveReadingRoom,
     leaveLiveReadingRoom,
     startLiveReadingRoom,
@@ -60,7 +60,7 @@
       ? `${PUBLIC_BASE_URL}/duas/${$liveReadingStore.duaRouteName}?code=${$liveReadingStore.liveReadingRoomCode}`
       : "",
   );
-  
+
   const plannedLiveReadingLink = $derived(
     `${PUBLIC_BASE_URL}/duas/${$liveReadingStore.duaRouteName}?code=${plannedCode}&isHost=true`,
   );
@@ -167,8 +167,8 @@
                 </DialogDescription>
 
                 {#if !showPlannedLink}
-                <Button on:click={() => planLiveReadingRoom()} class="mt-3 w-full"
-                  >{$t("live-reading.plan.button")}</Button>
+                  <Button on:click={() => planLiveReadingRoom()} class="mt-3 w-full"
+                    >{$t("live-reading.plan.button")}</Button>
                 {:else}
                   <div class="flex flex-row">
                     <Input id="link" value={plannedLiveReadingLink} readonly class="mb-2 sm:mb-0" />
@@ -191,14 +191,12 @@
           <p>{@html $t("live-reading.participants", { count: $liveReadingStore.participantsNumber })}</p>
           {#if $liveReadingStore.isHost}
             <p>{$t("live-reading.active.participation.host")}</p>
-          {:else}<p>
-              {@html $t("live-reading.active.hostStatus", {
-                status: $liveReadingStore.isHostOnline
-                  ? $t("live-reading.host.online")
-                  : $t("live-reading.host.offline"),
-              })}
-            </p>
           {/if}
+          <p>
+            {@html $t("live-reading.active.hostStatus", {
+              status: $liveReadingStore.isHostOnline ? $t("live-reading.host.online") : $t("live-reading.host.offline"),
+            })}
+          </p>
         </div>
         <div class="flex justify-center">
           <SvgQR data={liveReadingLink} {logo} width={qrSize} height={qrSize} />
