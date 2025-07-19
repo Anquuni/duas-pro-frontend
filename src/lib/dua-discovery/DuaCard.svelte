@@ -45,7 +45,9 @@
       <div class="relative z-20 flex items-start justify-between">
         <div>
           <CardTitle class="text-xl font-semibold text-white">{dua.title["translit"]}</CardTitle>
-          <CardDescription class="text-sm text-gray-200">{dua.title[$settingsStore.systemLanguage]}</CardDescription>
+          {#if $settingsStore.systemLanguage !== "ar"}
+            <CardDescription class="text-sm text-gray-200">{dua.title[$settingsStore.systemLanguage]}</CardDescription>
+          {/if}
         </div>
         <CardTitle class="arabic-font text-right text-2xl text-white">{dua.title["ar"]}</CardTitle>
       </div>
