@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { settingsStore } from "$lib/settings/settings.store";
+  import { languages, settingsStore } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
 
   let { dua } = $props();
@@ -14,7 +14,7 @@
 
   <div class="mb-6">
     {#if dua.narratedBy[$settingsStore.systemLanguage]}
-      <p class="text-sm text-gray-600">{$t("dua.by")} <span class="italic">{dua.narratedBy[$settingsStore.systemLanguage]}</span></p>
+      <p class="text-sm text-gray-600">{@html $t("dua.by", { narrator: dua.narratedBy[$settingsStore.systemLanguage]})}</p>
     {/if}
   </div>
 </div>
