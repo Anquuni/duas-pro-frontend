@@ -7,23 +7,30 @@
   import { supabase } from "$lib/supabase.config";
   import { ChevronDown, ChevronUp, Ellipsis, Pause, Play, SkipBack, SkipForward } from "lucide-svelte";
   import { toast } from "svelte-sonner";
-  import type { Dua, DuaRecitation, DuaRecitationDetail } from "../../../ambient";
+  import type { DuaRecitation, DuaRecitationDetail } from "../../../ambient";
   import AudioSettingsPopover from "./AudioSettingsPopover.svelte";
+  import LoadingSpinner from "../../LoadingSpinner.svelte";
+  import { onMount, onDestroy } from "svelte";
 
-  // export let dua: Dua;
+  // Input from parent component
   let { dua } = $props();
 
-  let audioData: DuaRecitationDetail;
+  // Props & Data
   let audio: HTMLAudioElement | null = null;
+  let audioData: DuaRecitationDetail;
   let currentTime = $state(0);
   let duration = $state(0);
   let playbackRate = $state(1.0);
   let currentReciter: string | null = $state(null);
+
+  // lokale UI-Flags
   let isPlaying = $state(false);
   let isSettingsOpen = $state(false);
+  let justClosedSettings = $state(false);
   let isHidden = $state(false);
+  let isLoading = $state(false);
 
-  const totalVerses = dua.lines.length;
+  const totalVerses = dua.lines.length - 1;
   const hasNoRecitations = dua.recitations.length === 0;
   const speeds = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0];
 
@@ -36,6 +43,36 @@
     seekToVerse(duaSettings.currentVerse);
   });
 
+  onMount(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Nur wenn keine Eingabe aktiv ist
+      const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
+      const isTyping = tag === "input" || tag === "textarea" || (e.target as HTMLElement)?.isContentEditable;
+      if (isTyping) return;
+
+      e.preventDefault(); // Verhindert Scrollen
+      
+      switch (e.code) {
+        case "Space":
+          togglePlay();
+          break;
+        case "ArrowLeft":
+          previousVerse();
+          break;
+        case "ArrowRight":
+          nextVerse();
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    onDestroy(() => {
+      window.removeEventListener("keydown", handleKeyDown);
+    });
+  });
+
+
   function formatTime(timeInSeconds: number): string {
     const minutes = Math.floor(timeInSeconds / 60);
     const seconds = Math.floor(timeInSeconds % 60);
@@ -47,6 +84,38 @@
     if (audio) {
       audio.playbackRate = rate;
     }
+    isSettingsOpen = false;
+  }
+
+  function resetAudio() {
+    if (!audio) return;
+
+    // 1. Event Listener entfernen
+    audio.removeEventListener("timeupdate", handleTimeUpdate);
+    audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.removeEventListener("ended", handleEnded);
+
+    // 2. Audio stoppen & leeren
+    audio.pause();
+    audio.src = "";
+    audio.removeAttribute("src");
+    audio.load(); // stoppt das Laden
+
+    // 3. Referenz aufheben
+    audio = null;
+  }
+
+  function handleTimeUpdate() {
+    currentTime = audio!.currentTime;
+    updateProgress();
+  }
+
+  function handleLoadedMetadata() {
+    duration = audio!.duration;
+  }
+
+  function handleEnded() {
+    isPlaying = false;
   }
 
   function setReciter(reciter: string) {
@@ -55,8 +124,9 @@
       if (isPlaying) {
         togglePlay();
       }
-      audio = null;
+      resetAudio();
       togglePlay();
+      isSettingsOpen = false;
     }
   }
 
@@ -91,28 +161,34 @@
 
   async function fetchAudio() {
     if (!currentReciter) return;
-    const selectedRecitation = dua.recitations.find((rec: DuaRecitation) => rec.reciters?.full_name_tl === currentReciter);
+
+    isLoading = true;
+
+    const selectedRecitation = dua.recitations.find(
+      (rec: DuaRecitation) => rec.reciters?.full_name_tl === currentReciter,
+    );
 
     if (!selectedRecitation) {
       console.error("Kein passender Reciter gefunden");
+      isLoading = false;
       return;
     }
 
     const { data, error } = await supabase.functions.invoke("audios/" + selectedRecitation.uuid);
+    isLoading = false;
+    if (error) {
+      console.error(
+        `Error while fetching audio ${selectedRecitation.uuid} with recitator ${currentReciter} for dua ${dua.route_name}: ${error}`,
+      );
+    }
+
     audioData = data.data;
     if (data.data.audio_high_quality_url) {
       audio = new Audio(data.data.audio_high_quality_url);
       audio.playbackRate = playbackRate;
-      audio.addEventListener("timeupdate", () => {
-        currentTime = audio!.currentTime;
-        updateProgress();
-      });
-      audio.addEventListener("loadedmetadata", () => {
-        duration = audio!.duration;
-      });
-      audio.addEventListener("ended", () => {
-        isPlaying = false;
-      });
+      audio.addEventListener("timeupdate", handleTimeUpdate);
+      audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.addEventListener("ended", handleEnded);
     }
   }
 
@@ -162,7 +238,7 @@
   function nextVerse() {
     if ($liveReadingStore.inLiveReadingRoom && !$liveReadingStore.isHost) {
       showNoHostToast();
-    } else if ($duaStore.currentVerse < totalVerses - 1) {
+    } else if ($duaStore.currentVerse < totalVerses) {
       duaStore.update((state) => ({
         ...state,
         currentVerse: state.currentVerse + 1,
@@ -173,15 +249,22 @@
   function toggleHidden() {
     isHidden = !isHidden;
   }
+
+  function getHeight(offset: number): number {
+    const baseHeight = 60;
+    return baseHeight + offset;
+  }
 </script>
 
-<div class="fixed bottom-0 left-0 right-0 transition-transform duration-300" 
-  style:transform={isHidden ? 'translateY(calc(55px + env(safe-area-inset-bottom)))' : 'translateY(0)'}>
+<div
+  class="fixed bottom-0 left-0 right-0 transition-transform duration-300"
+  style:transform={isHidden ? `translateY(${getHeight(5)}px)` : "translateY(0)"}>
   <div class="audio-player relative bg-background">
     <!-- Toggle Button -->
-    <button
+    <button aria-label="Hide or Display Audio Player"
       class="fixed right-4 flex h-8 items-center gap-2 rounded-full bg-gray-700 bg-primary px-2 py-1 text-sm text-white shadow-md"
-        style="bottom: calc(60px + env(safe-area-inset-bottom));" onclick={toggleHidden}>
+      style={`bottom: ${getHeight(10)}px;`}
+      onclick={toggleHidden}>
       {#if isHidden}
         <ChevronUp class="h-6 w-6" />
       {:else}
@@ -189,37 +272,47 @@
       {/if}
     </button>
 
-    <div class="h-[50px]" style="margin-bottom: env(safe-area-inset-bottom);">
+    <div class={`h-[${getHeight(0)}px]`}>
       <div class="px-4">
         <Slider
           onValueChange={handleSliderChange}
           value={[$duaStore.currentVerse]}
-          max={totalVerses - 1}
+          max={totalVerses}
           step={1}
           class="w-full" />
       </div>
       <div class="flex h-full items-center justify-between px-4">
-        <span class="text-sm text-gray-500">{isPlaying || currentTime > 0 ? formatTime(currentTime) : "--:--"}</span>
-        <div class="flex items-center space-x-2 md:space-x-8">
-          <Button variant="ghost" on:click={previousVerse}>
-            <SkipBack class="h-6 w-6" />
+        <span class="text-sm text-neutral-600 dark:text-neutral-100">{isPlaying || currentTime > 0 ? formatTime(currentTime) : "--:--"}</span>
+        <div class="flex h-full items-center space-x-2">
+          <Button aria-label="Previous Verse" variant="ghost" class="h-full px-8" on:click={previousVerse}>
+            <SkipBack class="h-6 w-6 py-0" />
           </Button>
-          <Button variant="ghost" on:click={togglePlay}>
-            {#if isPlaying}
+          <Button aria-label="Play" variant="ghost" class="h-full px-8" on:click={togglePlay}>
+            {#if isLoading}
+              <LoadingSpinner size={24} />
+            {:else if isPlaying}
               <Pause class="h-6 w-6" />
             {:else}
               <Play class="h-6 w-6" />
             {/if}
           </Button>
-          <Button variant="ghost" on:click={nextVerse}>
+          <Button aria-label="Next Verse" variant="ghost" class="h-full px-8" on:click={nextVerse}>
             <SkipForward class="h-6 w-6" />
           </Button>
-          <div class="relative">
+          <div class="relative h-full">
             <Button
+              aria-label="Audio Settings"
+              class="h-full px-8"
               variant="ghost"
               on:click={() => {
+                if (justClosedSettings) {
+                  // verhindere Toggle direkt nach Schließen durch Click-outside
+                  return;
+                }
                 if (!hasNoRecitations) {
-                  isSettingsOpen = !isSettingsOpen;
+                  if (!isSettingsOpen) {
+                    isSettingsOpen = true;
+                  }
                 } else {
                   showNoAudioNotification();
                 }
@@ -234,11 +327,17 @@
                 {reciters}
                 on:setPlaybackRate={(e) => setPlaybackRate(e.detail)}
                 on:setReciter={(e) => setReciter(e.detail)}
-                on:close={() => (isSettingsOpen = false)} />
+                on:close={() => {
+                  isSettingsOpen = false;
+                  justClosedSettings = true;
+                  setTimeout(() => {
+                    justClosedSettings = false;
+                  }, 200); // 200ms reichen meist
+                }} />
             {/if}
           </div>
         </div>
-        <span class="text-sm text-gray-500">{duration > 0 ? formatTime(duration) : "--:--"}</span>
+        <span class="text-sm text-neutral-600 dark:text-neutral-100">{duration > 0 ? formatTime(duration) : "--:--"}</span>
       </div>
     </div>
   </div>
