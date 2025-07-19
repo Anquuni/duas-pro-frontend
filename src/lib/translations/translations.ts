@@ -40,7 +40,10 @@ export default {
     "live-reading.active.hostStatus": "المضيف <strong>{{status}}</strong>.",
     "live-reading.active.inviteLinkLabel": "رابط الدعوة",
     "live-reading.active.copied": "تم النسخ",
-    "live-reading.active.leave": "غادر القراءة المباشرة"
+    "live-reading.active.leave": "غادر القراءة المباشرة",
+    "audio.speed": "سرعة التشغيل",
+    "audio.back-to-settings": "العودة إلى الإعدادات",
+    "audio.reciter": "القارئ"
   },
   en: {
     "seo.home.title": "Discover authentic Islamic supplications",
@@ -83,7 +86,10 @@ export default {
     "live-reading.active.hostStatus": "The host is <strong>{{status}}</strong>.",
     "live-reading.active.inviteLinkLabel": "Invitation link",
     "live-reading.active.copied": "Copied",
-    "live-reading.active.leave": "Leave Live Reading"
+    "live-reading.active.leave": "Leave Live Reading",
+    "audio.speed": "Playback Speed",
+    "audio.back-to-settings": "Back to Settings",
+    "audio.reciter": "Reciter",
   },
   de: {
     "seo.home.title": "Authentische islamische Bittgebete entdecken",
@@ -127,5 +133,8 @@ export default {
     "live-reading.active.inviteLinkLabel": "Einladungs-Link",
     "live-reading.active.copied": "Kopiert",
     "live-reading.active.leave": "Live-Lesung verlassen",
+    "audio.speed": "Geschwindigkeit",
+    "audio.back-to-settings": "Zurück zu den Einstellungen",
+    "audio.reciter": "Rezitator"
   },
 };

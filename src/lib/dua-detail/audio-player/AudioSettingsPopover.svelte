@@ -3,6 +3,7 @@
   import { ChevronRight, ChevronLeft, Check } from "lucide-svelte";
   import { clickOutside } from "./clickOutside";
   import type { Reciter } from "../../../ambient";
+  import { t } from "$lib/translations/i18n";
 
   export let playbackRate: number;
   export let currentReciter: string | null;
@@ -41,7 +42,7 @@
       <button
         class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
         on:click={() => (activeSubmenu = "speed")}>
-        Playback Speed
+        {$t("audio.speed")}
         <span class="float-right flex items-center">
           {playbackRate}x
           <ChevronRight class="ml-2 h-5 w-5" />
@@ -50,7 +51,7 @@
       <button
         class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100"
         on:click={() => (activeSubmenu = "reciter")}>
-        Reciter
+        {$t("audio.reciter")}
         <span class="float-right flex items-center">
           {currentReciter}
           <ChevronRight class="ml-2 h-5 w-5" />
@@ -61,7 +62,7 @@
     <div class="py-1">
       <button class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100" on:click={goBack}>
         <ChevronLeft class="mr-2 inline-block h-5 w-5" />
-        Back to Settings
+        {$t("audio.back-to-settings")}
       </button>
       {#each speeds as speed}
         <button
@@ -80,7 +81,7 @@
     <div class="py-1">
       <button class="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100" on:click={goBack}>
         <ChevronLeft class="mr-2 inline-block h-5 w-5" />
-        Back to Settings
+        {$t("audio.back-to-settings")}
       </button>
       {#each reciters as reciter}
         <button
