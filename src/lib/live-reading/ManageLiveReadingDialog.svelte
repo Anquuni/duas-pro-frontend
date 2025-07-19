@@ -19,7 +19,7 @@
   } from "$lib/live-reading/live-reading.utils";
   import SvgQR from "@svelte-put/qr/svg/QR.svelte";
   import { Copy, Users, X } from "lucide-svelte";
-  import logo from "$lib/assets/duas-pro-logo-no-bg.png";
+  import logo from "$lib/assets/duas-pro-logo.png";
   import { PUBLIC_BASE_URL } from "$env/static/public";
   import { t } from "$lib/translations/i18n";
 

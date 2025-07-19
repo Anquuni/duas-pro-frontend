@@ -1,6 +1,7 @@
 <script>
   import { page } from "$app/state";
   import { PUBLIC_BASE_URL } from "$env/static/public";
+  import image from '$lib/assets/duas-pro-logo.svg';
 
   export const SeoSchemaType = {
     ORGANIZATION: "organization",
@@ -8,11 +9,9 @@
   };
 
   let {
-    title = "Dua Ahd - Bittgebet der Gefolgschaftstreue",
-    description = "Dua Ahd (Bittgebet der Gefolgschaftstreue) ist eine bedeutende schiitische Dua zur täglichen Erneuerung der Treue gegenüber dem Imam der Zeit.",
-    // Image Size: 1,91:1. 600x314 - 800x419 - 1200x628 - 1600x838 - 1800x942
-    image = "https://example.com/your-logo.png",
-    type = SeoSchemaType.WEBPAGE, // andere Option ist: Organization mit duas.pro als Title und logo als image
+    title,
+    description,
+    type, // andere Option ist: Organization mit duas.pro als Title und logo als image
   } = $props();
 
   const domain = new URL(page.url).hostname;

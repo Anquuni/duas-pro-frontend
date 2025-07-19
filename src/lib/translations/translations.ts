@@ -1,7 +1,7 @@
 export default {
   ar: {
-    "seo.home.title": "اكتشف الأدعية",
-    "seo.home.description": "اكتشف مجموعة غنية من الأدعية الإسلامية الأصيلة مع النص العربي واللفظ الصوتي.",
+    "seo.home.title": "اكتشف الأدعية الإسلامية الموثوقة",
+    "seo.home.description": "استكشف مجموعة متزايدة من الأدعية الإسلامية الموثوقة بالنص العربي، وترجمة سطر بسطر إلى لغات متعددة، مع إمكانية الاستماع، والنقل الصوتي، ووضع القراءة المباشرة للقراءة الجماعية.",
     "settings.system.title": "إعدادات النظام",
     "settings.system.theme.light": "فاتح",
     "settings.system.theme.dark": "داكن",
@@ -43,8 +43,8 @@ export default {
     "live-reading.active.leave": "غادر القراءة المباشرة"
   },
   en: {
-    "seo.home.title": "Discover duas",
-    "seo.home.description": "Discover a rich collection of authentic Islamic supplications (duas) with Arabic text, transliteration, and English translation.",
+    "seo.home.title": "Discover authentic Islamic supplications",
+    "seo.home.description": "Explore a growing collection of authentic Islamic duas with Arabic text, line-by-line translations in multiple languages, audio playback, transliteration, and live reading mode for shared recitation.",
     "settings.system.title": "System Settings",
     "settings.system.theme.light": "Light",
     "settings.system.theme.dark": "Dark",
@@ -86,8 +86,8 @@ export default {
     "live-reading.active.leave": "Leave Live Reading"
   },
   de: {
-    "seo.home.title": "Entdecke Duas",
-    "seo.home.description": "Entdecke eine umfangreiche Sammlung authentischer islamischer Bittgebete (Duas) mit arabischem Text, Transliteration und deutscher Übersetzung.",
+    "seo.home.title": "Authentische islamische Bittgebete entdecken",
+    "seo.home.description": "Entdecke eine wachsende Sammlung authentischer islamischer Duas mit arabischem Text, zeilenweiser Übersetzung in vielen Sprachen, Audio-Wiedergabe, Umschrift und einem Live-Lesemodus für gemeinsames Rezitieren.",
     "settings.system.title": "System Einstellungen",
     "settings.system.theme.light": "Hell",
     "settings.system.theme.dark": "Dunkel",

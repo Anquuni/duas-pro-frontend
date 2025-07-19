@@ -1,9 +1,8 @@
 <script lang="ts">
   import SeoHead from "$lib/SEOHead.svelte";
-  import logo from '$lib/assets/duas-pro-logo.svg';
 </script>
 
-<SeoHead title="Home" description="" image={logo} type="organization" />
+<SeoHead title="Home" description="" type="organization" />
 
 <h1>Welcome to duas.pro</h1>
 

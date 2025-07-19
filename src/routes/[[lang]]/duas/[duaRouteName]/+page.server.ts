@@ -13,5 +13,6 @@ export async function load({ params, url }) {
   return {
     dua: response.data,
     routeName: params.duaRouteName,
+    lang: systemLang,
   };
 }
