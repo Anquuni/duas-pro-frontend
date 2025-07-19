@@ -110,13 +110,11 @@
     font-family: 'GT Walsheim Pro', sans-serif;
   }
 
-  .rtl {
-    direction: rtl;
+    .rtl {
     text-align: right;
   }
   
-  .ltr {
-    direction: ltr;
+    .ltr {
     text-align: left;
   }
 }
