@@ -5,7 +5,7 @@
   import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { settingsStore } from "$lib/settings/settings.store";
   import { cn } from "$lib/utils";
-  import { Share2, User } from "lucide-svelte";
+  import { Share2, User } from "@lucide/svelte";
   import type { Dua } from "../../ambient";
 
   export let dua: Dua;
@@ -38,7 +38,7 @@
     {/if}
     <CardHeader
       class={cn(
-        "relative bg-cover bg-center pt-8",
+        "relative bg-cover bg-center py-8",
         "before:absolute before:inset-0 before:z-10 before:bg-black/50 before:content-['']",
       )}
       style="background-image: url({dua.image_url});">
@@ -73,7 +73,7 @@
     <CardFooter class="flex items-center justify-between">
       <Button variant="outline" size="sm">Read Full Dua</Button>
       <div class="flex space-x-2">
-        <Button variant="ghost" size="icon" on:click={(e) => handleAction(e, () => shareDua(dua.route_name))}>
+        <Button variant="ghost" size="icon" onclick={(e) => handleAction(e, () => shareDua(dua.route_name))}>
           <Share2 size={20} />
         </Button>
       </div>

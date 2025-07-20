@@ -1,15 +1,14 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
-  import { Slider } from "$lib/components/ui/slider";
+  import { Slider } from "$lib/components/ui/slider/index.js";
   import { duaStore } from "$lib/dua-detail/dua.store";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { showNoHostToast } from "$lib/live-reading/live-reading.utils";
   import { supabase } from "$lib/supabase.config";
-  import { ChevronDown, ChevronUp, Ellipsis, Pause, Play, SkipBack, SkipForward } from "lucide-svelte";
+  import { ChevronDown, ChevronUp, Ellipsis, Loader2Icon, Pause, Play, SkipBack, SkipForward } from "@lucide/svelte";
   import { toast } from "svelte-sonner";
   import type { DuaRecitation, DuaRecitationDetail } from "../../../ambient";
   import AudioSettingsPopover from "./AudioSettingsPopover.svelte";
-  import LoadingSpinner from "../../LoadingSpinner.svelte";
   import { onMount, onDestroy } from "svelte";
 
   // Input from parent component
@@ -130,9 +129,8 @@
     }
   }
 
-  function handleSliderChange(value: number[]) {
-    const newVerseIndex = value[0];
-    duaStore.update((state) => ({ ...state, currentVerse: newVerseIndex }));
+  function handleSliderChange(value: number) {
+    duaStore.update((state) => ({ ...state, currentVerse: value }));
   }
 
   function updateProgress() {
@@ -274,9 +272,9 @@
 
     <div class={`h-[${getHeight(0)}px]`}>
       <div class="px-4">
-        <Slider
+        <Slider type="single"
           onValueChange={handleSliderChange}
-          value={[$duaStore.currentVerse]}
+          value={$duaStore.currentVerse}
           max={totalVerses}
           step={1}
           class="w-full" />
@@ -284,27 +282,27 @@
       <div class="flex h-full items-center justify-between px-4">
         <span class="text-sm text-neutral-600 dark:text-neutral-100">{isPlaying || currentTime > 0 ? formatTime(currentTime) : "--:--"}</span>
         <div class="flex h-full items-center space-x-2">
-          <Button aria-label="Previous Verse" variant="ghost" class="h-full px-8" on:click={previousVerse}>
-            <SkipBack class="h-6 w-6 py-0" />
+          <Button aria-label="Previous Verse" variant="ghost" class="h-20 px-8" onclick={previousVerse}>
+            <SkipBack class="!h-6 !w-6 py-0" />
           </Button>
-          <Button aria-label="Play" variant="ghost" class="h-full px-8" on:click={togglePlay}>
+          <Button aria-label="Play" variant="ghost" class="h-full px-8" onclick={togglePlay}>
             {#if isLoading}
-              <LoadingSpinner size={24} />
+              <Loader2Icon class="animate-spin" />
             {:else if isPlaying}
-              <Pause class="h-6 w-6" />
+              <Pause class="!h-6 !w-6" />
             {:else}
-              <Play class="h-6 w-6" />
+              <Play class="!h-6 !w-6" />
             {/if}
           </Button>
-          <Button aria-label="Next Verse" variant="ghost" class="h-full px-8" on:click={nextVerse}>
-            <SkipForward class="h-6 w-6" />
+          <Button aria-label="Next Verse" variant="ghost" class="h-full px-8" onclick={nextVerse}>
+            <SkipForward class="!h-6 !w-6" />
           </Button>
           <div class="relative h-full">
             <Button
               aria-label="Audio Settings"
               class="h-full px-8"
               variant="ghost"
-              on:click={() => {
+              onclick={() => {
                 if (justClosedSettings) {
                   // verhindere Toggle direkt nach Schließen durch Click-outside
                   return;
@@ -317,7 +315,7 @@
                   showNoAudioNotification();
                 }
               }}>
-              <Ellipsis class="h-6 w-6" />
+              <Ellipsis class="!h-6 !w-6" />
             </Button>
             {#if isSettingsOpen}
               <AudioSettingsPopover

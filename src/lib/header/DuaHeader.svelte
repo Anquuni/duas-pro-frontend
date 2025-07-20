@@ -3,7 +3,7 @@
   import { duaStore } from "$lib/dua-detail/dua.store";
   import { headerStore } from "$lib/header/header.store";
   import ManageLiveReadingDialog from "$lib/live-reading/ManageLiveReadingDialog.svelte";
-  import { Book, Languages, Presentation } from "lucide-svelte";
+  import { Book, Languages, Presentation } from "@lucide/svelte";
 
   function setActiveTab(tab: string | undefined) {
     if (tab) {

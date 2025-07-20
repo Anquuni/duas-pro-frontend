@@ -2,7 +2,7 @@
   import { Tabs, TabsList, TabsTrigger } from "$lib/components/ui/tabs";
   import { settingsStore, stringToTheme, type Theme } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
-  import { Moon, Sun } from "lucide-svelte";
+  import { Moon, Sun } from "@lucide/svelte";
   import { onMount } from "svelte";
 
   let theme: Theme;

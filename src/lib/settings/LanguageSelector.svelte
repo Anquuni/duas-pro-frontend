@@ -1,10 +1,10 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button";
-  import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "$lib/components/ui/command";
-  import { Popover, PopoverContent, PopoverTrigger } from "$lib/components/ui/popover";
+  import * as Command from "$lib/components/ui/command/index.js";
+  import * as Popover from "$lib/components/ui/popover/index.js";
   import { getLanguageLabel, nonTranslitLanguages, type LanguageCode } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
-  import { Check, ChevronsUpDown } from "lucide-svelte";
+  import { Check, ChevronsUpDown } from "@lucide/svelte";
 
   export let languageCode: LanguageCode;
   export let onSelect: (languageCode: LanguageCode) => void;
@@ -17,25 +17,27 @@
   }
 </script>
 
-<Popover bind:open>
-  <PopoverTrigger asChild let:builder>
-    <Button variant="outline" role="combobox" aria-expanded={open} class="w-full justify-between" builders={[builder]}>
+<Popover.Root bind:open>
+  <Popover.Trigger>
+    <Button variant="outline" aria-expanded={open} role="combobox" class="w-full justify-between">
       {getLanguageLabel(languageCode)}
       <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
     </Button>
-  </PopoverTrigger>
-  <PopoverContent class="w-full p-0">
-    <Command>
-      <CommandInput placeholder="Search language..." />
-      <CommandEmpty>{$t("settings.dua.language.not-found")}</CommandEmpty>
-      <CommandGroup>
-        {#each nonTranslitLanguages as lang}
-          <CommandItem onSelect={() => handleSelect(lang.value)}>
-            <Check class={languageCode === lang.value ? "opacity-100" : "opacity-0"} />
-            {lang.label}
-          </CommandItem>
-        {/each}
-      </CommandGroup>
-    </Command>
-  </PopoverContent>
-</Popover>
+  </Popover.Trigger>
+  <Popover.Content>
+    <Command.Root>
+      <Command.Input placeholder="Search language..." />
+      <Command.List>
+        <Command.Empty>{$t("settings.dua.language.not-found")}</Command.Empty>
+        <Command.Group>
+          {#each nonTranslitLanguages as lang}
+            <Command.Item onSelect={() => handleSelect(lang.value)}>
+              <Check class={languageCode === lang.value ? "opacity-100" : "opacity-0"} />
+              {lang.label}
+            </Command.Item>
+          {/each}
+        </Command.Group>
+      </Command.List>
+    </Command.Root>
+  </Popover.Content>
+</Popover.Root>

@@ -5,7 +5,7 @@
   import DuaReadingView from "$lib/dua-detail/views/DuaReadingView.svelte";
   import DuaTranslationView from "$lib/dua-detail/views/DuaTranslationView.svelte";
   import { t } from "$lib/translations/i18n";
-  import { Book, Languages, Presentation } from "lucide-svelte";
+  import { Book, Languages, Presentation } from "@lucide/svelte";
 
   let { dua } = $props();
 

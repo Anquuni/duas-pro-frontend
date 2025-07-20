@@ -18,7 +18,7 @@
     startLiveReadingRoom,
   } from "$lib/live-reading/live-reading.utils";
   import SvgQR from "@svelte-put/qr/svg/QR.svelte";
-  import { Copy, Users, X } from "lucide-svelte";
+  import { Copy, Users, X } from "@lucide/svelte";
   import logo from "$lib/assets/duas-pro-logo.png";
   import { PUBLIC_BASE_URL } from "$env/static/public";
   import { t } from "$lib/translations/i18n";
@@ -127,12 +127,12 @@
                   bind:value={inputCode}
                   placeholder="Code der Live-Lesung"
                   class="mb-3 mt-1 w-full {isInputError ? 'border-red-500' : 'border-gray-300'}"
-                  on:keydown={(event) => event.key === "Enter" && validateAndJoinLiveReading()} />
+                  onkeydown={(event) => event.key === "Enter" && validateAndJoinLiveReading()} />
                 {#if isInputError}
                   <p class="mb-3 text-xs text-red-500">{$t("live-reading.join.validation")}</p>
                 {/if}
                 <p class="mb-3 text-xs text-gray-500">{$t("live-reading.join.spelling")}</p>
-                <Button on:click={validateAndJoinLiveReading} class="w-full">{$t("live-reading.join.button")}</Button>
+                <Button onclick={validateAndJoinLiveReading} class="w-full">{$t("live-reading.join.button")}</Button>
               </div>
             {/if}
           </div>
@@ -149,7 +149,7 @@
                 <DialogDescription>
                   {$t("live-reading.start.description")}
                 </DialogDescription>
-                <Button on:click={() => startLiveReadingRoom(generateCode())} class="mt-3 w-full"
+                <Button onclick={() => startLiveReadingRoom(generateCode())} class="mt-3 w-full"
                   >{$t("live-reading.start.button")}</Button>
               </div>
             {/if}
@@ -167,12 +167,12 @@
                 </DialogDescription>
 
                 {#if !showPlannedLink}
-                  <Button on:click={() => planLiveReadingRoom()} class="mt-3 w-full"
+                  <Button onclick={() => planLiveReadingRoom()} class="mt-3 w-full"
                     >{$t("live-reading.plan.button")}</Button>
                 {:else}
                   <div class="flex flex-row">
                     <Input id="link" value={plannedLiveReadingLink} readonly class="mb-2 sm:mb-0" />
-                    <Button on:click={() => copyLiveReadingLink(plannedLiveReadingLink)} class="whitespace-nowrap px-3">
+                    <Button onclick={() => copyLiveReadingLink(plannedLiveReadingLink)} class="whitespace-nowrap px-3">
                       <Copy class="h-4 w-4" />
                     </Button>
                   </div>
@@ -205,7 +205,7 @@
           <Label for="link" class="mb-1 block">{$t("live-reading.active.inviteLinkLabel")}</Label>
           <div class="flex flex-row">
             <Input id="link" value={liveReadingLink} readonly class="mb-2 sm:mb-0" />
-            <Button on:click={() => copyLiveReadingLink(liveReadingLink)} class="whitespace-nowrap px-3">
+            <Button onclick={() => copyLiveReadingLink(liveReadingLink)} class="whitespace-nowrap px-3">
               <Copy class="h-4 w-4" />
             </Button>
           </div>
@@ -213,7 +213,7 @@
             <span class="ml-2 text-sm text-gray-600">{$t("live-reading.active.copied")}</span>
           {/if}
         </div>
-        <Button variant="destructive" on:click={endLiveReadingAndCloseDialog}>
+        <Button variant="destructive" onclick={endLiveReadingAndCloseDialog}>
           <X class="mr-2 h-4 w-4" />
           {$t("live-reading.active.leave")}
         </Button>

@@ -11,7 +11,7 @@
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { showNoHostToast } from "$lib/live-reading/live-reading.utils";
   import { settingsStore } from "$lib/settings/settings.store";
-  import { BookOpen, Redo } from "lucide-svelte";
+  import { BookOpen, Redo } from "@lucide/svelte";
   import type { DuaLine } from "../../../ambient";
 
   export let line: DuaLine;
@@ -42,7 +42,7 @@
 
           <button
             class="text-gray-600 dark:text-gray-300"
-            on:click={() => {
+            onclick={() => {
               if ($liveReadingStore.inLiveReadingRoom && !$liveReadingStore.isHost) {
                 showNoHostToast();
               } else {

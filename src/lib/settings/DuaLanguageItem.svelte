@@ -7,5 +7,5 @@
 
 <Badge variant="secondary">
   {language.label}
-  <button class="ml-1 text-xs" on:click={() => onRemove(language)}>×</button>
+  <button class="ml-1 text-xs" onclick={() => onRemove(language)}>×</button>
 </Badge>

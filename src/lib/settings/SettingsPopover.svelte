@@ -2,7 +2,7 @@
   import { browser } from "$app/environment";
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
-  import { PopoverContent } from "$lib/components/ui/popover";
+  import * as Popover from "$lib/components/ui/popover/index.js";
   import { Separator } from "$lib/components/ui/separator";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import FullscreenToggle from "$lib/settings/FullscreenToggle.svelte";
@@ -48,7 +48,8 @@
 </script>
 
 {#if browser}
-  <PopoverContent class="flex max-h-[70vh] w-80 flex-col overflow-hidden">
+
+  <Popover.Content class="flex max-h-[70vh] w-80 flex-col overflow-hidden">
     <div class="overflow-y-auto" class:rtl={currentLanguage.rtl}>
       <div class="grid gap-4">
         <div class="space-y-2">
@@ -72,7 +73,7 @@
         </div>
       </div>
     </div>
-  </PopoverContent>
+  </Popover.Content>
 {/if}
 
 <style>

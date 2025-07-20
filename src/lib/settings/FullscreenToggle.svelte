@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Toggle } from "$lib/components/ui/toggle";
   import { t } from "$lib/translations/i18n";
-  import { Expand, Shrink } from "lucide-svelte";
+  import { Expand, Shrink } from "@lucide/svelte";
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
 
