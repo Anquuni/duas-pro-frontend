@@ -5,6 +5,7 @@
   import "../app.css";
   import Footer from "./Footer.svelte";
   import { PUBLIC_ENVIRONMENT } from "$env/static/public";
+  import { page } from "$app/state";
 
   let { children } = $props();
 
@@ -14,6 +15,7 @@
 </script>
 
 <svelte:head>
+  <link rel="canonical" href="{page.url.toString()}" />
   {#if PUBLIC_ENVIRONMENT === "prod"}
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD59M3PRTP"></script>
