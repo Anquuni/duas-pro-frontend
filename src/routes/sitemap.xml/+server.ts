@@ -13,42 +13,51 @@ export async function GET() {
   if (fetchError) {
     error(500);
   }
+
   const duas: string[] = response.data.route_names;
   const defaultLang = "en";
-  const alternativeLangs = nonTranslitLanguages.map(l => l.value).filter(l => l !== defaultLang);
+  const languages = nonTranslitLanguages.map(l => l.value); // z.B. ["en", "de", "ar"]
 
-  return new Response(
-    `
-		<?xml version="1.0" encoding="UTF-8"?>
-		<urlset
-			xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-			xmlns:xhtml="http://www.w3.org/1999/xhtml"
-		>
+  function buildHreflangBlock(path: string) {
+    return languages.map(lang =>
+      `<xhtml:link rel="alternate" hreflang="${lang}" href="${PUBLIC_BASE_URL}/${lang}/${path}" />`
+    ).join("") +
+      `<xhtml:link rel="alternate" hreflang="x-default" href="${PUBLIC_BASE_URL}/${defaultLang}/${path}" />`;
+  }
 
-    ${pages.map(({ path, priority }) => `
+  function buildUrlEntries(path: string, priority: number) {
+    return languages.map(lang => `
       <url>
-        <loc>${PUBLIC_BASE_URL}/${defaultLang}/${path}</loc>
+        <loc>${PUBLIC_BASE_URL}/${lang}/${path}</loc>
         <priority>${priority}</priority>
         <changefreq>monthly</changefreq>
-        ${alternativeLangs.map(otherLang => `
-          <xhtml:link rel="alternate" hreflang="${otherLang}" href="${PUBLIC_BASE_URL}/${otherLang}/${path}" />
-        `).join("")}
-        <xhtml:link rel="alternate" hreflang="x-default" href="${PUBLIC_BASE_URL}/${defaultLang}/${path}" />
+        ${buildHreflangBlock(path)}
       </url>
-    `).join("")}
+    `).join("");
+  }
 
-    ${duas.map(dua => `
+  function buildDuaEntries(duas: string[]) {
+    return duas.flatMap(dua =>
+      languages.map(lang => `
         <url>
-          <loc>${PUBLIC_BASE_URL}/${defaultLang}/duas/${dua}</loc>
+          <loc>${PUBLIC_BASE_URL}/${lang}/duas/${dua}</loc>
           <priority>0.8</priority>
           <changefreq>monthly</changefreq>
-          ${alternativeLangs.map(otherLang => `
-            <xhtml:link rel="alternate" hreflang="${otherLang}" href="${PUBLIC_BASE_URL}/${otherLang}/duas/${dua}" />
-          `).join("")}
-          <xhtml:link rel="alternate" hreflang="x-default" href="${PUBLIC_BASE_URL}/${defaultLang}/duas/${dua}" />
+          ${buildHreflangBlock(`duas/${dua}`)}
         </url>
-    `).join("")}
-		</urlset>`.trim(),
+      `)
+    ).join("");
+  }
+
+  return new Response(
+    `<?xml version="1.0" encoding="UTF-8"?>
+      <urlset
+        xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+      >
+        ${pages.map(p => buildUrlEntries(p.path, p.priority)).join("")}
+        ${buildDuaEntries(duas)}
+      </urlset>`.trim(),
     {
       headers: {
         'Content-Type': 'application/xml'
