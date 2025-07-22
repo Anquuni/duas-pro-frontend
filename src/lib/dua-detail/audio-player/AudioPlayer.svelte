@@ -272,7 +272,7 @@
 
     <div class={`h-[${getHeight(0)}px]`}>
       <div class="px-4">
-        <Slider type="single"
+        <Slider aria-label="Select verse" type="single"
           onValueChange={handleSliderChange}
           value={$duaStore.currentVerse}
           max={totalVerses}

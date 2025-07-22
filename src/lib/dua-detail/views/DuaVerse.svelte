@@ -40,7 +40,7 @@
             {index + 1}
           </span>
 
-          <button
+          <button aria-label="Jump to {index + 1}. verse"
             class="text-gray-600 dark:text-gray-300"
             onclick={() => {
               if ($liveReadingStore.inLiveReadingRoom && !$liveReadingStore.isHost) {
