@@ -42,4 +42,17 @@ export const languageRedirect: Handle = async ({ event, resolve }) => {
   return Response.redirect(redirectUrl, 301);
 };
 
-export const handle: Handle = sequence(languageRedirect)
+export const replaceLangInHtmlTag: Handle = async ({ event, resolve }) => {
+  const supportedLanguages = nonTranslitLanguages.map(l => l.value);
+  const pathname = event.url.pathname;
+
+  // Dynamisch Sprache aus der URL extrahieren
+  const langMatch = pathname.match(/^\/([a-z]{2})(\/|$)/);
+  const lang = langMatch && supportedLanguages.includes(langMatch[1]) ? langMatch[1] : 'en';
+
+  return resolve(event, {
+    transformPageChunk: ({ html }) => html.replace('%lang%', lang)
+  });
+};
+
+export const handle: Handle = sequence(languageRedirect, replaceLangInHtmlTag)
