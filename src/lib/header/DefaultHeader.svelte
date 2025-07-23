@@ -45,7 +45,7 @@
     href="/{$settingsStore.systemLanguage}"
     class="flex items-center space-x-2 text-xl font-bold transition-transform duration-500 ease-out active:scale-95">
     <img src={logo} alt="duas.pro logo" class="h-8 w-auto" />
-    <span lang="en">duas.pro</span>
+    <span>duas.pro</span>
   </a>
 
   <div class="flex items-center space-x-2">
