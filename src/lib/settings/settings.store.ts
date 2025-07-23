@@ -128,6 +128,10 @@ export function getLanguageLabel(code: LanguageCode): string {
   return languages.find((lang) => lang.value === code)?.label || code;
 }
 
+export function getLanguageValue(code: LanguageCode): string {
+  return languages.find((lang) => lang.value === code)?.value || code;
+}
+
 export function stringToTheme(value: string): Theme {
   return value === "dark" ? "dark" : "light";
 }
