@@ -79,7 +79,7 @@
   <DialogTrigger>
     <Button variant="ghost" size="sm">
       {#if !$liveReadingStore.inLiveReadingRoom}
-        <Users class="mr-2 h-4 w-4" />
+        <Users class="px-0 h-4 w-4" />
         <span>{$t("live-reading.title")}</span>
       {:else}
         <div class="flex items-center space-x-2">

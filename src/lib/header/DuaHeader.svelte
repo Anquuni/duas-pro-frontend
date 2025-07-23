@@ -12,7 +12,7 @@
   }
 </script>
 
-<div class="flex h-[30px] items-center justify-between px-4">
+<div class="flex h-[30px] items-center justify-between px-2 sm:px-4">
   <h1 class="w-1/4 truncate text-sm font-semibold">
     {$headerStore.duaTitle || "Dua"}
   </h1>

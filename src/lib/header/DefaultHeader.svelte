@@ -7,12 +7,12 @@
   import logo from "$lib/assets/duas-pro-logo.svg";
 </script>
 
-<div class="flex h-[60px] items-center justify-between px-4 py-1">
+<div class="flex h-[60px] items-center justify-between px-2 sm:px-4 py-1">
   <a
     href="/{$settingsStore.systemLanguage}"
     class="flex items-center space-x-2 text-xl font-bold transition-transform duration-500 ease-out active:scale-95">
     <img src={logo} alt="duas.pro logo" class="h-8 w-auto" />
-    <span>duas.pro</span>
+    <span lang="en">duas.pro</span>
   </a>
 
   <div class="flex items-center space-x-2">
