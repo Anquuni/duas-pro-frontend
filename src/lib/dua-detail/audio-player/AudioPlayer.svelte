@@ -50,7 +50,7 @@
       if (isTyping) return;
 
       e.preventDefault(); // Verhindert Scrollen
-      
+
       switch (e.code) {
         case "Space":
           togglePlay();
@@ -70,7 +70,6 @@
       window.removeEventListener("keydown", handleKeyDown);
     });
   });
-
 
   function formatTime(timeInSeconds: number): string {
     const minutes = Math.floor(timeInSeconds / 60);
@@ -252,16 +251,35 @@
     const baseHeight = 60;
     return baseHeight + offset;
   }
+
+  function toggleAudioSettings(): void {
+    if (justClosedSettings) {
+      // verhindere Toggle direkt nach Schließen durch Click-outside
+      return;
+    }
+    if (!hasNoRecitations) {
+      if (!isSettingsOpen) {
+        isSettingsOpen = true;
+      }
+    } else {
+      showNoAudioNotification();
+    }
+  }
 </script>
 
 <div
   class="fixed bottom-0 left-0 right-0 transition-transform duration-300"
-  style:transform={isHidden ? `translateY(${getHeight(5)}px)` : "translateY(0)"}>
-  <div class="audio-player relative bg-background">
+  style:transform={isHidden
+    ? `translateY(calc(${getHeight(5)}px + env(safe-area-inset-bottom, 0px) * 0.5))`
+    : "translateY(0)"}>
+  <div
+    class="audio-player relative bg-background"
+    style="padding-bottom: calc(0px + env(safe-area-inset-bottom, 0px) * 0.5);">
     <!-- Toggle Button -->
-    <button aria-label="Hide or Display Audio Player"
+    <button
+      aria-label="Hide or Display Audio Player"
       class="fixed right-4 flex h-8 items-center gap-2 rounded-full bg-gray-700 bg-primary px-2 py-1 text-sm text-white shadow-md"
-      style={`bottom: ${getHeight(10)}px;`}
+      style={`bottom: calc(${getHeight(10)}px + env(safe-area-inset-bottom, 0px) * 0.5);`}
       onclick={toggleHidden}>
       {#if isHidden}
         <ChevronUp class="h-6 w-6" />
@@ -270,22 +288,27 @@
       {/if}
     </button>
 
-    <div class={`h-[${getHeight(0)}px]`}>
-      <div class="px-4">
-        <Slider aria-label="Select verse" type="single"
-          onValueChange={handleSliderChange}
-          value={$duaStore.currentVerse}
-          max={totalVerses}
-          step={1}
-          class="w-full" />
-      </div>
-      <div class="flex h-full items-center justify-between px-4">
-        <span class="text-sm text-neutral-600 dark:text-neutral-100">{isPlaying || currentTime > 0 ? formatTime(currentTime) : "--:--"}</span>
-        <div class="flex h-full items-center space-x-2">
-          <Button aria-label="Previous Verse" variant="ghost" class="h-20 px-8" onclick={previousVerse}>
+    <div class="px-2" style={`height: calc(${getHeight(0)}px);`}>
+      <Slider
+        aria-label="Select verse"
+        type="single"
+        onValueChange={handleSliderChange}
+        value={$duaStore.currentVerse}
+        max={totalVerses}
+        step={1}
+        class="w-full" />
+      <div class="flex h-full items-center justify-between">
+        <span class="min-w-[2.5rem] text-left text-sm text-neutral-600 dark:text-neutral-100"
+          >{isPlaying || currentTime > 0 ? formatTime(currentTime) : "--:--"}</span>
+        <div class="flex h-full flex-grow items-center justify-between space-x-2 sm:justify-center">
+          <Button
+            aria-label="Previous Verse"
+            variant="ghost"
+            class="h-full w-full p-0 sm:w-auto sm:p-8"
+            onclick={previousVerse}>
             <SkipBack class="!h-6 !w-6 py-0" />
           </Button>
-          <Button aria-label="Play" variant="ghost" class="h-full px-8" onclick={togglePlay}>
+          <Button aria-label="Play" variant="ghost" class="h-full w-full p-0 sm:w-auto sm:p-8" onclick={togglePlay}>
             {#if isLoading}
               <Loader2Icon class="animate-spin" />
             {:else if isPlaying}
@@ -294,27 +317,19 @@
               <Play class="!h-6 !w-6" />
             {/if}
           </Button>
-          <Button aria-label="Next Verse" variant="ghost" class="h-full px-8" onclick={nextVerse}>
+          <Button
+            aria-label="Next Verse"
+            variant="ghost"
+            class="h-full w-full p-0 sm:w-auto sm:p-8"
+            onclick={nextVerse}>
             <SkipForward class="!h-6 !w-6" />
           </Button>
           <div class="relative h-full">
             <Button
               aria-label="Audio Settings"
-              class="h-full px-8"
+              class="h-full w-full p-0 sm:w-auto sm:p-8"
               variant="ghost"
-              onclick={() => {
-                if (justClosedSettings) {
-                  // verhindere Toggle direkt nach Schließen durch Click-outside
-                  return;
-                }
-                if (!hasNoRecitations) {
-                  if (!isSettingsOpen) {
-                    isSettingsOpen = true;
-                  }
-                } else {
-                  showNoAudioNotification();
-                }
-              }}>
+              onclick={toggleAudioSettings}>
               <Ellipsis class="!h-6 !w-6" />
             </Button>
             {#if isSettingsOpen}
@@ -335,7 +350,8 @@
             {/if}
           </div>
         </div>
-        <span class="text-sm text-neutral-600 dark:text-neutral-100">{duration > 0 ? formatTime(duration) : "--:--"}</span>
+        <span class="min-w-[2.5rem] text-right text-sm text-neutral-600 dark:text-neutral-100"
+          >{duration > 0 ? formatTime(duration) : "--:--"}</span>
       </div>
     </div>
   </div>
