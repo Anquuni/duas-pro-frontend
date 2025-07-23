@@ -23,7 +23,7 @@ export const languages: LanguageItem[] = [
   { value: "translit", label: "Transliteration 🌐", rtl: false },
   { value: "en", label: "English 🇬🇧", rtl: false },
   { value: "de", label: "German 🇩🇪", rtl: false },
-  // { value: "fa", label: "Persian 🇮🇷", rtl: true },
+  { value: "fa", label: "Persian 🇮🇷", rtl: true },
   // { value: "tr", label: "Turkish 🇹🇷", rtl: false },
 ];
 
