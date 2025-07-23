@@ -52,18 +52,29 @@
             <Redo class="h-4 w-4" />
           </button>
         </div>
-
         <div class="space-y-2 {isInstruction ? 'text-tertiary-800 dark:text-tertiary-200' : ''}">
-          <p class="primary-dua-font-size arabic-font">
-            {line["ar"]}
-          </p>
-          <p class="secondary-dua-font-size">
-            {line["translit"]?.toLowerCase()}
-          </p>
-          {#if $settingsStore.systemLanguage !== "ar"}
-            <p class="tertiary-dua-font-size">
-              {line[$settingsStore.systemLanguage]}
+          {#if isInstruction}
+            {#if $settingsStore.systemLanguage === "ar"}
+              <p class="primary-dua-font-size arabic-font italic">
+                {line["ar"]}
+              </p>
+            {:else}
+              <p class="tertiary-dua-font-size italic">
+                {line[$settingsStore.systemLanguage]}
+              </p>
+            {/if}
+          {:else}
+            <p class="primary-dua-font-size arabic-font">
+              {line["ar"]}
             </p>
+            <p class="secondary-dua-font-size">
+              {line["translit"]?.toLowerCase()}
+            </p>
+            {#if $settingsStore.systemLanguage !== "ar"}
+              <p class="tertiary-dua-font-size">
+                {line[$settingsStore.systemLanguage]}
+              </p>
+            {/if}
           {/if}
         </div>
       </div>
