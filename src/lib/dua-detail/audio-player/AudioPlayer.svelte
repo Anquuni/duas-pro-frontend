@@ -338,7 +338,7 @@
             onclick={nextVerse}>
             <SkipForward class="!h-6 !w-6" />
           </Button>
-          <div class="relative w-full h-full">
+          <div class="relative h-full w-full sm:w-auto">
             <Button
               aria-label="Audio Settings"
               class="h-full w-full p-0 sm:w-auto sm:p-8"
