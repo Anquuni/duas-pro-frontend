@@ -28,7 +28,7 @@
 
           <FullscreenToggle />
 
-          <Separator class="" />
+          <Separator />
         </div>
 
         <div class="grid gap-2">

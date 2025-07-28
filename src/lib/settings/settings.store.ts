@@ -16,6 +16,7 @@ interface Settings {
   primaryDuaFontSize: number;
   secondaryDuaFontSize: number;
   tertiaryDuaFontSize: number;
+  showTranslit: boolean;
 }
 
 export const languages: LanguageItem[] = [
@@ -96,19 +97,35 @@ export const languages: LanguageItem[] = [
 export const nonTranslitLanguages = languages.filter((l) => l.value !== "translit");
 
 function loadSettings(): Settings {
-  if (browser) {
-    const savedSettings = localStorage.getItem("settings");
-    if (savedSettings) {
-      return JSON.parse(savedSettings);
-    }
-  }
-  return {
+  const defaultSettings: Settings = {
     theme: browser && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
     systemLanguage: "en",
     primaryDuaFontSize: 24,
     secondaryDuaFontSize: 14,
     tertiaryDuaFontSize: 20,
+    showTranslit: true,
   };
+
+  if (!browser) return defaultSettings;
+
+  try {
+    const raw = localStorage.getItem("settings");
+    if (!raw) return defaultSettings;
+
+    const parsed = JSON.parse(raw);
+
+    return {
+      theme: parsed.theme === "dark" ? "dark" : "light",
+      systemLanguage: typeof parsed.systemLanguage === "string" ? parsed.systemLanguage : "en",
+      primaryDuaFontSize: typeof parsed.primaryDuaFontSize === "number" ? parsed.primaryDuaFontSize : 24,
+      secondaryDuaFontSize: typeof parsed.secondaryDuaFontSize === "number" ? parsed.secondaryDuaFontSize : 14,
+      tertiaryDuaFontSize: typeof parsed.tertiaryDuaFontSize === "number" ? parsed.tertiaryDuaFontSize : 20,
+      showTranslit: typeof parsed.showTranslit === "boolean" ? parsed.showTranslit : true,
+    };
+  } catch (e) {
+    console.error("Fehler beim Laden der Settings:", e);
+    return defaultSettings;
+  }
 }
 
 const initialSettings: Settings = loadSettings();

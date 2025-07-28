@@ -1,8 +1,9 @@
 <script lang="ts">
   import { getLanguageLabel, settingsStore } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
-  import { maxFontSize, minFontSize } from "$lib/utils";
   import FontSizeAdjuster from "./FontSizeAdjuster.svelte";
+  import { Separator } from "$lib/components/ui/separator";
+  import { Switch } from "$lib/components/ui/switch/index.js";
 
   let primaryFontSize: number;
   let secondaryFontSize: number;
@@ -14,39 +15,51 @@
     tertiaryFontSize = settings.tertiaryDuaFontSize;
   });
 
-  function adjustFontSize(type: "primary" | "secondary" | "tertiary", increment: boolean) {
+  function changeFontSize(type: "primary" | "secondary" | "tertiary", newFontSize: number) {
     settingsStore.update((settings) => {
-      const currentSize = settings[`${type}DuaFontSize`];
-      const newSize = increment ? Math.min(maxFontSize, currentSize + 1) : Math.max(minFontSize, currentSize - 1);
       return {
         ...settings,
-        [`${type}DuaFontSize`]: newSize,
+        [`${type}DuaFontSize`]: newFontSize,
       };
     });
   }
 </script>
 
-<div class="space-y-4">
-  <div>
-    <p class="text-base font-medium">
-      {$t("settings.dua.language.title", { index: 1 })}: Arabisch
+<div class="space-y-4 mr-2">
+  <div class="flex justify-between">
+    <p class="flex-1 px-2 text-base font-medium">
+      {$t("settings.dua.arabic")}
     </p>
-    <FontSizeAdjuster type="primary" fontSize={primaryFontSize} onAdjust={adjustFontSize} />
+    <p class="text-end text-base font-medium">
+      {primaryFontSize}
+    </p>
   </div>
+  <FontSizeAdjuster type="primary" fontSize={primaryFontSize} onChange={changeFontSize} />
 
-  <div>
-    <p class="text-base font-medium">
-      {$t("settings.dua.language.title", { index: 2 })}: Transliteration
+  <Separator />
+
+  <div class="flex justify-between">
+    <Switch bind:checked={$settingsStore.showTranslit} />
+    <p class="flex-1 px-2 text-base font-medium">
+      {$t("settings.dua.transliteration")}
     </p>
-    <FontSizeAdjuster type="secondary" fontSize={secondaryFontSize} onAdjust={adjustFontSize} />
+    <p class="text-end text-base font-medium">
+      {secondaryFontSize}
+    </p>
   </div>
+  <FontSizeAdjuster type="secondary" fontSize={secondaryFontSize} onChange={changeFontSize} />
+
+  <Separator />
 
   {#if $settingsStore.systemLanguage !== "ar"}
-    <div>
-      <p class="text-base font-medium">
-        {$t("settings.dua.language.title", { index: 3 })}: {getLanguageLabel($settingsStore.systemLanguage)}
+    <div class="flex justify-between">
+      <p class="flex-1 px-2 text-base font-medium">
+        {getLanguageLabel($settingsStore.systemLanguage)}
       </p>
-      <FontSizeAdjuster type="tertiary" fontSize={tertiaryFontSize} onAdjust={adjustFontSize} />
+      <p class="text-end text-base font-medium">
+        {tertiaryFontSize}
+      </p>
     </div>
+    <FontSizeAdjuster type="tertiary" fontSize={tertiaryFontSize} onChange={changeFontSize} />
   {/if}
 </div>

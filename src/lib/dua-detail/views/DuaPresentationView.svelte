@@ -34,9 +34,11 @@
         <p class="primary-dua-font-size arabic-font">
           {lines[$duaStore.currentVerse]["ar"]}
         </p>
-        <p class="secondary-dua-font-size italic">
-          {lines[$duaStore.currentVerse]["translit"]}
-        </p>
+        {#if $settingsStore.showTranslit}
+          <p class="secondary-dua-font-size">
+            {lines[$duaStore.currentVerse]["translit"]}
+          </p>
+        {/if}
         {#if $settingsStore.systemLanguage !== "ar"}
           <p class="tertiary-dua-font-size">
             {lines[$duaStore.currentVerse][$settingsStore.systemLanguage]}

@@ -67,9 +67,11 @@
             <p class="primary-dua-font-size arabic-font">
               {line["ar"]}
             </p>
-            <p class="secondary-dua-font-size">
-              {line["translit"]?.toLowerCase()}
-            </p>
+            {#if $settingsStore.showTranslit}
+              <p class="secondary-dua-font-size">
+                {line["translit"]?.toLowerCase()}
+              </p>
+            {/if}
             {#if $settingsStore.systemLanguage !== "ar"}
               <p class="tertiary-dua-font-size">
                 {line[$settingsStore.systemLanguage]}

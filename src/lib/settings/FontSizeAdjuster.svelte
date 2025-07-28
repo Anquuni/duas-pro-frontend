@@ -1,19 +1,18 @@
 <script lang="ts">
-  import { Button } from "$lib/components/ui/button";
   import { maxFontSize, minFontSize } from "$lib/utils";
-  import { Minus, Plus } from "@lucide/svelte";
+  import { Slider } from "$lib/components/ui/slider/index.js";
 
   export let type: "primary" | "secondary" | "tertiary";
   export let fontSize: number;
-  export let onAdjust: (type: "primary" | "secondary" | "tertiary", increment: boolean) => void;
+  export let onChange: (type: "primary" | "secondary" | "tertiary", newFontSize: number) => void;
 </script>
 
-<div class="flex items-center justify-between">
-  <Button variant="outline" size="icon" onclick={() => onAdjust(type, false)} disabled={fontSize <= minFontSize}>
-    <Minus class="h-4 w-4" />
-  </Button>
-  <span class="mx-2 min-w-[2ch] text-center">{fontSize}</span>
-  <Button variant="outline" size="icon" onclick={() => onAdjust(type, true)} disabled={fontSize >= maxFontSize}>
-    <Plus class="h-4 w-4" />
-  </Button>
-</div>
+<Slider
+  aria-label="Set font size"
+  type="single"
+  onValueChange={(val) => onChange(type, val)}
+  value={fontSize}
+  min={minFontSize}
+  max={maxFontSize}
+  step={1}
+  class="mt-2 w-full" />
