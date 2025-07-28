@@ -10,6 +10,7 @@
   import type { DuaRecitation, DuaRecitationDetail } from "../../../ambient";
   import AudioSettingsPopover from "./AudioSettingsPopover.svelte";
   import { onMount, onDestroy } from "svelte";
+  import { requestWakeLock, releaseWakeLock } from "../wakeLock";
 
   // Input from parent component
   let { dua } = $props();
@@ -38,11 +39,11 @@
     currentReciter = reciters[0].full_name_tl;
   }
 
-  duaStore.subscribe((duaSettings) => {
-    seekToVerse(duaSettings.currentVerse);
-  });
-
   onMount(() => {
+    duaStore.subscribe((duaSettings) => {
+      seekToVerse(duaSettings.currentVerse);
+    });
+
     const handleKeyDown = (e: KeyboardEvent) => {
       // Nur wenn keine Eingabe aktiv ist
       const tag = (e.target as HTMLElement)?.tagName?.toLowerCase();
@@ -91,6 +92,8 @@
     // 1. Event Listener entfernen
     audio.removeEventListener("timeupdate", handleTimeUpdate);
     audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.removeEventListener("play", onPlay);
+    audio.removeEventListener("pause", onPause);
     audio.removeEventListener("ended", handleEnded);
 
     // 2. Audio stoppen & leeren
@@ -112,7 +115,16 @@
     duration = audio!.duration;
   }
 
+  function onPlay() {
+    requestWakeLock();
+  }
+
+  function onPause() {
+    releaseWakeLock();
+  }
+
   function handleEnded() {
+    releaseWakeLock();
     isPlaying = false;
   }
 
@@ -185,6 +197,8 @@
       audio.playbackRate = playbackRate;
       audio.addEventListener("timeupdate", handleTimeUpdate);
       audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.addEventListener("play", onPlay);
+      audio.addEventListener("pause", onPause);
       audio.addEventListener("ended", handleEnded);
     }
   }
