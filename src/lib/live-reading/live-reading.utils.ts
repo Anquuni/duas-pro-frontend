@@ -4,6 +4,7 @@ import type { RealtimeChannel, RealtimePresenceState } from "@supabase/supabase-
 import { toast } from "svelte-sonner";
 import { get } from "svelte/store";
 import { howToLiveReadingDialogStore, liveReadingStore } from "./live-reading.store";
+import { releaseWakeLock, requestWakeLock } from "$lib/dua-detail/wakeLock";
 
 export function showNoHostToast() {
   toast.info("Nur der Host kann dies tun", {
@@ -49,6 +50,7 @@ export function joinLiveReadingRoom(inputCode: string) {
         return;
       }
       console.log(`Participant subscribed to channel ${code}.`);
+      requestWakeLock();
 
       participantChannel.track({}).then((presenceTrackStatus) => {
         console.log("Participant sent message with response " + JSON.stringify(presenceTrackStatus));
@@ -91,6 +93,7 @@ export function startLiveReadingRoom(code: string) {
     .on('presence', { event: 'leave' }, ({ key, leftPresences }) => handleLeaveEvent("Host", leftPresences))
     .subscribe((status) => {
       console.log("Host received subscribe event with " + status);
+      requestWakeLock();
       // TODO: Update hostOnline
       if (status !== "SUBSCRIBED") {
         liveReadingStore.update((state) => ({ ...state, isHostOnline: false }))
@@ -155,6 +158,7 @@ function updateParticipantsNumber(state: RealtimePresenceState<{ currentVerse: n
 }
 
 export function leaveLiveReadingRoom() {
+  releaseWakeLock();
   const liveReadingState = get(liveReadingStore);
   liveReadingState.room?.untrack();
   liveReadingState.room?.unsubscribe()
