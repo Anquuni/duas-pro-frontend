@@ -14,7 +14,7 @@
 
   <div class="mb-6">
     {#if dua.narratedBy[$settingsStore.systemLanguage]}
-      <p class="text-sm text-gray-600">{@html $t("dua.by", { narrator: dua.narratedBy[$settingsStore.systemLanguage]})}</p>
+      <p class="text-sm text-neutral-600 dark:text-neutral-100">{@html $t("dua.by", { narrator: dua.narratedBy[$settingsStore.systemLanguage]})}</p>
     {/if}
   </div>
 </div>

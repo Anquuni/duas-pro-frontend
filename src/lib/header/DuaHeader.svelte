@@ -20,7 +20,7 @@
   {#if $headerStore.showViewTabs}
     <div class="flex flex-1 justify-center">
       <Tabs bind:value={$duaStore.currentView} onValueChange={setActiveTab}>
-        <TabsList class="h-7">
+        <TabsList class="h-8">
           <TabsTrigger value="translation" class="px-2 py-0.5">
             <Languages class="h-3 w-3" />
           </TabsTrigger>

@@ -9,10 +9,9 @@
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { joinLiveReadingRoom, leaveLiveReadingRoom, startLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
   import SeoHead from "$lib/SEOHead.svelte";
-  import { settingsStore } from "$lib/settings/settings.store.js";
   import { onMount } from "svelte";
   import { page } from "$app/state";
-
+  
   // TODO: Rename folder of components to dua-reader
 
   let { data } = $props();
