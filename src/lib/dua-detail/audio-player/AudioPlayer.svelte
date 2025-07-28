@@ -284,16 +284,16 @@
 <div
   class="fixed bottom-0 left-0 right-0 transition-transform duration-300"
   style:transform={isHidden
-    ? `translateY(calc(${getHeight(5)}px + env(safe-area-inset-bottom, 0px) * 0.5))`
+    ? `translateY(calc(${getHeight(5)}px + env(safe-area-inset-bottom, 0px) * 0.75))`
     : "translateY(0)"}>
   <div
     class="audio-player relative bg-background"
-    style="padding-bottom: calc(0px + env(safe-area-inset-bottom, 0px) * 0.5);">
+    style="padding-bottom: calc(0px + env(safe-area-inset-bottom, 0px) * 0.75);">
     <!-- Toggle Button -->
     <button
       aria-label="Hide or Display Audio Player"
       class="fixed right-4 flex h-8 items-center gap-2 rounded-full bg-gray-700 bg-primary px-2 py-1 text-sm text-white shadow-md"
-      style={`bottom: calc(${getHeight(10)}px + env(safe-area-inset-bottom, 0px) * 0.5);`}
+      style={`bottom: calc(${getHeight(10)}px + env(safe-area-inset-bottom, 0px) * 0.75);`}
       onclick={toggleHidden}>
       {#if isHidden}
         <ChevronUp class="h-6 w-6" />
