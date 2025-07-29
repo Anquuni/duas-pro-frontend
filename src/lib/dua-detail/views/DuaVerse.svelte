@@ -12,11 +12,8 @@
   import { showNoHostToast } from "$lib/live-reading/live-reading.utils";
   import { settingsStore } from "$lib/settings/settings.store";
   import { BookOpen, Redo } from "@lucide/svelte";
-  import type { DuaLine } from "../../../ambient";
 
-  export let line: DuaLine;
-  export let index: number;
-  export let currentVerseIndex: number;
+  let { line, index, currentVerseIndex } = $props();
 
   let isInstruction = line.type === "INSTRUCTION";
 </script>

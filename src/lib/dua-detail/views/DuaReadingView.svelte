@@ -1,10 +1,8 @@
 <script lang="ts">
   import { Card, CardContent } from "$lib/components/ui/card";
   import { settingsStore } from "$lib/settings/settings.store";
-  import type { DuaLine } from "../../../ambient";
 
-  export let lines: DuaLine[];
-  export let currentVerseIndex: number;
+  let { lines, currentVerseIndex } = $props();
 </script>
 
 <div class="flex justify-center">

@@ -3,12 +3,10 @@
   import { duaStore } from "$lib/dua-detail/dua.store";
   import { settingsStore } from "$lib/settings/settings.store";
   import { onMount } from "svelte";
-  import type { DuaLine } from "../../../ambient";
 
-  export let lines: DuaLine[];
-
-  let headerHeight: number;
-  let audioPlayerHeight: number;
+  let { lines } = $props();
+  let headerHeight: number = $state(0);
+  let audioPlayerHeight: number = $state(0);
 
   onMount(() => {
     const updateHeights = () => {

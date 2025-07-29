@@ -6,9 +6,8 @@
   import { settingsStore } from "$lib/settings/settings.store";
   import { cn } from "$lib/utils";
   import { Share2, User } from "@lucide/svelte";
-  import type { Dua } from "../../ambient";
 
-  export let dua: Dua;
+  let { dua } = $props();
   const isPopular = dua.tags.includes("popular");
   const isRecommendedToday = dua.tags.includes("daily");
 
