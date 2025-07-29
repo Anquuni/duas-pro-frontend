@@ -32,7 +32,7 @@
 
 <div class="flex min-h-screen flex-col">
   <Header />
-  <div class="flex flex-1 flex-col" class:rtl={currentLanguage.rtl}>
+  <div class="flex flex-1 flex-col ${currentLanguage.rtl ? 'rtl' : ''}">
     <main class="flex-1">
       {@render children?.()}
     </main>

@@ -1,3 +1,7 @@
+<script>
+  import { settingsStore } from "$lib/settings/settings.store";
+
+</script>
 <footer class="bg-gray-900 pt-12 pb-20 text-gray-300">
   <div class="mx-auto max-w-6xl px-4">
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
@@ -31,6 +35,9 @@
           <!-- <li><a href="/about" class="hover:text-white">Über Uns</a></li> -->
           <li>
             <a href="https://forms.gle/PXRZ8y2fUYiymvnr9" target="_blank" rel="noopener noreferrer" class="hover:text-white">Contact</a>
+          </li>
+          <li>
+            <a href="/{$settingsStore.systemLanguage}/privacy-policy" class="hover:text-white">Privacy Policy</a>
           </li>
         </ul>
       </div>
