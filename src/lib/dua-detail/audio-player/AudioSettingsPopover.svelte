@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import { ChevronRight, ChevronLeft, Check } from "@lucide/svelte";
   import { clickOutside } from "./clickOutside";
-  import type { Reciter } from "../../../ambient";
+  import type { Reciter } from "$lib/types/dua.model";
   import { t } from "$lib/translations/i18n";
 
   export let playbackRate: number;

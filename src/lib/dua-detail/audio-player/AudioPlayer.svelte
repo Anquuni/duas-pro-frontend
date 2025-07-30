@@ -7,7 +7,7 @@
   import { supabase } from "$lib/supabase.config";
   import { ChevronDown, ChevronUp, Ellipsis, Loader2Icon, Pause, Play, SkipBack, SkipForward } from "@lucide/svelte";
   import { toast } from "svelte-sonner";
-  import type { DuaRecitation, DuaRecitationDetail } from "../../../ambient";
+  import type { DuaRecitation, DuaRecitationDetail } from "$lib/types/dua.model";
   import AudioSettingsPopover from "./AudioSettingsPopover.svelte";
   import { onMount, onDestroy } from "svelte";
   import { requestWakeLock, releaseWakeLock } from "../wakeLock";

@@ -1,11 +1,12 @@
-type DuaLine = {
-  [key: string]: string;
+export type DuaLine = {
   repetitions_number: number | null;
   begin_of_section: boolean;
   type: string;
+} & {
+  [langCode: string]: string;
 };
 
-type Dua = {
+export type Dua = {
   route_name: string;
   image_url: string;
   languages: string[];
@@ -31,7 +32,7 @@ export interface Reciter {
   profile_image_url: string;
 }
 
-type DuaRecitationDetail = {
+export type DuaRecitationDetail = {
   uuid: string;
   audio_low_quality_url: string;
   audio_high_quality_url: string;
