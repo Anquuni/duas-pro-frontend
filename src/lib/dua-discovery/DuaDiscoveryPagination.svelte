@@ -2,10 +2,9 @@
   import * as Select from "$lib/components/ui/select/index.js";
   import { goto } from "$app/navigation";
 
-  let { currentPage = 1, totalItems, itemsPerPage = 10, baseUrl = "", maxPagesShown = 5 } = $props();
+  let { currentPage = 1, totalItems, itemsPerPage = 10, totalPages = 10, baseUrl = "", maxPagesShown = 5 } = $props();
 
   let value = $state(itemsPerPage + "");
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
   const perPageOptions = ["20", "50", "100"];
 
   const pages: (number | "...")[] = $derived.by(() => {

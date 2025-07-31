@@ -61,10 +61,10 @@
         {#each dua.tags as tag}
           <p class="text-xs font-semibold text-primary">{tag}</p>
         {/each}
-        {#if dua.narratedBy[$settingsStore.systemLanguage] !== null}
+        {#if dua.narrator !== null}
           <div class="flex items-center text-xs text-muted-foreground">
             <User size={14} class="mr-1" />
-            <span>{dua.narratedBy[$settingsStore.systemLanguage]}</span>
+            <span>{dua.narratedor}</span>
           </div>
         {/if}
       </div>

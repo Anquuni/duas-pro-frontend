@@ -23,7 +23,23 @@
 
 <SeoHead title={$t("seo.home.title")} description={$t("seo.home.description")} type="organization" />
 
+<!-- Hauptbereich mit Sidebar + Grid lg:flex lg:gap-8 -->
 <div class="p-4 sm:p-6 md:p-8">
+  <!-- 📚 Filter Sidebar (nur Desktop sichtbar) -->
+  <!-- <div class="hidden lg:block w-64 sticky">
+    <FilterPanel />
+  </div> -->
+
+  <!-- 🔘 Mobile Filter Button (nur sichtbar unter lg) lg:hidden -->
+  <!-- <div class="mb-4 flex justify-end px-4">
+    <Sheet.Root>
+      <Sheet.Trigger>Filter</Sheet.Trigger>
+      <Sheet.Content side="right" class="p-0">
+        <FilterPanel />
+      </Sheet.Content>
+    </Sheet.Root>
+  </div> -->
+
   <!-- 📜 Duas Grid -->
   <div class="flex-1">
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
@@ -33,9 +49,10 @@
     </div>
 
     <DuaDiscoveryPagination
-      currentPage={data.page}
-      totalItems={81}
-      itemsPerPage={data.size}
+      currentPage={data.pagination.page}
+      itemsPerPage={data.pagination.pageSize}
+      totalPages={data.pagination.totalPages}
+      totalItems={data.pagination.totalCount}
       baseUrl="/{$settingsStore.systemLanguage}/duas" />
   </div>
 </div>

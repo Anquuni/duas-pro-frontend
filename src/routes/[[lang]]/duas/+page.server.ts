@@ -15,7 +15,6 @@ export async function load({ params, url }) {
 
   return {
     duas: response.data,
-    page: page,
-    size: size,
+    pagination: response.pagination,
   };
 }
