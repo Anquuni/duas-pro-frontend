@@ -116,7 +116,7 @@
 </script>
 
 <SeoHead title={`${data.dua.title["translit"]} – ${data.dua.title[data.lang]}`} 
-  description={data.dua.description[data.lang]} type="webpage" />
+  description={data.dua.seo_description[data.lang]} type="webpage" />
 
 <svelte:window on:beforeunload={beforeUnload} />
 

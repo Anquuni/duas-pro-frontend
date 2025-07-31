@@ -12,6 +12,7 @@ export type Dua = {
   languages: string[];
   title: { [key: string]: string };
   description: { [key: string]: string | null };
+  seo_description: { [key: string]: string | null };
   narrator: Narrator | null;
   tags: string[];
   lines: DuaLine[];

@@ -64,7 +64,7 @@
         {#if dua.narrator !== null}
           <div class="flex items-center text-xs text-muted-foreground">
             <User size={14} class="mr-1" />
-            <span>{dua.narratedor}</span>
+            <span>{dua.narrator}</span>
           </div>
         {/if}
       </div>
