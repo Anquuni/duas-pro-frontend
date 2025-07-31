@@ -13,10 +13,12 @@ export type Dua = {
   title: { [key: string]: string };
   description: { [key: string]: string | null };
   seo_description: { [key: string]: string | null };
+  word_count: { [key: string]: number | null };
   narrator: Narrator | null;
   tags: string[];
   lines: DuaLine[];
   recitations: DuaRecitation[];
+  reciters: Reciter[];
 };
 
 export const duaTypes = [
