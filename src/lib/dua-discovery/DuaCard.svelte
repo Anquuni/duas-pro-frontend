@@ -39,7 +39,7 @@
     goto(`/${$settingsStore.systemLanguage}/duas/${dua.route_name}`)
   }
 
-  const readingTime = $derived(Math.ceil(dua.word_count[$settingsStore.systemLanguage] ?? 0 / 200))
+  const readingTime = $derived(Math.ceil((dua.word_count[$settingsStore.systemLanguage] ?? 0) / 100))
 </script>
 
 <a onclick={(e) => handleAction(e, () => navigate())} href="/{$settingsStore.systemLanguage}/duas/{dua.route_name}" class="block transition-transform duration-500 ease-out active:scale-95">
@@ -96,7 +96,7 @@
      {#if dua.reciters.length > 0}
       <div class="flex items-center">
         <!-- Icon -->
-        <MicVocal size={20} class="mr-1 text-muted-foreground" />
+        <MicVocal size={14} class="mr-1 text-muted-foreground" />
 
         <!-- überlappende Bilder -->
         <div class="flex -space-x-2">
