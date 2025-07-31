@@ -1,11 +1,11 @@
 <script lang="ts">
   import DuaCard from "$lib/dua-discovery/DuaCard.svelte";
   import DuaDiscoveryPagination from "$lib/dua-discovery/DuaDiscoveryPagination.svelte";
-  import FilterPanel from "$lib/dua-discovery/FilterPanel.svelte";
+  // import FilterPanel from "$lib/dua-discovery/FilterPanel.svelte";
   import SeoHead from "$lib/SEOHead.svelte";
   import { settingsStore } from "$lib/settings/settings.store.js";
   import { t } from "$lib/translations/i18n";
-  import * as Sheet from "$lib/components/ui/sheet/index.js";
+  // import * as Sheet from "$lib/components/ui/sheet/index.js";
 
   // TODO: Add Sheet or Drawer component to filter duas
   //   by book (Mafatih-ul-Jinan, Sahifa-Sadschadiyya, ...),
