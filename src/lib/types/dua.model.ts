@@ -22,32 +22,32 @@ export type Dua = {
 };
 
 export const duaTypes = [
-  "DUA",
-  "ZIYARAT",
-  "MUNAJAT",
-  "AMAL",
-  "SALAWAT",
-  "SALAT",
-  "TASBIHAT"
+  "dua",
+  "ziyarat",
+  // "munajat",
+  // "amal",
+  // "salawat",
+  // "salat",
+  // "tasbihat"
 ] as const;
 
 export type DuaType = typeof duaTypes[number];
 
 export const narrators = [
-  "PROPHET_MUHAMMAD",
-  "SAYYIDA_FATIMA",
-  "IMAM_ALI",
-  "IMAM_HASAN",
-  "IMAM_HUSSAIN",
-  "IMAM_ALI_ZAIN_UL_ABIDIEN",
-  "IMAM_MUHAMMAD_AL_BAQIR",
-  "IMAM_JAAFAR_AS_SADIQ",
-  "IMAM_MUSA_AL_KADHIM",
-  "IMAM_ALI_AL_RIDHA",
-  "IMAM_MUHAMMAD_AL_JAWAD",
-  "IMAM_ALI_AL_HADI",
-  "IMAM_HASAN_AL_ASKARI",
-  "IMAM_MAHDI"
+  "prophet-muhammad",
+  "sayyida-fatima",
+  "imam-ali",
+  "imam-hasan",
+  "imam-hussain",
+  "imam-ali-zain-ul-abidien",
+  "imam-muhammad-al-baqir",
+  "imam-jaafar-as-sadiq",
+  "imam-musa-al-kadhim",
+  "imam-ali-al-ridha",
+  "imam-muhammad-al-jawad",
+  "imam-ali-al-hadi",
+  "imam-hasan-al-askari",
+  "imam-mahdi"
 ] as const;
 
 export type Narrator = typeof narrators[number];

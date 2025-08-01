@@ -45,7 +45,14 @@ export default {
     "live-reading.active.leave": "غادر القراءة المباشرة",
     "audio.speed": "سرعة التشغيل",
     "audio.back-to-settings": "العودة إلى الإعدادات",
-    "audio.reciter": "القارئ"
+    "audio.reciter": "القارئ",
+    "type.dua": "Dua",
+    "type.ziyarat": "Ziyarat",
+    "type.munajat": "Munajat",
+    "type.amal": "Amal",
+    "type.salawat": "Salawat",
+    "type.salat": "Salaat",
+    "type.tasbihat": "Tasbihat",
   },
   en: {
     "seo.home.title": "Discover authentic Islamic supplications",
@@ -94,6 +101,13 @@ export default {
     "audio.speed": "Playback Speed",
     "audio.back-to-settings": "Back to Settings",
     "audio.reciter": "Reciter",
+    "type.dua": "Dua",
+    "type.ziyarat": "Ziyarat",
+    "type.munajat": "Munajat",
+    "type.amal": "Amal",
+    "type.salawat": "Salawat",
+    "type.salat": "Salaat",
+    "type.tasbihat": "Tasbihat",
   },
   de: {
     "seo.home.title": "Authentische islamische Bittgebete entdecken",
@@ -141,7 +155,14 @@ export default {
     "live-reading.active.leave": "Live-Lesung verlassen",
     "audio.speed": "Geschwindigkeit",
     "audio.back-to-settings": "Zurück zu den Einstellungen",
-    "audio.reciter": "Rezitator"
+    "audio.reciter": "Rezitator",
+    "type.dua": "Dua",
+    "type.ziyarat": "Ziyarat",
+    "type.munajat": "Munajat",
+    "type.amal": "Amal",
+    "type.salawat": "Salawat",
+    "type.salat": "Salaat",
+    "type.tasbihat": "Tasbihat",
   },
   fa: {
     "seo.home.title": "دعاهای اصیل اسلامی را کشف کنید",
@@ -190,5 +211,12 @@ export default {
     "audio.speed": "سرعت پخش",
     "audio.back-to-settings": "بازگشت به تنظیمات",
     "audio.reciter": "قاری",
+    "type.dua": "Dua",
+    "type.ziyarat": "Ziyarat",
+    "type.munajat": "Munajat",
+    "type.amal": "Amal",
+    "type.salawat": "Salawat",
+    "type.salat": "Salaat",
+    "type.tasbihat": "Tasbihat",
   }
 };
