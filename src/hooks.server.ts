@@ -6,7 +6,7 @@ import { sequence } from '@sveltejs/kit/hooks';
 export const languageRedirect: Handle = async ({ event, resolve }) => {
   const { pathname } = event.url;
 
-  if (pathname.endsWith(".png") || pathname.endsWith(".svg") || pathname === "favicon.ico" || pathname === "/sitemap.xml" || pathname === "/robots.txt") {
+  if (pathname.endsWith(".png") || pathname.endsWith(".svg") || pathname === "favicon.ico" || pathname === "/sitemap.xml" || pathname === "/robots.txt" || pathname === "/c8b81689dc7040adac7ee65a5f2e6cd3.txt") {
     return resolve(event);
   }
 
