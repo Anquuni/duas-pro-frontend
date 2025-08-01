@@ -20,12 +20,13 @@
       await navigator.share(shareData);
     } else {
       await navigator.clipboard.writeText(url);
-    } 
+    }
   }
 
   function bookmarkDua() {
     toast.info("Bookmark is not implemented yet!", {
-      description: "Contribute to the project by joining the GitHub community or clicking on Contact in the Footer section",
+      description:
+        "Contribute to the project by joining the GitHub community or clicking on Contact in the Footer section",
     });
   }
 
@@ -36,13 +37,16 @@
   }
 
   function navigate() {
-    goto(`/${$settingsStore.systemLanguage}/duas/${dua.route_name}`)
+    goto(`/${$settingsStore.systemLanguage}/duas/${dua.route_name}`);
   }
 
-  const readingTime = $derived(Math.ceil((dua.word_count[$settingsStore.systemLanguage] ?? 0) / 100))
+  const readingTime = $derived(Math.ceil((dua.word_count[$settingsStore.systemLanguage] ?? 0) / 100));
 </script>
 
-<a onclick={(e) => handleAction(e, () => navigate())} href="/{$settingsStore.systemLanguage}/duas/{dua.route_name}" class="block transition-transform duration-500 ease-out active:scale-95">
+<a
+  onclick={(e) => handleAction(e, () => navigate())}
+  href="/{$settingsStore.systemLanguage}/duas/{dua.route_name}"
+  class="block transition-transform duration-500 ease-out active:scale-95">
   <Card class="relative overflow-hidden transition-shadow hover:shadow-lg">
     {#if isPopular || isRecommendedToday}
       <Badge class="absolute right-2 top-2 z-20">
@@ -66,7 +70,12 @@
       </div>
     </CardHeader>
     <CardContent class="py-2">
-      <div class="mt-2 flex flex-wrap gap-2 mb-2">
+      <div class="mb-2 mt-2 flex flex-wrap gap-2">
+        <!-- <p class="text-xs font-semibold text-primary">Ramadan</p>
+        <p class="text-xs font-semibold text-primary">Mahdawiyya</p>
+        <p class="text-xs font-semibold text-primary">Vergebung</p>
+        <p class="text-xs font-semibold text-primary">Beliebt</p>
+        <p class="text-xs font-semibold text-primary">Wöchentlich</p> -->
         {#each dua.tags as tag}
           <p class="text-xs font-semibold text-primary">{tag}</p>
         {/each}
@@ -74,46 +83,45 @@
 
       <p class="mb-2 text-sm text-neutral-600 dark:text-neutral-100">
         {dua.description[$settingsStore.systemLanguage]}
+        <!-- Famous dua of Imam Ali taught to his student Kumail which is recommended to recite every thursday evening. -->
       </p>
 
-    <!-- Reading Time & Anzahl Rezitatoren -->
-    <div class="flex items-center align-center text-xs text-neutral-600 dark:text-neutral-100 mb-2 space-x-4">
-      {#if dua.word_count[$settingsStore.systemLanguage]}
-        <div class="flex items-center">
-          <Clock size={14} class="mr-1" />
-          <span>{readingTime} Min. Lesedauer</span>
-        </div>
-      {/if}
+      <!-- Reading Time & Anzahl Rezitatoren -->
+      <div class="flex flex-wrap gap-4 text-xs text-neutral-600 dark:text-neutral-100">
+        {#if dua.word_count[$settingsStore.systemLanguage]}
+          <div class="flex items-center">
+            <Clock size={14} class="mr-1" />
+            <span>{readingTime} Min. Lesedauer</span>
+          </div>
+        {/if}
         {#if dua.narrator !== null}
           <div class="flex items-center">
             <User size={14} class="mr-1" />
             <span>{dua.narrator}</span>
           </div>
         {/if}
-    </div>    
 
-    <!-- Profilbilder -->
-     {#if dua.reciters.length > 0}
-      <div class="flex items-center">
-        <!-- Icon -->
-        <MicVocal size={14} class="mr-1 text-muted-foreground" />
+        <!-- Profilbilder -->
+        {#if dua.reciters.length > 0}
+          <div class="flex items-center">
+            <!-- Icon -->
+            <MicVocal size={14} class="mr-1 text-muted-foreground" />
 
-        <!-- überlappende Bilder -->
-        <div class="flex -space-x-2">
-          {#each dua.reciters as reciter}
-            <img
-              src={reciter.profile_image_url}
-              alt={reciter.full_name_tl}
-              title={reciter.full_name_tl}
-              class="w-7 h-7 rounded-full border-2 border-white object-cover"
-            />
-          {/each}
-        </div>
+            <!-- überlappende Bilder -->
+            <div class="flex -space-x-2">
+              {#each dua.reciters as reciter}
+                <img
+                  src={reciter.profile_image_url}
+                  alt={reciter.full_name_tl}
+                  title={reciter.full_name_tl}
+                  class="h-7 w-7 rounded-full border-2 border-white object-cover" />
+              {/each}
+            </div>
+          </div>
+        {/if}
       </div>
-     {/if}
-
     </CardContent>
-    <CardFooter class="flex items-center justify-between pb-2">
+    <CardFooter class="flex items-center justify-between pb-4">
       <Button variant="outline" size="sm">Read Full Dua</Button>
       <div class="flex space-x-2">
         <Button variant="ghost" size="icon" onclick={(e) => handleAction(e, () => shareDua())}>
