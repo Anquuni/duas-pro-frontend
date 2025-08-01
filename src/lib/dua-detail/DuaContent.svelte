@@ -14,7 +14,7 @@
 
   <div class="mb-6">
     {#if dua.narrator}
-      <p class="text-sm text-neutral-600 dark:text-neutral-100">{@html $t("dua.by", { narrator: dua.narrator})}</p>
+      <p class="text-sm text-neutral-600 dark:text-neutral-100">{@html $t("dua.by", { narrator: $t("narrator." + dua.narrator)})}</p>
     {/if}
   </div>
 </div>

@@ -35,18 +35,18 @@ export type DuaType = typeof duaTypes[number];
 
 export const narrators = [
   "prophet-muhammad",
-  "sayyida-fatima",
+  "lady-fatimah",
   "imam-ali",
   "imam-hasan",
   "imam-hussain",
-  "imam-ali-zain-ul-abidien",
-  "imam-muhammad-al-baqir",
-  "imam-jaafar-as-sadiq",
-  "imam-musa-al-kadhim",
-  "imam-ali-al-ridha",
-  "imam-muhammad-al-jawad",
-  "imam-ali-al-hadi",
-  "imam-hasan-al-askari",
+  "imam-sajjad",
+  "imam-baqir",
+  "imam-sadiq",
+  "imam-kadhim",
+  "imam-ridha",
+  "imam-jawad",
+  "imam-hadi",
+  "imam-askari",
   "imam-mahdi"
 ] as const;
 

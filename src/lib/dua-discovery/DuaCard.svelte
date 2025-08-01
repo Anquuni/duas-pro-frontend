@@ -5,6 +5,7 @@
   import { Button } from "$lib/components/ui/button";
   import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "$lib/components/ui/card";
   import { settingsStore } from "$lib/settings/settings.store";
+  import { t } from "$lib/translations/i18n";
   import { cn } from "$lib/utils";
   import { Bookmark, Clock, MicVocal, Share2, User } from "@lucide/svelte";
   import { toast } from "svelte-sonner";
@@ -97,7 +98,7 @@
         {#if dua.narrator !== null}
           <div class="flex items-center">
             <User size={14} class="mr-1" />
-            <span>{dua.narrator}</span>
+            <span>{$t("narrator." + dua.narrator)}</span>
           </div>
         {/if}
 
