@@ -50,7 +50,7 @@
     {/if}
   </div>
 
-  <p class="mb-4 max-w-2xl px-2 text-neutral-600 dark:text-neutral-100">
+  <p class="mb-4 mx-2 sm:mx-8 md:mx-32 lg:mx-64 text-neutral-600 dark:text-neutral-100">
     {dua.description[$settingsStore.systemLanguage]}
   </p>
 
