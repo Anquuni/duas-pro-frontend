@@ -12,8 +12,9 @@
   import { showNoHostToast } from "$lib/live-reading/live-reading.utils";
   import { settingsStore } from "$lib/settings/settings.store";
   import { BookOpen, Redo } from "@lucide/svelte";
+  import UpdateVerseDialog from "$lib/dua-detail/UpdateVerseDialog.svelte";
 
-  let { line, index, currentVerseIndex } = $props();
+  let { line, index, currentVerseIndex, user, supabase } = $props();
 
   let isInstruction = line.type === "INSTRUCTION";
 </script>
@@ -48,6 +49,8 @@
             }}>
             <Redo class="h-4 w-4" />
           </button>
+          
+          <UpdateVerseDialog {line} {user} {supabase} />
         </div>
         <div class="space-y-2 {isInstruction ? 'text-tertiary-800 dark:text-tertiary-200' : ''}">
           {#if isInstruction}

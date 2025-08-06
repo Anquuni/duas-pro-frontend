@@ -16,3 +16,26 @@ export async function load({ params, url }) {
     lang: systemLang,
   };
 }
+
+
+import type { Actions } from './$types'
+export const actions: Actions = {
+  updateDuaInfo: async ({ request, locals: { supabase } }) => {
+    const formData = await request.formData()
+    const lineId = formData.get('lineId') as string
+    const isInstruction = formData.get('isInstruction') as string
+    const isBeginOfSection = formData.get('isBeginOfSection') as string
+    const { error } = await supabase
+      .from("dua_infos")
+      .update({
+        is_instruction: isInstruction ? "INSTRUCTION" : "SUPPLICATION",
+        begin_of_section: isBeginOfSection,
+      })
+      .eq("id", lineId);
+    if (error) {
+      console.error(error)
+    } else {
+      console.log("success update info")
+    }
+  },
+}

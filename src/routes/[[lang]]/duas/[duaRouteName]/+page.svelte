@@ -15,6 +15,7 @@
   // TODO: Rename folder of components to dua-reader
 
   let { data } = $props();
+  let { user, supabase } = $derived(data);
 
   let viewTabsElement: HTMLElement;
   let scrollReference = 0;
@@ -126,7 +127,7 @@
   <DuaContent dua={data.dua} />
 
   <div class="mb-8 flex justify-center" bind:this={viewTabsElement}>
-    <DuaLineViews dua={data.dua} />
+    <DuaLineViews dua={data.dua} {user} {supabase} />
   </div>
 </div>
 
