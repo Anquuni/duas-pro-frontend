@@ -9,6 +9,8 @@
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
 
+  // TODO: Rename path from "duas" to "discover" (Entdecken/ Stöbern)
+
   let { data } = $props();
   let selectedTypes = $derived(page.url.searchParams.getAll("types"));
   let filterPanelOpen = $state(false);

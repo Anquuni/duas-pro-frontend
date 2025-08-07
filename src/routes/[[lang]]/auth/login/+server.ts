@@ -3,7 +3,7 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 export const POST: RequestHandler = async ({ request, url, locals }) => {
 	const { email } = await request.json();
   const redirectTo = url.searchParams.get('redirectTo') ?? '/';
-  console.log("Trying to sent Magic Link to " + email);
+  console.log("Trying to sent Magic Link to " + email + " with redirecting to " + redirectTo);
 
   if (!email) {
     return json({ success: null, error: 'Missing email', status: 400  });
