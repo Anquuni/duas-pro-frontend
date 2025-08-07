@@ -187,7 +187,7 @@
     isLoading = false;
     if (error) {
       console.error(
-        `Error while fetching audio ${selectedRecitation.uuid} with recitator ${currentReciter} for dua ${dua.route_name}: ${error}`,
+        `Error while fetching audio ${selectedRecitation.uuid} with recitator ${currentReciter} for dua ${dua.slug}: ${error}`,
       );
     }
 

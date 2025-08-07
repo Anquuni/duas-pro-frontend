@@ -14,7 +14,7 @@ export async function GET() {
     error(500);
   }
 
-  const duas: string[] = response.data.route_names;
+  const duas: string[] = response.data.slugs;
   const defaultLang = "en";
   const languages = nonTranslitLanguages.map(l => l.value); // z.B. ["en", "de", "ar"]
 

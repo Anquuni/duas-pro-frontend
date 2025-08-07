@@ -15,7 +15,7 @@
   const isRecommendedToday = dua.tags.includes("daily");
 
   async function shareDua() {
-    const url = page.url.toString() + "/duas/" + dua.route_name;
+    const url = page.url.toString() + "/duas/" + dua.slug;
     const shareData: ShareData = { url, title: "duas.pro" };
     if (navigator.canShare && navigator.canShare(shareData)) {
       await navigator.share(shareData);
@@ -38,7 +38,7 @@
   }
 
   function navigate() {
-    goto(`/${$settingsStore.systemLanguage}/duas/${dua.route_name}`);
+    goto(`/${$settingsStore.systemLanguage}/duas/${dua.slug}`);
   }
 
   const readingTime = $derived(Math.ceil((dua.word_count[$settingsStore.systemLanguage] ?? 0) / 100));
@@ -46,7 +46,7 @@
 
 <a
   onclick={(e) => handleAction(e, () => navigate())}
-  href="/{$settingsStore.systemLanguage}/duas/{dua.route_name}"
+  href="/{$settingsStore.systemLanguage}/duas/{dua.slug}"
   class="block transition-transform duration-500 ease-out active:scale-95">
   <Card class="relative overflow-hidden transition-shadow hover:shadow-lg">
     {#if isPopular || isRecommendedToday}

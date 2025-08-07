@@ -7,7 +7,7 @@ export type DuaLine = {
 };
 
 export type Dua = {
-  route_name: string;
+  slug: string;
   image_url: string;
   languages: string[];
   title: { [key: string]: string };
