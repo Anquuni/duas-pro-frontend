@@ -1,9 +1,9 @@
 <script lang="ts">
   import DuaVerse from "./DuaVerse.svelte";
 
-  let { lines, currentVerseIndex, user, supabase } = $props();
+  let { duaSlug, lines, currentVerseIndex, user, form } = $props();
 </script>
 
 {#each lines as line, index}
-  <DuaVerse {line} {index} {currentVerseIndex} {user} {supabase} />
+  <DuaVerse {duaSlug} {line} {index} {currentVerseIndex} {user} {form} />
 {/each}

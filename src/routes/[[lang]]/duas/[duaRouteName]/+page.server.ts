@@ -1,5 +1,6 @@
 import { supabase } from "$lib/supabase.config";
-import { error } from '@sveltejs/kit';
+import { error, fail } from '@sveltejs/kit';
+import type { Actions } from './$types'
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params, url }) {
@@ -17,25 +18,34 @@ export async function load({ params, url }) {
   };
 }
 
-
-import type { Actions } from './$types'
 export const actions: Actions = {
-  updateDuaInfo: async ({ request, locals: { supabase } }) => {
+  reportLineError: async ({ request, locals: { supabase } }) => {
     const formData = await request.formData()
-    const lineId = formData.get('lineId') as string
-    const isInstruction = formData.get('isInstruction') as string
-    const isBeginOfSection = formData.get('isBeginOfSection') as string
+    const duaSlug = formData.get('duaSlug') as string
+    const lang = formData.get('lang') as string
+    const lineNumber = formData.get('lineNumber') as string
+    const userEmail = formData.get('userEmail') as string
+    const errorDescription = formData.get('errorDescription') as string
+
+    if (!errorDescription) {
+      return fail(400, { errorDescription, missing: true })
+    }
+
     const { error } = await supabase
-      .from("dua_infos")
-      .update({
-        is_instruction: isInstruction ? "INSTRUCTION" : "SUPPLICATION",
-        begin_of_section: isBeginOfSection,
-      })
-      .eq("id", lineId);
+      .from("error_reports")
+      .insert({
+        dua_slug: duaSlug,
+        language_code: lang,
+        line_number: lineNumber,
+        user_email: userEmail,
+        error_description: errorDescription,
+      });
     if (error) {
       console.error(error)
+      return { success: false, error };
     } else {
-      console.log("success update info")
+      console.log("success update info");
+      return { success: true };
     }
   },
 }

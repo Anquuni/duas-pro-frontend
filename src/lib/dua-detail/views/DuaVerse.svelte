@@ -12,9 +12,9 @@
   import { showNoHostToast } from "$lib/live-reading/live-reading.utils";
   import { settingsStore } from "$lib/settings/settings.store";
   import { BookOpen, Redo } from "@lucide/svelte";
-  import UpdateVerseDialog from "$lib/dua-detail/UpdateVerseDialog.svelte";
+  import ReportLineErrrorDialog from "$lib/dua-detail/ReportLineErrrorDialog.svelte";
 
-  let { line, index, currentVerseIndex, user, supabase } = $props();
+  let { duaSlug, line, index, currentVerseIndex, user, form } = $props();
 
   let isInstruction = line.type === "INSTRUCTION";
 </script>
@@ -39,7 +39,7 @@
           </span>
 
           <button aria-label="Jump to {index + 1}. verse"
-            class="text-gray-600 dark:text-gray-300"
+            class="hover:text-primary text-neutral-600 dark:text-neutral-200"
             onclick={() => {
               if ($liveReadingStore.inLiveReadingRoom && !$liveReadingStore.isHost) {
                 showNoHostToast();
@@ -50,7 +50,7 @@
             <Redo class="h-4 w-4" />
           </button>
           
-          <UpdateVerseDialog {line} {user} {supabase} />
+          <ReportLineErrrorDialog {duaSlug} {line} lineNumber={index + 1} {user} {form} />
         </div>
         <div class="space-y-2 {isInstruction ? 'text-tertiary-800 dark:text-tertiary-200' : ''}">
           {#if isInstruction}

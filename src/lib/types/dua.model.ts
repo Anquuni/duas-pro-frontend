@@ -1,5 +1,4 @@
 export type DuaLine = {
-  id: number;
   repetitions_number: number | null;
   begin_of_section: boolean;
   type: string;
@@ -11,7 +10,6 @@ export type Dua = {
   route_name: string;
   image_url: string;
   languages: string[];
-  id: { [key: string]: string };
   title: { [key: string]: string };
   description: { [key: string]: string | null };
   seo_description: { [key: string]: string | null };
