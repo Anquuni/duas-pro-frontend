@@ -15,7 +15,7 @@
 
 {#if browser}
 
-  <Popover.Content class="flex max-h-[70vh] w-80 flex-col overflow-hidden">
+  <Popover.Content class="flex flex-col overflow-hidden">
     <div class="overflow-y-auto" class:rtl={currentLanguage.rtl}>
       <div class="grid gap-4">
         <div class="space-y-2">

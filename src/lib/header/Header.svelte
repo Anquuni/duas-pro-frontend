@@ -2,6 +2,8 @@
   import { headerStore } from "$lib/header/header.store";
   import DefaultHeader from "./DefaultHeader.svelte";
   import DuaHeader from "./DuaHeader.svelte";
+
+  let { user } = $props();
 </script>
 
 <header
@@ -16,7 +18,7 @@
     <div class={`absolute w-full transition-transform duration-300 ${
       $headerStore.isExpandedHeader ? 'translate-y-0' : '-translate-y-full'
     }`}>
-      <DefaultHeader />
+      <DefaultHeader {user} />
     </div>
     {#if $headerStore.isDuaPage}
       <div class="absolute bottom-0 w-full">

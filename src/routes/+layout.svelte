@@ -6,12 +6,24 @@
   import Footer from "./Footer.svelte";
   import { PUBLIC_ENVIRONMENT } from "$env/static/public";
   import { page } from "$app/state";
+  import { invalidate } from '$app/navigation'
+  import { onMount } from 'svelte'
 
-  let { children } = $props();
+  let { data, children } = $props();
+  let { session, user, supabase } = $derived(data);
 
   const currentLanguage = $derived(
     languages.find((lang) => lang.value === $settingsStore.systemLanguage) || { rtl: false },
   );
+  
+  onMount(() => {
+    const { data } = supabase.auth.onAuthStateChange((_, newSession) => {
+      if (newSession?.expires_at !== session?.expires_at) {
+        invalidate('supabase:auth')
+      }
+    })
+    return () => data.subscription.unsubscribe()
+  })
 </script>
 
 <svelte:head>
@@ -31,7 +43,7 @@
 <Toaster />
 
 <div class="flex min-h-screen flex-col">
-  <Header />
+  <Header {user} />
   <div class="flex flex-1 flex-col ${currentLanguage.rtl ? 'rtl' : ''}">
     <main class="flex-1">
       {@render children?.()}

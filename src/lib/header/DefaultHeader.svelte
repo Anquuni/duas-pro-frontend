@@ -2,7 +2,7 @@
   import { Button } from "$lib/components/ui/button";
   import * as Popover from "$lib/components/ui/popover/index.js";
   import { getLanguageValue, nonTranslitLanguages, settingsStore, type LanguageCode } from "$lib/settings/settings.store";
-  import { Check, Github, Languages, Settings } from "@lucide/svelte";
+  import { Check, Github, Languages, Settings, User } from "@lucide/svelte";
   import SettingsPopover from "../settings/SettingsPopover.svelte";
   import logo from "$lib/assets/duas-pro-logo.svg";
   import * as Command from "$lib/components/ui/command/index.js";
@@ -10,7 +10,9 @@
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { page } from "$app/state";
   import { t } from "$lib/translations/i18n";
+  import AuthDialog from "./AuthDialog.svelte";
 
+  let { user } = $props();
   let open = $state(false);
 
   function setLanguage(languageCode: LanguageCode) {
@@ -74,6 +76,16 @@
         <span class="sr-only">GitHub</span>
       </Button>
     </a>
+
+    <Popover.Root>
+      <Popover.Trigger>
+        <Button variant="ghost" size="icon">
+          <User class="!h-5 !w-8" />
+          <span class="sr-only">Login</span>
+        </Button>
+      </Popover.Trigger>
+      <AuthDialog {user} />
+    </Popover.Root>
 
     <Popover.Root>
       <Popover.Trigger>
