@@ -7,7 +7,7 @@
   import { t } from "$lib/translations/i18n";
   import { Book, Languages, Presentation } from "@lucide/svelte";
 
-  let { dua, user, form } = $props();
+  let { dua, user } = $props();
 
   function setActiveTab(tab: string | undefined) {
     if (tab) {
@@ -32,7 +32,7 @@
     </TabsTrigger>
   </TabsList>
   <TabsContent value="translation">
-    <DuaTranslationView duaSlug={dua.routeName} lines={dua.lines} currentVerseIndex={$duaStore.currentVerse} {user} {form} />
+    <DuaTranslationView duaSlug={dua.slug} lines={dua.lines} currentVerseIndex={$duaStore.currentVerse} {user} />
   </TabsContent>
   <TabsContent value="reading">
     <DuaReadingView lines={dua.lines} currentVerseIndex={$duaStore.currentVerse} />

@@ -13,7 +13,7 @@ export async function load({ params, url }) {
 
   return {
     dua: response.data,
-    routeName: params.duaRouteName,
+    duaSlug: params.duaRouteName,
     lang: systemLang,
   };
 }
@@ -24,7 +24,7 @@ export const actions: Actions = {
     const duaSlug = formData.get('duaSlug') as string
     const lang = formData.get('lang') as string
     const lineNumber = formData.get('lineNumber') as string
-    const userEmail = formData.get('userEmail') as string
+    const email = formData.get('email') as string
     const errorDescription = formData.get('errorDescription') as string
 
     if (!errorDescription) {
@@ -37,14 +37,13 @@ export const actions: Actions = {
         dua_slug: duaSlug,
         language_code: lang,
         line_number: lineNumber,
-        user_email: userEmail,
+        user_email: email,
         error_description: errorDescription,
       });
     if (error) {
       console.error(error)
-      return { success: false, error };
+      return { success: false, error: JSON.stringify(error) };
     } else {
-      console.log("success update info");
       return { success: true };
     }
   },

@@ -14,7 +14,7 @@
   
   // TODO: Rename folder of components to dua-reader
 
-  let { data, form } = $props();
+  let { data } = $props();
   let { user } = $derived(data);
 
   let viewTabsElement: HTMLElement;
@@ -36,7 +36,7 @@
   onMount(() => {
     liveReadingStore.update((state) => ({
       ...state,
-      duaRouteName: data.routeName,
+      duaRouteName: data.duaSlug,
     }));
 
     headerStore.update((state) => ({
@@ -127,7 +127,7 @@
   <DuaContent dua={data.dua} />
 
   <div class="mb-8 flex justify-center" bind:this={viewTabsElement}>
-    <DuaLineViews dua={data.dua} {user} {form} />
+    <DuaLineViews dua={data.dua} {user} />
   </div>
 </div>
 

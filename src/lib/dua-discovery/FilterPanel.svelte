@@ -47,7 +47,7 @@
   <div class="flex-none border-b p-6 text-left">
     <h2 class="text-center text-lg font-semibold">Filter</h2>
   </div>
-  <div class="flex-1 overflow-y-auto p-4">
+  <div class="flex-1 overflow-y-auto p-6">
     <!-- 🧭 Typ-Filter -->
     <div class="mb-6 space-y-2">
       <div class="text-sm font-medium">Typ</div>

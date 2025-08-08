@@ -12,9 +12,9 @@
   import { showNoHostToast } from "$lib/live-reading/live-reading.utils";
   import { settingsStore } from "$lib/settings/settings.store";
   import { BookOpen, Redo } from "@lucide/svelte";
-  import ReportLineErrrorDialog from "$lib/dua-detail/ReportLineErrrorDialog.svelte";
+  import ReportLineErrrorSheet from "$lib/dua-detail/ReportLineErrrorSheet.svelte";
 
-  let { duaSlug, line, index, currentVerseIndex, user, form } = $props();
+  let { duaSlug, line, index, currentVerseIndex, user } = $props();
 
   let isInstruction = line.type === "INSTRUCTION";
 </script>
@@ -49,8 +49,8 @@
             }}>
             <Redo class="h-4 w-4" />
           </button>
-          
-          <ReportLineErrrorDialog {duaSlug} {line} lineNumber={index + 1} {user} {form} />
+
+          <ReportLineErrrorSheet {duaSlug} {line} lineNumber={index + 1} {user} />
         </div>
         <div class="space-y-2 {isInstruction ? 'text-tertiary-800 dark:text-tertiary-200' : ''}">
           {#if isInstruction}
