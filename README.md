@@ -1,6 +1,6 @@
-# Duas.pro Frontend
+# duas.pro Frontend
 
-This is the frontend repository for Duas.pro, a comprehensive web application providing access to 80+ Shia Islamic supplications (duas) and pilgrimage prayers (ziyarat) in 8 different languages. The frontend interacts with the [Shia Duas API](https://github.com/duas-pro/shia-duas-api) to deliver a user-friendly interface for accessing and interacting with this spiritual content.
+This is the frontend repository for duas.pro, a comprehensive web application providing access to 80+ Shia Islamic supplications (duas) and pilgrimage prayers (ziyarat) in 8 different languages. The frontend interacts with the [Shia Duas API](https://github.com/duas-pro/shia-duas-api) to deliver a user-friendly interface for accessing and interacting with this spiritual content.
 
 ## Features
 
@@ -18,6 +18,7 @@ This is the frontend repository for Duas.pro, a comprehensive web application pr
   - Line-by-line view
   - Full text view (as in a book)
   - Presentation mode
+- “Live-Reading” to read together in their respective language in a group
 
 ## Technology
 
@@ -25,7 +26,7 @@ This frontend is built using [SvelteKit](https://kit.svelte.dev/) and [shadcn](h
 
 ## Live Website
 
-You can access the live version of Duas.pro at [https://duas.pro](https://duas.pro).
+You can access the live version of duas.pro at [https://duas.pro](https://duas.pro).
 
 ## Local Development
 
@@ -46,19 +47,19 @@ This frontend integrates with the Shia Duas API. You can find more information a
 
 ## Upcoming Features and Roadmap
 
-We are continuously working to improve Duas.pro. Our plans for future development include:
+We are continuously working to improve duas.pro. Our plans for future development include:
 
 1. Evolving into a Progressive Web App (PWA) for offline functionality
-2. Bookmark and favorite duas functionality
-3. Social sharing features
+2. Support for last-read tracking, bookmarks, and favorite Duas
+3. Full-text search and advanced filtering across all Dua content
 4. Integration with the upcoming notification system for duas
-5. Implementation of the "public viewing" feature for collaborative dua reading
+5. Enhancing the “Live Reading” feature, including session planning and improved handling of edge cases (e.g. when the host is offline)
 6. Visualization of dua reading analytics and trends
 7. Viualization of dua recommendations based on personal user preferences
 
 ## Contribution
 
-We welcome contributions to the Duas.pro frontend! If you have suggestions, bug reports, or want to contribute code, please feel free to open an issue or submit a pull request.
+We welcome contributions to the duas.pro frontend! If you have suggestions, bug reports, or want to contribute code, please feel free to open an issue or submit a pull request.
 
 Contributors:
 
