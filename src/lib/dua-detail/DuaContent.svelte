@@ -2,7 +2,6 @@
   import { Button } from "$lib/components/ui/button";
   import { settingsStore } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
-  import { Badge } from "$lib/components/ui/badge";
   import { Bookmark, Share2 } from "@lucide/svelte";
   import { page } from "$app/state";
   import { toast } from "svelte-sonner";
@@ -34,10 +33,15 @@
     <h2 class="mb-4 text-xl">{dua.title[$settingsStore.systemLanguage]}</h2>
   {/if}
 
-  {#if dua.tags.length > 0}
+  {#if dua.collections.length > 0}
     <div class="mb-4 flex flex-wrap justify-center gap-2">
-      {#each dua.tags as tag}
-        <Badge variant="outline">{tag}</Badge>
+      {#each dua.collections as collection}
+        <!-- <Badge variant="outline">{tag}</Badge> -->
+          <a
+            href="/{$settingsStore.systemLanguage}/collections/{collection.slug}"
+            class="rounded-full bg-primary/90 px-2 py-0.5 text-xs font-medium text-white transition-colors hover:bg-primary/20 hover:text-black">
+            {collection.title[$settingsStore.systemLanguage]}
+          </a>
       {/each}
     </div>
   {/if}

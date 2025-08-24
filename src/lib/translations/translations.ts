@@ -2,6 +2,8 @@ export default {
   ar: {
     "seo.home.title": "اكتشف الأدعية الإسلامية الموثوقة",
     "seo.home.description": "استكشف مجموعة متزايدة من الأدعية الإسلامية الموثوقة بالنص العربي، وترجمة سطر بسطر إلى لغات متعددة، مع إمكانية الاستماع، والنقل الصوتي، ووضع القراءة المباشرة للقراءة الجماعية.",
+    "seo.collection.title": "Islamische Dua-Sammlungen für besondere Anlässe",
+    "seo.collection.description": "Finde thematische Sammlungen authentischer islamischer Duas – für Ramadan, besondere Nächte, tägliche Bittgebete und mehr. Mit arabischem Text, Übersetzung, Audio-Wiedergabe und Live-Lesemodus.",
     "settings.system.title": "إعدادات النظام",
     "settings.system.theme.light": "فاتح",
     "settings.system.theme.dark": "داكن",
@@ -71,6 +73,8 @@ export default {
   en: {
     "seo.home.title": "Discover authentic Islamic supplications",
     "seo.home.description": "Explore a growing collection of authentic Islamic duas with Arabic text, line-by-line translations in multiple languages, audio playback, transliteration, and live reading mode for shared recitation.",
+    "seo.collection.title": "Islamische Dua-Sammlungen für besondere Anlässe",
+    "seo.collection.description": "Finde thematische Sammlungen authentischer islamischer Duas – für Ramadan, besondere Nächte, tägliche Bittgebete und mehr. Mit arabischem Text, Übersetzung, Audio-Wiedergabe und Live-Lesemodus.",
     "settings.system.title": "System Settings",
     "settings.system.theme.light": "Light",
     "settings.system.theme.dark": "Dark",
@@ -140,6 +144,8 @@ export default {
   de: {
     "seo.home.title": "Authentische islamische Bittgebete entdecken",
     "seo.home.description": "Entdecke eine wachsende Sammlung authentischer islamischer Duas mit arabischem Text, zeilenweiser Übersetzung in vielen Sprachen, Audio-Wiedergabe, Umschrift und einem Live-Lesemodus für gemeinsames Rezitieren.",
+    "seo.collection.title": "Islamische Dua-Sammlungen für besondere Anlässe",
+    "seo.collection.description": "Finde thematische Sammlungen authentischer islamischer Duas – für Ramadan, besondere Nächte, tägliche Bittgebete und mehr. Mit arabischem Text, Übersetzung, Audio-Wiedergabe und Live-Lesemodus.",
     "settings.system.title": "System Einstellungen",
     "settings.system.theme.light": "Hell",
     "settings.system.theme.dark": "Dunkel",
@@ -209,6 +215,8 @@ export default {
   fa: {
     "seo.home.title": "دعاهای اصیل اسلامی را کشف کنید",
     "seo.home.description": "مجموعه‌ای در حال رشد از دعاهای معتبر اسلامی را با متن عربی، ترجمه خط‌به‌خط به زبان‌های مختلف، پخش صوتی، آوانگاری و حالت قرائت زنده برای قرائت مشترک کاوش کنید.",
+    "seo.collection.title": "Islamische Dua-Sammlungen für besondere Anlässe",
+    "seo.collection.description": "Finde thematische Sammlungen authentischer islamischer Duas – für Ramadan, besondere Nächte, tägliche Bittgebete und mehr. Mit arabischem Text, Übersetzung, Audio-Wiedergabe und Live-Lesemodus.",
     "settings.system.title": "تنظیمات سیستم",
     "settings.system.theme.light": "روشن",
     "settings.system.theme.dark": "تاریک",

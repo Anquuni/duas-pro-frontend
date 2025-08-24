@@ -19,7 +19,7 @@
   // Single Source of Truth of menu items
   const navItems: NavItem[] = [
     { label: "Bittgebete",   slug: "duas" },
-    // { label: "Sammlungen",   slug: "collections" },
+    { label: "Sammlungen",   slug: "collections" },
     // { label: "Blog",         slug: "blog" },
     // { label: "Unterstützer", slug: "supporters" },
     // { label: "Shop",         slug: "shop" },

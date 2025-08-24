@@ -1,5 +1,4 @@
 <script lang="ts">
-  import DuaCard from "$lib/dua-discovery/DuaCard.svelte";
   import Pagination from "$lib/dua-discovery/Pagination.svelte";
   import FilterPanel from "$lib/dua-discovery/FilterPanel.svelte";
   import SeoHead from "$lib/SEOHead.svelte";
@@ -8,8 +7,7 @@
   import { toast } from "svelte-sonner";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
-
-  // TODO: Rename path from "duas" to "discover" (Entdecken/ Stöbern)
+  import DuaGrid from "$lib/dua-discovery/DuaGrid.svelte";
 
   let { data } = $props();
   let selectedTypes = $derived(page.url.searchParams.getAll("types"));
@@ -45,7 +43,7 @@
   </p>
 
   <!-- 🔍 Suche + Filter -->
-  <div class="mb-4 mt-2 flex w-full gap-2 sm:mt-0 sm:w-auto">
+  <div class="mb-6 mt-2 flex w-full gap-2 sm:mt-0 sm:w-auto">
     <input
       type="text"
       placeholder={"Search duas..."}
@@ -76,14 +74,7 @@
     </div>
   {/if}
 
-  <!-- 📜 Duas Grid -->
-  <div class="flex-1">
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-      {#each data.duas as dua}
-        <DuaCard {dua} />
-      {/each}
-    </div>
+   <DuaGrid duas={data.duas} />
 
-    <Pagination totalPages={data.pagination.totalPages} totalCount={data.pagination.totalCount} />
-  </div>
+   <Pagination totalPages={data.pagination.totalPages} totalCount={data.pagination.totalCount} />
 </div>

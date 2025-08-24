@@ -41,14 +41,18 @@
     goto(`/${$settingsStore.systemLanguage}/duas/${dua.slug}`);
   }
 
+  function navgiateToCollection(slug: string) {
+    goto(`/${$settingsStore.systemLanguage}/collections/${slug}`);
+  }
+
   const readingTime = $derived(Math.ceil((dua.word_count[$settingsStore.systemLanguage] ?? 0) / 100));
 </script>
 
 <a
   onclick={(e) => handleAction(e, () => navigate())}
   href="/{$settingsStore.systemLanguage}/duas/{dua.slug}"
-  class="block transition-transform duration-500 ease-out active:scale-95">
-  <Card class="relative overflow-hidden transition-shadow hover:shadow-lg">
+  class="block h-full transition-transform duration-500 ease-out active:scale-95">
+  <Card class="relative flex h-full flex-col overflow-hidden transition-shadow hover:shadow-lg">
     {#if isPopular || isRecommendedToday}
       <Badge class="absolute right-2 top-2 z-20">
         {isPopular ? "Popular" : "Recommended Today"}
@@ -56,7 +60,7 @@
     {/if}
     <CardHeader
       class={cn(
-        "relative bg-cover bg-center py-8",
+        "h-30 relative bg-cover bg-center py-8",
         "before:absolute before:inset-0 before:z-10 before:bg-black/50 before:content-['']",
       )}
       style="background-image: url({dua.image_url});">
@@ -70,15 +74,15 @@
         <CardTitle class="arabic-font text-right text-2xl text-white">{dua.title["ar"]}</CardTitle>
       </div>
     </CardHeader>
-    <CardContent class="py-2">
+    <CardContent class="flex-1 py-2">
       <div class="mb-2 mt-2 flex flex-wrap gap-2">
-        <!-- <p class="text-xs font-semibold text-primary">Ramadan</p>
-        <p class="text-xs font-semibold text-primary">Mahdawiyya</p>
-        <p class="text-xs font-semibold text-primary">Vergebung</p>
-        <p class="text-xs font-semibold text-primary">Beliebt</p>
-        <p class="text-xs font-semibold text-primary">Wöchentlich</p> -->
-        {#each dua.tags as tag}
-          <p class="text-xs font-semibold text-primary">{tag}</p>
+        {#each dua.collections as collection}
+          <a
+            href="/{$settingsStore.systemLanguage}/collections/{collection.slug}"
+            onclick={(e) => handleAction(e, () => navgiateToCollection(collection.slug))}
+            class="rounded-full bg-primary/90 px-2 py-0.5 text-xs font-medium text-white transition-colors hover:bg-primary/20 hover:text-black">
+            {collection.title[$settingsStore.systemLanguage]}
+          </a>
         {/each}
       </div>
 
