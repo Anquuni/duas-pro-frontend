@@ -3,18 +3,24 @@ import { nonTranslitLanguages } from "$lib/settings/settings.store";
 import { supabase } from "$lib/supabase.config";
 import { error } from "@sveltejs/kit";
 
+type PostTransRow = { [language_code: string]: string };
+
 export async function GET() {
   const pages = [
     { path: "", priority: 1.0 },
-    { path: "duas", priority: 0.9 }
+    { path: "duas", priority: 0.9 },
+    { path: "collections", priority: 0.9 },
+    { path: "blog", priority: 0.9 },
   ];
 
-  const { data: response, error: fetchError } = await supabase.functions.invoke(`duas/routes`);
+  const { data: response, error: fetchError } = await supabase.functions.invoke(`routes`);
   if (fetchError) {
     error(500);
   }
 
-  const duas: string[] = response.data.slugs;
+  const duas: string[] = response.data.duas;
+  const collections: string[] = response.data.collections;
+  const posts: PostTransRow[] = response.data.posts;
   const defaultLang = "en";
   const languages = nonTranslitLanguages.map(l => l.value); // z.B. ["en", "de", "ar"]
 
@@ -36,14 +42,27 @@ export async function GET() {
     `).join("");
   }
 
-  function buildDuaEntries(duas: string[]) {
-    return duas.flatMap(dua =>
+  function buildPageEntries(page: string, slugs: string[]) {
+    return slugs.flatMap(slug =>
       languages.map(lang => `
         <url>
-          <loc>${PUBLIC_BASE_URL}/${lang}/duas/${dua}</loc>
+          <loc>${PUBLIC_BASE_URL}/${lang}/${page}/${slug}</loc>
           <priority>0.8</priority>
           <changefreq>monthly</changefreq>
-          ${buildHreflangBlock(`duas/${dua}`)}
+          ${buildHreflangBlock(`${page}/${slug}`)}
+        </url>
+      `)
+    ).join("");
+  }
+
+  function buildBlogEntries(posts: PostTransRow[]) {
+    return posts.flatMap(post =>
+      languages.map(lang => `
+        <url>
+          <loc>${PUBLIC_BASE_URL}/${lang}/blog/${post[lang]}</loc>
+          <priority>0.8</priority>
+          <changefreq>monthly</changefreq>
+          ${buildHreflangBlock(`blog/${post[lang]}`)}
         </url>
       `)
     ).join("");
@@ -56,7 +75,9 @@ export async function GET() {
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
       >
         ${pages.map(p => buildUrlEntries(p.path, p.priority)).join("")}
-        ${buildDuaEntries(duas)}
+        ${buildPageEntries("duas", duas)}
+        ${buildPageEntries("collection", collections)}
+        ${buildBlogEntries(posts)}
       </urlset>`.trim(),
     {
       headers: {
