@@ -25,6 +25,7 @@
           <li><a href="https://www.tiktok.com/@duas.pro" target="_blank" rel="noopener noreferrer" class="hover:text-white">TikTok</a></li>
           <li><a href="https://www.youtube.com/@duaspro" target="_blank" rel="noopener noreferrer" class="hover:text-white">YouTube</a></li>
           <li><a href="https://x.com/duas_pro" target="_blank" rel="noopener noreferrer" class="hover:text-white">Twitter / X</a></li>
+          <!-- <li><a href="https://x.com/duas_pro" target="_blank" rel="noopener noreferrer" class="hover:text-white">Facebook</a></li> -->
         </ul>
       </div>
 
@@ -32,13 +33,16 @@
       <div>
         <h3 class="mb-3 text-lg font-semibold text-white">Info</h3>
         <ul class="space-y-2">
-          <!-- <li><a href="/about" class="hover:text-white">Über Uns</a></li> -->
           <li>
             <a href="https://forms.gle/PXRZ8y2fUYiymvnr9" target="_blank" rel="noopener noreferrer" class="hover:text-white">Contact</a>
           </li>
           <li>
             <a href="/{$settingsStore.systemLanguage}/privacy-policy" class="hover:text-white">Privacy Policy</a>
           </li>
+          <!-- <li><a href="/about" class="hover:text-white">Impressum</a></li>
+          <li><a href="/about" class="hover:text-white">FAQ</a></li>
+          <li><a href="/about" class="hover:text-white">API</a></li> -->
+
         </ul>
       </div>
 
