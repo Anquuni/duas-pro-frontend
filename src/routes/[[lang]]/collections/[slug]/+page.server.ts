@@ -14,10 +14,12 @@ export async function load({ params, url }) {
     error(404);
   }
 
+  // TODO: We need the collection infos even if no duas has been found for that collection
   const collection = response.data.length > 0 ? response.data[0].collections.find((c: any) => c.slug === params.slug) : null;
 
   return {
     duas: response.data,
+    pagination: response.pagination,
     collection
   };
 }

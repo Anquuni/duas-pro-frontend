@@ -38,6 +38,7 @@
     "@supabase/supabase-js": "^2.53.0",
     "clsx": "^2.1.1",
     "cmdk-sv": "^0.0.18",
+    "marked": "^16.2.0",
     "svelte-dnd-action": "^0.9.57",
     "tailwind-merge": "^3.0.1"
   }

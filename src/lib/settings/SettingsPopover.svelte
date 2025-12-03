@@ -20,6 +20,8 @@
   import { page } from "$app/state";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import { goto } from "$app/navigation";
+  import { supabase } from "$lib/supabase.config";
+
   const currentLanguage = $derived(
     languages.find((lang) => lang.value === $settingsStore.systemLanguage) || { rtl: false },
   );
@@ -28,6 +30,12 @@
 
   function setLanguage(languageCode: LanguageCode) {
     const segments = page.url.pathname.split("/").filter(Boolean);
+    if (segments[1] === "blog" && segments[2]) {
+      switchBlogPage(languageCode, segments);
+      settingsStore.update((s) => ({ ...s, systemLanguage: languageCode }));
+      langOpen = false;
+      return;
+    }
     if (page.params.lang) segments[0] = languageCode;
     else segments.unshift(languageCode);
 
@@ -38,6 +46,32 @@
     goto("/" + segments.join("/") + "?" + searchParams.toString());
     settingsStore.update((s) => ({ ...s, systemLanguage: languageCode }));
     langOpen = false;
+  }
+
+  async function switchBlogPage(languageCode: LanguageCode, segments: string[]) {
+    const fullSlug = segments[2]; // "my-slug--abc123"
+    const suffix = fullSlug.split("--").pop(); // "abc123"
+
+    // 1. Post anhand suffix finden
+    const { data: post } = await supabase.from("posts").select("id").eq("slug_suffix", suffix).single();
+
+    // 2. Übersetzung für neue Sprache holen
+    const { data: translation } = await supabase
+      .from("post_translations")
+      .select("slug")
+      .eq("post_id", post.id)
+      .eq("language_code", languageCode)
+      .single();
+
+    // 3. NEUE URL bauen
+    const newUrl = `/${languageCode}/blog/${translation.slug}--${suffix}`;
+
+    // Query-Params übernehmen
+    const searchParams = new URLSearchParams();
+    if ($liveReadingStore.liveReadingRoomCode != null) searchParams.set("code", $liveReadingStore.liveReadingRoomCode);
+    if ($liveReadingStore.isHost === true) searchParams.set("isHost", "true");
+
+    goto(`${newUrl}?${searchParams.toString()}`);
   }
 </script>
 

@@ -4,6 +4,8 @@ export default {
     "seo.home.description": "استكشف مجموعة متزايدة من الأدعية الإسلامية الموثوقة بالنص العربي، وترجمة سطر بسطر إلى لغات متعددة، مع إمكانية الاستماع، والنقل الصوتي، ووضع القراءة المباشرة للقراءة الجماعية.",
     "seo.collection.title": "Islamische Dua-Sammlungen für besondere Anlässe",
     "seo.collection.description": "Finde thematische Sammlungen authentischer islamischer Duas – für Ramadan, besondere Nächte, tägliche Bittgebete und mehr. Mit arabischem Text, Übersetzung, Audio-Wiedergabe und Live-Lesemodus.",
+    "seo.blog.title": "Blog",
+    "seo.blog.description": "Entdecke Beiträge zu Bittgebeten, islamischem Wissen, technischen Einblicken und Neuigkeiten rund um die Plattform.",
     "settings.system.title": "إعدادات النظام",
     "settings.system.theme.light": "فاتح",
     "settings.system.theme.dark": "داكن",
@@ -68,12 +70,15 @@ export default {
     "narrator.imam-jawad": "الإمام محمد الجواد",
     "narrator.imam-hadi": "الإمام علي الهادي",
     "narrator.imam-askari": "الإمام الحسن العسكري",
-    "narrator.imam-mahdi": "الإمام محمد المهدي"
+    "narrator.imam-mahdi": "الإمام محمد المهدي",
+    "topic.islam-quests": "Islam-Fragen",
   },
   en: {
     "seo.home.title": "Discover authentic Islamic supplications",
     "seo.home.description": "Explore a growing collection of authentic Islamic duas with Arabic text, line-by-line translations in multiple languages, audio playback, transliteration, and live reading mode for shared recitation.",
     "seo.collection.title": "Islamische Dua-Sammlungen für besondere Anlässe",
+    "seo.blog.title": "Blog",
+    "seo.blog.description": "Entdecke Beiträge zu Bittgebeten, islamischem Wissen, technischen Einblicken und Neuigkeiten rund um die Plattform.",
     "seo.collection.description": "Finde thematische Sammlungen authentischer islamischer Duas – für Ramadan, besondere Nächte, tägliche Bittgebete und mehr. Mit arabischem Text, Übersetzung, Audio-Wiedergabe und Live-Lesemodus.",
     "settings.system.title": "System Settings",
     "settings.system.theme.light": "Light",
@@ -139,11 +144,14 @@ export default {
     "narrator.imam-jawad": "Imam Muhammad al-Jawad",
     "narrator.imam-hadi": "Imam Ali al-Hadi",
     "narrator.imam-askari": "Imam Hasan al-Askari",
-    "narrator.imam-mahdi": "Imam Muhammad al-Mahdi"
+    "narrator.imam-mahdi": "Imam Muhammad al-Mahdi",
+    "topic.islam-quests": "Islam Questions",
   },
   de: {
     "seo.home.title": "Authentische islamische Bittgebete entdecken",
     "seo.home.description": "Entdecke eine wachsende Sammlung authentischer islamischer Duas mit arabischem Text, zeilenweiser Übersetzung in vielen Sprachen, Audio-Wiedergabe, Umschrift und einem Live-Lesemodus für gemeinsames Rezitieren.",
+    "seo.blog.title": "Blog",
+    "seo.blog.description": "Entdecke Beiträge zu Bittgebeten, islamischem Wissen, technischen Einblicken und Neuigkeiten rund um die Plattform.",
     "seo.collection.title": "Islamische Dua-Sammlungen für besondere Anlässe",
     "seo.collection.description": "Finde thematische Sammlungen authentischer islamischer Duas – für Ramadan, besondere Nächte, tägliche Bittgebete und mehr. Mit arabischem Text, Übersetzung, Audio-Wiedergabe und Live-Lesemodus.",
     "settings.system.title": "System Einstellungen",
@@ -210,13 +218,16 @@ export default {
     "narrator.imam-jawad": "Imam Muhammad al-Jawad",
     "narrator.imam-hadi": "Imam Ali al-Hadi",
     "narrator.imam-askari": "Imam Hasan al-Askari",
-    "narrator.imam-mahdi": "Imam Muhammad al-Mahdi"
+    "narrator.imam-mahdi": "Imam Muhammad al-Mahdi",
+    "topic.islam-quests": "Islam-Fragen",
   },
   fa: {
     "seo.home.title": "دعاهای اصیل اسلامی را کشف کنید",
     "seo.home.description": "مجموعه‌ای در حال رشد از دعاهای معتبر اسلامی را با متن عربی، ترجمه خط‌به‌خط به زبان‌های مختلف، پخش صوتی، آوانگاری و حالت قرائت زنده برای قرائت مشترک کاوش کنید.",
     "seo.collection.title": "Islamische Dua-Sammlungen für besondere Anlässe",
     "seo.collection.description": "Finde thematische Sammlungen authentischer islamischer Duas – für Ramadan, besondere Nächte, tägliche Bittgebete und mehr. Mit arabischem Text, Übersetzung, Audio-Wiedergabe und Live-Lesemodus.",
+    "seo.blog.title": "Blog",
+    "seo.blog.description": "Entdecke Beiträge zu Bittgebeten, islamischem Wissen, technischen Einblicken und Neuigkeiten rund um die Plattform.",
     "settings.system.title": "تنظیمات سیستم",
     "settings.system.theme.light": "روشن",
     "settings.system.theme.dark": "تاریک",
@@ -281,6 +292,7 @@ export default {
     "narrator.imam-jawad": "امام محمد جواد",
     "narrator.imam-hadi": "امام علی هادی",
     "narrator.imam-askari": "امام حسن عسکری",
-    "narrator.imam-mahdi": "امام محمد مهدی"
+    "narrator.imam-mahdi": "امام محمد مهدی",
+    "topic.islam-quests": "Islam-Fragen",
   }
 };

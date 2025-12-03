@@ -16,11 +16,10 @@
 
   type NavItem = { label: string; slug: string; exact?: boolean };
 
-  // Single Source of Truth of menu items
   const navItems: NavItem[] = [
-    { label: "Bittgebete",   slug: "duas" },
-    { label: "Sammlungen",   slug: "collections" },
-    // { label: "Blog",         slug: "blog" },
+    { label: "Bittgebete", slug: "duas" },
+    { label: "Sammlungen", slug: "collections" },
+    { label: "Blog", slug: "blog" },
     // { label: "Unterstützer", slug: "supporters" },
     // { label: "Shop",         slug: "shop" },
     // { label: "Über uns",     slug: "about" }
@@ -33,7 +32,7 @@
   // exact=false: auch Unterseiten markieren (z. B. /de/collections/ramadan → Collections aktiv)
   function isActive(href: string, exact = false) {
     const current = page.url.pathname.replace(/\/+$/, ""); // ohne trailing slash
-    const target  = href.replace(/\/+$/, "");
+    const target = href.replace(/\/+$/, "");
     if (exact) return current === target;
     return current === target || current.startsWith(target + "/");
   }
@@ -47,35 +46,36 @@
   <!-- Links: Menu (mobile) + Logo -->
   <div class="flex items-center gap-3">
     <!-- Mobile: Sheet Trigger (nur < md) -->
-    <Sheet.Root bind:open>
-      <Sheet.Trigger>
-        <Button variant="ghost" size="icon" aria-label="Open menu">
-          <Menu class="!h-6 !w-6" />
-        </Button>
-      </Sheet.Trigger>
+    <div class="md:hidden">
+      <Sheet.Root bind:open>
+        <Sheet.Trigger>
+          <Button variant="ghost" size="icon" aria-label="Open menu">
+            <Menu class="!h-6 !w-6" />
+          </Button>
+        </Sheet.Trigger>
 
-      <Sheet.Content side="left" class="w-[86%] max-w-sm">
-        <Sheet.Header>
-          <Sheet.Title class="text-base font-semibold">Navigation</Sheet.Title>
-        </Sheet.Header>
+        <Sheet.Content side="left" class="w-[86%] max-w-sm">
+          <Sheet.Header>
+            <Sheet.Title class="text-base font-semibold">Navigation</Sheet.Title>
+          </Sheet.Header>
 
-        <nav class="mt-4 flex flex-col gap-1">
-          {#each navItems as item}
-            {#key item.slug}
-              <a 
-                href={hrefOf(item)}
-                data-active={isActive(hrefOf(item), item.exact)}
-                aria-current={ariaCurrent(hrefOf(item), item.exact)}
-                onclick={() => (open = false)}
-                class="rounded px-3 py-2 text-xl hover:bg-muted data-[active=true]:bg-primary/10 data-[active=true]:text-primary">
-                {item.label}
-              </a>
-            {/key}
-          {/each}
-        </nav>
-
-      </Sheet.Content>
-    </Sheet.Root>
+          <nav class="mt-4 flex flex-col gap-1">
+            {#each navItems as item}
+              {#key item.slug}
+                <a
+                  href={hrefOf(item)}
+                  data-active={isActive(hrefOf(item), item.exact)}
+                  aria-current={ariaCurrent(hrefOf(item), item.exact)}
+                  onclick={() => (open = false)}
+                  class="rounded px-3 py-2 text-xl hover:bg-muted data-[active=true]:bg-primary/10 data-[active=true]:text-primary">
+                  {item.label}
+                </a>
+              {/key}
+            {/each}
+          </nav>
+        </Sheet.Content>
+      </Sheet.Root>
+    </div>
 
     <!-- Brand (Logo + Text) -->
     <a

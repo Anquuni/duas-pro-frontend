@@ -37,10 +37,15 @@
 <SeoHead title={$t("seo.home.title")} description={$t("seo.home.description")} type="organization" />
 
 <div class="p-4 sm:p-6 md:p-8">
-  <h1 class="text-2xl font-semibold">{$t("seo.home.title")}</h1>
-  <p class="mb-2 mt-1 text-sm text-gray-600">
-    {$t("seo.home.description") ?? "Browse, search and filter authentic duas by topic, narrator or book."}
-  </p>
+  <div class="mx-auto max-w-3xl text-center mb-6">
+    <h1 class="text-3xl font-bold tracking-tight">
+      {$t("seo.home.title")}
+    </h1>
+    <p class="mt-3 text-base text-gray-700 dark:text-gray-300">
+      {$t("seo.home.description") ?? 
+        "Browse, search and filter authentic duas by topic, narrator or book."}
+    </p>
+  </div>
 
   <!-- 🔍 Suche + Filter -->
   <div class="mb-6 mt-2 flex w-full gap-2 sm:mt-0 sm:w-auto">
