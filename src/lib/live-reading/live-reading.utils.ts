@@ -17,7 +17,9 @@ export function showNoHostToast() {
   });
 }
 
-export function joinLiveReadingRoom(inputCode: string) {
+export async function joinLiveReadingRoom(inputCode: string) {
+  console.log("Remove all channels");
+  await supabase.removeAllChannels();
   const code = inputCode.toUpperCase();
   console.log("Participant tries to connect to channel " + code);
   const participantChannel = supabase.channel(code);
@@ -80,7 +82,9 @@ export function generateCode(): string {
   return result;
 }
 
-export function startLiveReadingRoom(code: string) {
+export async function startLiveReadingRoom(code: string) {
+  console.log("Remove all channels");
+  await supabase.removeAllChannels();
   console.log("Host tries to connect to channel " + code);
   const hostChannel = supabase.channel(code);
   hostChannel

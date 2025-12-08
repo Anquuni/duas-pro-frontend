@@ -7,11 +7,15 @@
   import { headerStore } from "$lib/header/header.store";
   import HowToLiveReadingDialog from "$lib/live-reading/HowToLiveReadingDialog.svelte";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
-  import { joinLiveReadingRoom, leaveLiveReadingRoom, startLiveReadingRoom } from "$lib/live-reading/live-reading.utils";
+  import {
+    joinLiveReadingRoom,
+    leaveLiveReadingRoom,
+    startLiveReadingRoom,
+  } from "$lib/live-reading/live-reading.utils";
   import SeoHead from "$lib/SEOHead.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/state";
-  
+
   // TODO: Rename folder of components to dua-reader
 
   let { data } = $props();
@@ -20,7 +24,7 @@
   let viewTabsElement: HTMLElement;
   let scrollReference = 0;
   let scrollThreshold = 75; // Schwellenwert für Header-Änderungen
-  
+
   $effect(() => {
     const code = page.url.searchParams.get("code");
     const isHost = page.url.searchParams.get("isHost") === "true";
@@ -77,10 +81,26 @@
       }));
     };
 
+    // On tab becomes visible OR becomes online again → reconnect
+    const handleVisibility = () => {
+      if (document.visibilityState === "visible" && navigator.onLine) {
+        const code = page.url.searchParams.get("code");
+        const isHost = page.url.searchParams.get("isHost") === "true";
+
+        if (code) {
+          if (isHost) startLiveReadingRoom(code);
+          else joinLiveReadingRoom(code);
+        }
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
+    document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener("online", handleVisibility);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("visibilitychange", handleVisibility);
       headerStore.update((state) => ({
         ...state,
         isDuaPage: false,
@@ -116,14 +136,16 @@
   });
 </script>
 
-<SeoHead title={`${data.dua.title["translit"]} – ${data.dua.title[data.lang]}`} 
-  description={data.dua.seo_description[data.lang]} type="webpage" />
+<SeoHead
+  title={`${data.dua.title["translit"]} – ${data.dua.title[data.lang]}`}
+  description={data.dua.seo_description[data.lang]}
+  type="webpage" />
 
 <svelte:window on:beforeunload={beforeUnload} />
 
 <HowToLiveReadingDialog />
 
-<div class="container mx-auto px-0 sm:px-2 pt-8">
+<div class="container mx-auto px-0 pt-8 sm:px-2">
   <DuaContent dua={data.dua} />
 
   <div class="mb-8 flex justify-center" bind:this={viewTabsElement}>
