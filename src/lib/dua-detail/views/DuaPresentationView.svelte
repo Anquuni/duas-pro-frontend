@@ -28,7 +28,7 @@
 <div class="flex flex-col" style="height: calc(100vh - 30px - {audioPlayerHeight}px);">
   <Card class="flex-grow overflow-auto">
     <CardContent class="flex h-full items-center justify-center p-6">
-      <div class="max-w-2xl space-y-4 text-center">
+      <div class="w-full space-y-4 text-center">
         <p class="primary-dua-font-size arabic-font">
           {lines[$duaStore.currentVerse]["ar"]}
         </p>
