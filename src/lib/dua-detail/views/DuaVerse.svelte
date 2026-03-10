@@ -50,7 +50,7 @@
             <Redo class="h-4 w-4" />
           </button>
 
-          <ReportLineErrrorSheet {duaSlug} {line} lineNumber={index + 1} {user} />
+          <!-- <ReportLineErrrorSheet {duaSlug} {line} lineNumber={index + 1} {user} /> -->
         </div>
         <div class="space-y-2 {isInstruction ? 'text-tertiary-800 dark:text-tertiary-200' : ''}">
           {#if isInstruction}
