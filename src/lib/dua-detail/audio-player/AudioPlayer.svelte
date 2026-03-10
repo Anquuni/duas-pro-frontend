@@ -171,20 +171,16 @@
   async function fetchAudio() {
     if (!currentReciter) return;
 
-    isLoading = true;
-
     const selectedRecitation = dua.recitations.find(
       (rec: DuaRecitation) => rec.reciters?.full_name_tl === currentReciter,
     );
 
     if (!selectedRecitation) {
       console.error("Kein passender Reciter gefunden");
-      isLoading = false;
       return;
     }
 
     const { data, error } = await supabase.functions.invoke("audios/" + selectedRecitation.uuid);
-    isLoading = false;
     if (error) {
       console.error(
         `Error while fetching audio ${selectedRecitation.uuid} with recitator ${currentReciter} for dua ${dua.slug}: ${error}`,
@@ -214,6 +210,9 @@
   }
 
   async function togglePlay() {
+    if (isLoading) {
+      return;
+    }
     if ($liveReadingStore.inLiveReadingRoom && !$liveReadingStore.isHost) {
       showNoHostToast();
       return;
@@ -222,6 +221,7 @@
       showNoAudioNotification();
       return;
     }
+    isLoading = true;
     if (!audio) {
       await fetchAudio();
     }
@@ -233,6 +233,7 @@
       audio?.play();
     }
     isPlaying = !isPlaying;
+    isLoading = false;
   }
 
   function previousVerse() {
