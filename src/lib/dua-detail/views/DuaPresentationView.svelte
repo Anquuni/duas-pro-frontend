@@ -1,12 +1,29 @@
 <script lang="ts">
   import { Card, CardContent } from "$lib/components/ui/card";
   import { duaStore } from "$lib/dua-detail/dua.store";
+  import { headerStore } from "$lib/header/header.store";
   import { settingsStore } from "$lib/settings/settings.store";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
 
   let { lines } = $props();
   let headerHeight: number = $state(0);
   let audioPlayerHeight: number = $state(0);
+  let presentationContainer: HTMLDivElement;
+
+  $effect(() => {
+  if ($duaStore.currentView === "presentation") {
+    window.scrollTo(0, document.body.scrollHeight);
+    headerStore.update((state) => ({...state, isExpandedHeader: false}));
+    document.body.style.overflow = "hidden";
+    tick().then(() => {
+      presentationContainer?.focus();
+      (document.activeElement as HTMLElement | null)?.blur();
+      presentationContainer?.focus();
+    });
+  } else {
+    document.body.style.overflow = "";
+  }
+  })
 
   onMount(() => {
     const updateHeights = () => {
@@ -25,18 +42,23 @@
   });
 </script>
 
-<div class="flex flex-col" style="height: calc(100vh - 30px - {audioPlayerHeight}px);">
-  <Card class="flex-grow overflow-auto">
+<div bind:this={presentationContainer} class="flex flex-col " style="height: calc(100vh - 30px - {audioPlayerHeight}px);">
+  <Card class="relative flex-grow overflow-auto">
+
+
+
     <CardContent class="flex h-full items-center justify-center p-6">
       <div class="w-full space-y-4 text-center">
         <p class="primary-dua-font-size arabic-font">
           {lines[$duaStore.currentVerse]["ar"]}
         </p>
+
         {#if $settingsStore.showTranslit}
           <p class="secondary-dua-font-size">
             {lines[$duaStore.currentVerse]["translit"]}
           </p>
         {/if}
+
         {#if $settingsStore.systemLanguage !== "ar"}
           <p class="tertiary-dua-font-size">
             {lines[$duaStore.currentVerse][$settingsStore.systemLanguage]}

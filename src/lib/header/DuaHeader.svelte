@@ -7,7 +7,7 @@
 
   function setActiveTab(tab: string | undefined) {
     if (tab) {
-      duaStore.update((state) => ({ ...state, currentTab: tab }));
+      duaStore.update((state) => ({ ...state, currentView: tab }));
     }
   }
 </script>

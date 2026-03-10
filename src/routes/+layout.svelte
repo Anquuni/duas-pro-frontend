@@ -8,6 +8,7 @@
   import { page } from "$app/state";
   import { invalidate } from '$app/navigation'
   import { onMount } from 'svelte'
+  import { duaStore } from "$lib/dua-detail/dua.store";
 
   let { data, children } = $props();
   let { session, user, supabase } = $derived(data);
@@ -48,6 +49,8 @@
     <main class="flex-1">
       {@render children?.()}
     </main>
-    <Footer />
+    {#if $duaStore.currentView !== "presentation"}
+      <Footer />
+    {/if}
   </div>
 </div>

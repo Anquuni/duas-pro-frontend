@@ -11,26 +11,28 @@
 
   function setActiveTab(tab: string | undefined) {
     if (tab) {
-      duaStore.update((state) => ({ ...state, currentTab: tab }));
+      duaStore.update((state) => ({ ...state, currentView: tab }));
     }
   }
 </script>
 
 <Tabs class="w-full" bind:value={$duaStore.currentView} onValueChange={setActiveTab}>
-  <TabsList class="grid w-full grid-cols-3">
-    <TabsTrigger value="translation" class="flex items-center justify-center">
-      <Languages class="mx-1 h-5 w-5" />
-      {$t("dua.views.translation")}
-    </TabsTrigger>
-    <TabsTrigger value="reading" class="flex items-center justify-center">
-      <Book class="mx-1 h-5 w-5" />
-      {$t("dua.views.reading")}
-    </TabsTrigger>
-    <TabsTrigger value="presentation" class="flex items-center justify-center">
-      <Presentation class="mx-1 h-5 w-5" />
-      {$t("dua.views.presentation")}
-    </TabsTrigger>
-  </TabsList>
+  {#if $duaStore.currentView !== "presentation"}
+    <TabsList class="grid w-full grid-cols-3">
+      <TabsTrigger value="translation" class="flex items-center justify-center">
+        <Languages class="mx-1 h-5 w-5" />
+        {$t("dua.views.translation")}
+      </TabsTrigger>
+      <TabsTrigger value="reading" class="flex items-center justify-center">
+        <Book class="mx-1 h-5 w-5" />
+        {$t("dua.views.reading")}
+      </TabsTrigger>
+      <TabsTrigger value="presentation" class="flex items-center justify-center">
+        <Presentation class="mx-1 h-5 w-5" />
+        {$t("dua.views.presentation")}
+      </TabsTrigger>
+    </TabsList>
+  {/if}
   <TabsContent value="translation">
     <DuaTranslationView duaSlug={dua.slug} lines={dua.lines} currentVerseIndex={$duaStore.currentVerse} {user} />
   </TabsContent>

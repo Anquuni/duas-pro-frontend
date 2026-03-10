@@ -146,7 +146,9 @@
 <HowToLiveReadingDialog />
 
 <div class="container mx-auto px-0 pt-8 sm:px-2">
-  <DuaContent dua={data.dua} />
+  {#if $duaStore.currentView !== "presentation"}
+    <DuaContent dua={data.dua} />
+  {/if}
 
   <div class="mb-8 flex justify-center" bind:this={viewTabsElement}>
     <DuaLineViews dua={data.dua} {user} />
