@@ -90,7 +90,7 @@
             {getLanguageLabel(lang)}
           </Button>
           <Command.Dialog bind:open={langOpen}>
-            <Command.Input placeholder="Search language..." />
+            <!-- <Command.Input placeholder="Search language..." /> -->
             <Command.List>
               <Command.Empty>{$t("settings.dua.language.not-found")}</Command.Empty>
               {#each nonTranslitLanguages as item}
