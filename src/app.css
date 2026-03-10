@@ -108,6 +108,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'GT Walsheim Pro', sans-serif;
+    touch-action: manipulation;
   }
 
     .rtl {
