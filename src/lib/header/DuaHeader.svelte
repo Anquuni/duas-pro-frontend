@@ -17,7 +17,7 @@
     {$headerStore.duaTitle || "Dua"}
   </h1>
 
-  {#if $headerStore.showViewTabs}
+  {#if $headerStore.showViewTabs || $duaStore.currentView === "presentation"}
     <div class="flex flex-1 justify-center">
       <Tabs bind:value={$duaStore.currentView} onValueChange={setActiveTab}>
         <TabsList class="h-8">

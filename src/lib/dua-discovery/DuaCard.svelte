@@ -87,7 +87,7 @@
       </div>
 
       <p class="mb-2 text-sm text-neutral-600 dark:text-neutral-100">
-        {dua.description[$settingsStore.systemLanguage]}
+        <!-- {dua.description[$settingsStore.systemLanguage]} -->
         <!-- Famous dua of Imam Ali taught to his student Kumail which is recommended to recite every thursday evening. -->
       </p>
 

@@ -20,7 +20,7 @@
         <h3 class="mb-3 text-lg font-semibold text-white">Social Media</h3>
         <ul class="space-y-2">
           <li>
-            <a href="https://www.instagram.com/duas.pro_official/" target="_blank" rel="noopener noreferrer" class="hover:text-white">Instagram</a>
+            <a href="https://www.instagram.com/duaspro/" target="_blank" rel="noopener noreferrer" class="hover:text-white">Instagram</a>
           </li>
           <li><a href="https://www.tiktok.com/@duas.pro" target="_blank" rel="noopener noreferrer" class="hover:text-white">TikTok</a></li>
           <li><a href="https://www.youtube.com/@duaspro" target="_blank" rel="noopener noreferrer" class="hover:text-white">YouTube</a></li>
