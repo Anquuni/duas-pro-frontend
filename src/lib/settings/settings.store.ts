@@ -16,7 +16,9 @@ interface Settings {
   primaryDuaFontSize: number;
   secondaryDuaFontSize: number;
   tertiaryDuaFontSize: number;
+  secondTranslationDuaFontSize: number;
   showTranslit: boolean;
+  secondTranslationLanguage: LanguageCode | null;
 }
 
 export const languages: LanguageItem[] = [
@@ -25,7 +27,7 @@ export const languages: LanguageItem[] = [
   { value: "en", label: "English 🇬🇧", rtl: false },
   { value: "de", label: "German 🇩🇪", rtl: false },
   { value: "fa", label: "Persian 🇮🇷", rtl: true },
-  // { value: "tr", label: "Turkish 🇹🇷", rtl: false },
+  { value: "tr", label: "Turkish 🇹🇷", rtl: false },
 ];
 
 // export const languages: LanguageItem[] = [
@@ -103,7 +105,9 @@ function loadSettings(): Settings {
     primaryDuaFontSize: 24,
     secondaryDuaFontSize: 14,
     tertiaryDuaFontSize: 20,
+    secondTranslationDuaFontSize: 14,
     showTranslit: true,
+    secondTranslationLanguage: null,
   };
 
   if (!browser) return defaultSettings;
@@ -120,7 +124,9 @@ function loadSettings(): Settings {
       primaryDuaFontSize: typeof parsed.primaryDuaFontSize === "number" ? parsed.primaryDuaFontSize : 24,
       secondaryDuaFontSize: typeof parsed.secondaryDuaFontSize === "number" ? parsed.secondaryDuaFontSize : 14,
       tertiaryDuaFontSize: typeof parsed.tertiaryDuaFontSize === "number" ? parsed.tertiaryDuaFontSize : 20,
+      secondTranslationDuaFontSize: typeof parsed.secondTranslationDuaFontSize === "number" ? parsed.secondTranslationDuaFontSize : 14,
       showTranslit: typeof parsed.showTranslit === "boolean" ? parsed.showTranslit : true,
+      secondTranslationLanguage: typeof parsed.secondTranslationLanguage === "string" ? parsed.secondTranslationLanguage : null,
     };
   } catch (e) {
     console.error("Fehler beim Laden der Settings:", e);
@@ -138,6 +144,7 @@ if (browser) {
     document.documentElement.style.setProperty("--primary-dua-font-size", settings.primaryDuaFontSize + "px");
     document.documentElement.style.setProperty("--secondary-dua-font-size", settings.secondaryDuaFontSize + "px");
     document.documentElement.style.setProperty("--tertiary-dua-font-size", settings.tertiaryDuaFontSize + "px");
+    document.documentElement.style.setProperty("--second-translation-dua-font-size", settings.secondTranslationDuaFontSize + "px");
   });
 }
 

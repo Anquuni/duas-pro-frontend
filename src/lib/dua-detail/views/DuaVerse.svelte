@@ -62,6 +62,11 @@
               <p class="tertiary-dua-font-size italic">
                 {line[$settingsStore.systemLanguage]}
               </p>
+              {#if $settingsStore.secondTranslationLanguage}
+                <p class="second-translation-dua-font-size italic">
+                  {line[$settingsStore.secondTranslationLanguage]}
+                </p>
+              {/if}
             {/if}
           {:else}
             <p class="primary-dua-font-size arabic-font">
@@ -75,6 +80,11 @@
             {#if $settingsStore.systemLanguage !== "ar"}
               <p class="tertiary-dua-font-size">
                 {line[$settingsStore.systemLanguage]}
+              </p>
+            {/if}
+            {#if $settingsStore.secondTranslationLanguage}
+              <p class="second-translation-dua-font-size">
+                {line[$settingsStore.secondTranslationLanguage]}
               </p>
             {/if}
           {/if}

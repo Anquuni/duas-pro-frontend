@@ -2,9 +2,9 @@
   import { maxFontSize, minFontSize } from "$lib/utils";
   import { Slider } from "$lib/components/ui/slider/index.js";
 
-  export let type: "primary" | "secondary" | "tertiary";
+  export let type: "primary" | "secondary" | "tertiary" | "secondTranslation";
   export let fontSize: number;
-  export let onChange: (type: "primary" | "secondary" | "tertiary", newFontSize: number) => void;
+  export let onChange: (type: "primary" | "secondary" | "tertiary" | "secondTranslation", newFontSize: number) => void;
 </script>
 
 <Slider

@@ -39,12 +39,21 @@
     if (page.params.lang) segments[0] = languageCode;
     else segments.unshift(languageCode);
 
+    const survivingLang2 = $settingsStore.secondTranslationLanguage !== languageCode
+      ? $settingsStore.secondTranslationLanguage
+      : null;
+
     const searchParams = new URLSearchParams();
     if ($liveReadingStore.liveReadingRoomCode != null) searchParams.set("code", $liveReadingStore.liveReadingRoomCode);
     if ($liveReadingStore.isHost === true) searchParams.set("isHost", "true");
+    if (survivingLang2) searchParams.set("lang2", survivingLang2);
 
     goto("/" + segments.join("/") + "?" + searchParams.toString());
-    settingsStore.update((s) => ({ ...s, systemLanguage: languageCode }));
+    settingsStore.update((s) => ({
+      ...s,
+      systemLanguage: languageCode,
+      secondTranslationLanguage: survivingLang2,
+    }));
     langOpen = false;
   }
 

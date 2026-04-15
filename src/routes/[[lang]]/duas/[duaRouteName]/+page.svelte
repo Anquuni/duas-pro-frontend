@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { beforeNavigate } from "$app/navigation";
+  import { beforeNavigate, goto } from "$app/navigation";
   import AudioPlayer from "$lib/dua-detail/audio-player/AudioPlayer.svelte";
   import { duaStore } from "$lib/dua-detail/dua.store";
   import DuaContent from "$lib/dua-detail/DuaContent.svelte";
@@ -15,6 +15,7 @@
   import SeoHead from "$lib/SEOHead.svelte";
   import { onMount } from "svelte";
   import { page } from "$app/state";
+  import { settingsStore } from "$lib/settings/settings.store";
 
   // TODO: Rename folder of components to dua-reader
 
@@ -38,6 +39,21 @@
   });
 
   onMount(() => {
+    // Sync lang2 URL param <-> secondTranslationLanguage store
+    const lang2FromUrl = page.url.searchParams.get("lang2");
+    if (lang2FromUrl) {
+      // URL takes precedence (handles shared links / direct navigation)
+      settingsStore.update((s) => ({ ...s, secondTranslationLanguage: lang2FromUrl }));
+    } else {
+      const storeValue = $settingsStore.secondTranslationLanguage;
+      if (storeValue) {
+        // Store has a saved preference but URL doesn't reflect it → add to URL to trigger re-fetch
+        const newUrl = new URL(page.url.toString());
+        newUrl.searchParams.set("lang2", storeValue);
+        goto(newUrl.toString(), { replaceState: true, noScroll: true, keepFocus: true });
+      }
+    }
+
     liveReadingStore.update((state) => ({
       ...state,
       duaRouteName: data.duaSlug,

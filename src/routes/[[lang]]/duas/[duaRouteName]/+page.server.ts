@@ -5,7 +5,14 @@ import type { Actions } from './$types'
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params, url }) {
   const systemLang = params.lang?.toLowerCase();
-  const languages = ["ar", "translit", systemLang && systemLang !== "ar" ? systemLang : "en"];
+  const firstTranslation = systemLang && systemLang !== "ar" ? systemLang : "en";
+  const languages = ["ar", "translit", firstTranslation];
+
+  const lang2 = url.searchParams.get("lang2");
+  if (lang2 && lang2 !== "ar" && lang2 !== "translit" && lang2 !== firstTranslation) {
+    languages.push(lang2);
+  }
+
   const { data: response, error: errorResponse } = await supabase.functions.invoke(`duas/${params.duaRouteName}?languages=${languages}`);
   if (errorResponse) {
     error(404);

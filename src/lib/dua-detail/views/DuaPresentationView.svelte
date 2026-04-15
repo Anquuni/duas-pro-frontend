@@ -128,6 +128,11 @@
             {lines[$duaStore.currentVerse][$settingsStore.systemLanguage]}
           </p>
         {/if}
+        {#if $settingsStore.secondTranslationLanguage}
+          <p class="second-translation-dua-font-size">
+            {lines[$duaStore.currentVerse][$settingsStore.secondTranslationLanguage]}
+          </p>
+        {/if}
       </div>
     </CardContent>
   </Card>

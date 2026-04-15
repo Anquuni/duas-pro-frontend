@@ -99,6 +99,10 @@
   .tertiary-dua-font-size {
     font-size: var(--tertiary-dua-font-size);
   }
+
+  .second-translation-dua-font-size {
+    font-size: var(--second-translation-dua-font-size);
+  }
 }
 
 @layer base {
