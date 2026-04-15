@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { beforeNavigate, goto } from "$app/navigation";
+  import { beforeNavigate, goto, replaceState } from "$app/navigation";
   import AudioPlayer from "$lib/dua-detail/audio-player/AudioPlayer.svelte";
   import { duaStore } from "$lib/dua-detail/dua.store";
   import DuaContent from "$lib/dua-detail/DuaContent.svelte";
@@ -13,7 +13,7 @@
     startLiveReadingRoom,
   } from "$lib/live-reading/live-reading.utils";
   import SeoHead from "$lib/SEOHead.svelte";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import { page } from "$app/state";
   import { settingsStore } from "$lib/settings/settings.store";
 
@@ -25,6 +25,7 @@
   let viewTabsElement: HTMLElement;
   let scrollReference = 0;
   let scrollThreshold = 75; // Schwellenwert für Header-Änderungen
+  let mounted = $state(false);
 
   $effect(() => {
     const code = page.url.searchParams.get("code");
@@ -35,6 +36,27 @@
       } else {
         joinLiveReadingRoom(code);
       }
+    }
+  });
+
+  $effect(() => {
+    const verse = $duaStore.currentVerse;
+    if (!mounted) return;
+    const newUrl = new URL(page.url.toString());
+    if (verse > 0) {
+      newUrl.searchParams.set("verse", String(verse + 1));
+    } else {
+      newUrl.searchParams.delete("verse");
+    }
+    // replaceState(newUrl.toString(), {});
+
+    // Sync currentVerse -> URL (?verse=N, 1-based). Guarded by mounted to avoid
+    // "router not initialized" error during SSR / before hydration.
+    const current = window.location.pathname + window.location.search + window.location.hash;
+    const next = newUrl.pathname + newUrl.search + newUrl.hash;
+
+    if (current !== next) {
+      window.history.replaceState(window.history.state, "", next);
     }
   });
 
@@ -67,8 +89,15 @@
       isExpandedHeader: true,
     }));
 
-    // Reset to zero
-    duaStore.update((state) => ({ ...state, currentVerse: 0 }));
+    // Restore verse from URL (?verse=N is 1-based), or default to 0
+    const verseParam = parseInt(page.url.searchParams.get("verse") ?? "1", 10);
+    const initialVerse = Number.isFinite(verseParam) && verseParam > 1 ? verseParam - 1 : 0;
+    duaStore.update((state) => ({ ...state, currentVerse: initialVerse }));
+    if (initialVerse > 0) {
+      // Defer scroll so the DOM is ready
+      setTimeout(() => scrollToCurrentVerse(initialVerse), 100);
+    }
+    tick().then(() => mounted = true);
 
     const handleScroll = () => {
       const currentScrollTop = Math.round(window.scrollY || document.documentElement.scrollTop);
