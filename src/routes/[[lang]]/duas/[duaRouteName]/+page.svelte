@@ -25,7 +25,6 @@
   let viewTabsElement: HTMLElement;
   let scrollReference = 0;
   let scrollThreshold = 75; // Schwellenwert für Header-Änderungen
-  let mounted = $state(false);
 
   $effect(() => {
     const code = page.url.searchParams.get("code");
@@ -39,22 +38,24 @@
     }
   });
 
+  // Sync currentVerse + currentView -> URL. Use window.history.replaceState
+  // instead of replaceState to avoid "router not initialized" error
   $effect(() => {
     const verse = $duaStore.currentVerse;
-    if (!mounted) return;
+    const view = $duaStore.currentView;
     const newUrl = new URL(page.url.toString());
     if (verse > 0) {
       newUrl.searchParams.set("verse", String(verse + 1));
     } else {
       newUrl.searchParams.delete("verse");
     }
-    // replaceState(newUrl.toString(), {});
-
-    // Sync currentVerse -> URL (?verse=N, 1-based). Guarded by mounted to avoid
-    // "router not initialized" error during SSR / before hydration.
+    if (view && view !== "translation") {
+      newUrl.searchParams.set("view", view);
+    } else {
+      newUrl.searchParams.delete("view");
+    }
     const current = window.location.pathname + window.location.search + window.location.hash;
     const next = newUrl.pathname + newUrl.search + newUrl.hash;
-
     if (current !== next) {
       window.history.replaceState(window.history.state, "", next);
     }
@@ -89,15 +90,17 @@
       isExpandedHeader: true,
     }));
 
-    // Restore verse from URL (?verse=N is 1-based), or default to 0
+    // Restore verse + view from URL, or use defaults
     const verseParam = parseInt(page.url.searchParams.get("verse") ?? "1", 10);
     const initialVerse = Number.isFinite(verseParam) && verseParam > 1 ? verseParam - 1 : 0;
-    duaStore.update((state) => ({ ...state, currentVerse: initialVerse }));
+    const validViews = ["translation", "reading", "presentation"];
+    const viewParam = page.url.searchParams.get("view") ?? "translation";
+    const initialView = validViews.includes(viewParam) ? viewParam : "translation";
+    duaStore.update((state) => ({ ...state, currentVerse: initialVerse, currentView: initialView }));
     if (initialVerse > 0) {
       // Defer scroll so the DOM is ready
       setTimeout(() => scrollToCurrentVerse(initialVerse), 100);
     }
-    tick().then(() => mounted = true);
 
     const handleScroll = () => {
       const currentScrollTop = Math.round(window.scrollY || document.documentElement.scrollTop);
