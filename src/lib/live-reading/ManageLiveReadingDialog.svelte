@@ -84,8 +84,8 @@
       {:else}
         <div class="flex items-center space-x-2">
           <!-- Roter Punkt als Live-Indikator -->
-          <div class="h-2 w-2 animate-pulse rounded-full bg-red-500"></div>
-          <span class="font-semibold text-red-500">{$t("live-reading.live")}</span>
+          <div class="h-2 w-2 animate-pulse rounded-full {!$liveReadingStore.isHostOnline ? 'bg-yellow-500' : 'bg-red-500'}"></div>
+          <span class="font-semibold {!$liveReadingStore.isHostOnline ? 'text-yellow-500' : 'text-red-500'}">{$t("live-reading.live")}</span>
           <span class="hidden text-sm font-medium md:inline">
             • {@html $t("live-reading.code", { code: $liveReadingStore.liveReadingRoomCode })}
             • {@html $t("live-reading.participants", { count: $liveReadingStore.participantsNumber })}

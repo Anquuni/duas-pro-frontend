@@ -6,6 +6,8 @@ import { get } from "svelte/store";
 import { howToLiveReadingDialogStore, liveReadingStore } from "./live-reading.store";
 import { releaseWakeLock, requestWakeLock } from "$lib/dua-detail/wakeLock";
 
+let hostUnsubscribe: (() => void) | null = null;
+
 export function showNoHostToast() {
   toast.info("Nur der Host kann dies tun", {
     description:
@@ -25,11 +27,11 @@ export async function joinLiveReadingRoom(inputCode: string) {
   const participantChannel = supabase.channel(code);
   participantChannel
     .on("presence", { event: "sync" }, () => {
-      const newState = participantChannel.presenceState<{ currentVerse: number }>();
+      const newState = participantChannel.presenceState<{ currentVerse: number, role: string }>();
       console.log("Participant received message: ", JSON.stringify(newState));
       updateParticipantsNumber(newState);
       const hostEntry = Object.entries(newState).find(([_, presences]) =>
-        presences.some((p) => p.currentVerse !== undefined)
+        presences.some((p) => p.role === "host")
       );
       if (hostEntry) {
         console.log("Host is online")
@@ -54,7 +56,7 @@ export async function joinLiveReadingRoom(inputCode: string) {
       console.log(`Participant subscribed to channel ${code}.`);
       requestWakeLock();
 
-      participantChannel.track({}).then((presenceTrackStatus) => {
+      participantChannel.track({role: "participant"}).then((presenceTrackStatus) => {
         console.log("Participant sent message with response " + JSON.stringify(presenceTrackStatus));
       });
 
@@ -70,18 +72,6 @@ export async function joinLiveReadingRoom(inputCode: string) {
     });
 }
 
-export function generateCode(): string {
-  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // No I, L, O, 0, 1
-  let result = '';
-  length = 5;
-  const array = new Uint8Array(length);
-  crypto.getRandomValues(array);
-  for (let i = 0; i < length; i++) {
-    result += chars[array[i] % chars.length];
-  }
-  return result;
-}
-
 export async function startLiveReadingRoom(code: string) {
   console.log("Remove all channels");
   await supabase.removeAllChannels();
@@ -89,7 +79,7 @@ export async function startLiveReadingRoom(code: string) {
   const hostChannel = supabase.channel(code);
   hostChannel
     .on('presence', { event: 'sync' }, () => {
-      const newState = hostChannel.presenceState<{ currentVerse: number }>();
+      const newState = hostChannel.presenceState<{ currentVerse: number, role: string }>();
       console.log("Host received message: ", JSON.stringify(newState));
       updateParticipantsNumber(newState);
     })
@@ -97,21 +87,27 @@ export async function startLiveReadingRoom(code: string) {
     .on('presence', { event: 'leave' }, ({ key, leftPresences }) => handleLeaveEvent("Host", leftPresences))
     .subscribe((status) => {
       console.log("Host received subscribe event with " + status);
-      requestWakeLock();
-      // TODO: Update hostOnline
+
       if (status !== "SUBSCRIBED") {
         liveReadingStore.update((state) => ({ ...state, isHostOnline: false }))
         return;
       }
       liveReadingStore.update((state) => ({ ...state, isHostOnline: true }))
       console.log(`Host subscribed to channel ${code}.`);
+      requestWakeLock();
 
       // Notify all participants of the initial state of the host
       syncHostState(hostChannel, get(duaStore));
 
+      if (hostUnsubscribe) {
+        console.log("unsibscireb")
+        hostUnsubscribe();
+      }
+
       if (!get(liveReadingStore).inLiveReadingRoom) {
+        console.log("subscribe")
         // Notify all participants if the state of the host changes
-        duaStore.subscribe((duaState) => syncHostState(hostChannel, duaState));
+        hostUnsubscribe = duaStore.subscribe((duaState) => syncHostState(hostChannel, duaState));
         console.log("Host subscribed to duaStore")
 
         liveReadingStore.update((state) => ({
@@ -126,9 +122,9 @@ export async function startLiveReadingRoom(code: string) {
     });
 }
 
-function handleJoinEvnt(s: string, presences: RealtimePresenceState<{ [key: string]: any; }>[]) {
-  console.log('Host received join event of ... ', JSON.stringify(presences));
-  const isHost = presences.some(p => p.currentVerse !== undefined);
+function handleJoinEvnt(s: string, presences: RealtimePresenceState<{ [key: string]: any;  }>[]) {
+  console.log(s, ' received join event of ... ', JSON.stringify(presences));
+  const isHost = presences.some(p => (p as any).role === "host");
   if (!isHost) {
     console.log(' ... a participant');
     const participantsNumber = get(liveReadingStore).participantsNumber + 1;
@@ -139,7 +135,7 @@ function handleJoinEvnt(s: string, presences: RealtimePresenceState<{ [key: stri
 
 function handleLeaveEvent(s: string, presences: RealtimePresenceState<{ [key: string]: any; }>[]) {
   console.log(s, ' received leave event of ... ', JSON.stringify(presences));
-  const isHost = presences.some(p => p.currentVerse !== undefined);
+  const isHost = presences.some(p => (p as any).role === "host");
   if (!isHost) {
     console.log(' ... a participant');
     const participantsNumber = get(liveReadingStore).participantsNumber - 1;
@@ -149,8 +145,9 @@ function handleLeaveEvent(s: string, presences: RealtimePresenceState<{ [key: st
 }
 
 function syncHostState(channel: RealtimeChannel, duaState: DuaState) {
-  channel.track({ currentVerse: duaState.currentVerse }).then((presenceTrackStatus) => {
-    console.log("Host sent message with" + duaState.currentVerse + " and with response " + JSON.stringify(presenceTrackStatus));
+  console.log("syncHostState called with verse", duaState.currentVerse, "at", Date.now());
+  channel.track({ currentVerse: duaState.currentVerse, role: "host" }).then((presenceTrackStatus) => {
+    console.log("Host sent message with " + duaState.currentVerse + " and with response " + JSON.stringify(presenceTrackStatus));
   });
 }
 
@@ -173,4 +170,16 @@ export function leaveLiveReadingRoom() {
     isHost: false,
     room: null,
   }));
+}
+
+export function generateCode(): string {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789'; // No I, L, O, 0, 1
+  let result = '';
+  length = 5;
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+  for (let i = 0; i < length; i++) {
+    result += chars[array[i] % chars.length];
+  }
+  return result;
 }
