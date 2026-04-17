@@ -1,12 +1,11 @@
-import { duaStore, type DuaState } from "$lib/dua-detail/dua.store";
+import { duaStore } from "$lib/dua-detail/dua.store";
 import { supabase } from "$lib/supabase.config";
-import type { RealtimeChannel, RealtimePresenceState } from "@supabase/supabase-js";
 import { toast } from "svelte-sonner";
 import { get } from "svelte/store";
 import { howToLiveReadingDialogStore, liveReadingStore } from "./live-reading.store";
 import { releaseWakeLock, requestWakeLock } from "$lib/dua-detail/wakeLock";
 
-let hostUnsubscribe: (() => void) | null = null;
+const verseChangedEvent = "verse-changed"
 
 export function showNoHostToast() {
   toast.info("Nur der Host kann dies tun", {
@@ -20,45 +19,25 @@ export function showNoHostToast() {
 }
 
 export async function joinLiveReadingRoom(inputCode: string) {
-  console.log("Remove all channels");
-  await supabase.removeAllChannels();
+  await leaveLiveReadingRoom();
   const code = inputCode.toUpperCase();
-  console.log("Participant tries to connect to channel " + code);
   const participantChannel = supabase.channel(code);
   participantChannel
     .on("presence", { event: "sync" }, () => {
       const newState = participantChannel.presenceState<{ currentVerse: number, role: string }>();
-      console.log("Participant received message: ", JSON.stringify(newState));
-      updateParticipantsNumber(newState);
-      const hostEntry = Object.entries(newState).find(([_, presences]) =>
-        presences.some((p) => p.role === "host")
-      );
-      if (hostEntry) {
-        console.log("Host is online")
-        const [hostKey, hostPresences] = hostEntry;
-        const newCurrentVerse = hostPresences[0].currentVerse;
-        duaStore.update((state) => ({
-          ...state,
-          currentVerse: newCurrentVerse,
-        }));
-        liveReadingStore.update((state) => ({ ...state, isHostOnline: true }))
-      } else {
-        console.log("Host is offline");
-        liveReadingStore.update((state) => ({ ...state, isHostOnline: false }))
-      }
+      const hosts = Object.values(newState).flat().filter((p) => p.role === "host");
+      liveReadingStore.update((state) => ({ ...state, participantsNumber: Object.values(newState).length, isHostOnline: hosts.length > 0 }));
     })
-    .on('presence', { event: 'join' }, ({ key, newPresences }) => handleJoinEvnt("Participant", newPresences))
-    .on('presence', { event: 'leave' }, ({ key, leftPresences }) => handleLeaveEvent("Participant", leftPresences))
-    .subscribe((status) => {
+    .on('broadcast', { event: verseChangedEvent }, (message) => {
+      duaStore.update((state) => ({ ...state, currentVerse: message.payload.currentVerse }));
+    }).subscribe((status) => {
       if (status !== "SUBSCRIBED") {
         return;
       }
-      console.log(`Participant subscribed to channel ${code}.`);
       requestWakeLock();
 
-      participantChannel.track({role: "participant"}).then((presenceTrackStatus) => {
-        console.log("Participant sent message with response " + JSON.stringify(presenceTrackStatus));
-      });
+      // Notify channel that you as participant subsribed to the channel
+      participantChannel.track({ role: "participant" })
 
       if (!get(liveReadingStore).inLiveReadingRoom) {
         liveReadingStore.update((state) => ({
@@ -73,42 +52,30 @@ export async function joinLiveReadingRoom(inputCode: string) {
 }
 
 export async function startLiveReadingRoom(code: string) {
-  console.log("Remove all channels");
-  await supabase.removeAllChannels();
-  console.log("Host tries to connect to channel " + code);
+  await leaveLiveReadingRoom()
   const hostChannel = supabase.channel(code);
   hostChannel
     .on('presence', { event: 'sync' }, () => {
       const newState = hostChannel.presenceState<{ currentVerse: number, role: string }>();
-      console.log("Host received message: ", JSON.stringify(newState));
-      updateParticipantsNumber(newState);
+      liveReadingStore.update((state) => ({ ...state, participantsNumber: Object.values(newState).length }));
     })
-    .on('presence', { event: 'join' }, ({ key, newPresences }) => handleJoinEvnt("Host", newPresences))
-    .on('presence', { event: 'leave' }, ({ key, leftPresences }) => handleLeaveEvent("Host", leftPresences))
     .subscribe((status) => {
-      console.log("Host received subscribe event with " + status);
-
       if (status !== "SUBSCRIBED") {
         liveReadingStore.update((state) => ({ ...state, isHostOnline: false }))
         return;
       }
       liveReadingStore.update((state) => ({ ...state, isHostOnline: true }))
-      console.log(`Host subscribed to channel ${code}.`);
       requestWakeLock();
+      hostChannel.track({ role: "host" })
 
       // Notify all participants of the initial state of the host
-      syncHostState(hostChannel, get(duaStore));
-
-      if (hostUnsubscribe) {
-        console.log("unsibscireb")
-        hostUnsubscribe();
-      }
+      hostChannel.send({ type: 'broadcast', event: verseChangedEvent, payload: { currentVerse: get(duaStore).currentVerse } })
 
       if (!get(liveReadingStore).inLiveReadingRoom) {
-        console.log("subscribe")
         // Notify all participants if the state of the host changes
-        hostUnsubscribe = duaStore.subscribe((duaState) => syncHostState(hostChannel, duaState));
-        console.log("Host subscribed to duaStore")
+        duaStore.subscribe((duaState) => {
+          hostChannel.send({ type: 'broadcast', event: verseChangedEvent, payload: { currentVerse: duaState.currentVerse } })
+        });
 
         liveReadingStore.update((state) => ({
           ...state,
@@ -122,47 +89,11 @@ export async function startLiveReadingRoom(code: string) {
     });
 }
 
-function handleJoinEvnt(s: string, presences: RealtimePresenceState<{ [key: string]: any;  }>[]) {
-  console.log(s, ' received join event of ... ', JSON.stringify(presences));
-  const isHost = presences.some(p => (p as any).role === "host");
-  if (!isHost) {
-    console.log(' ... a participant');
-    const participantsNumber = get(liveReadingStore).participantsNumber + 1;
-    liveReadingStore.update((state) => ({ ...state, participantsNumber }));
-    console.log("New participantsNumber: " + participantsNumber);
-  }
-}
-
-function handleLeaveEvent(s: string, presences: RealtimePresenceState<{ [key: string]: any; }>[]) {
-  console.log(s, ' received leave event of ... ', JSON.stringify(presences));
-  const isHost = presences.some(p => (p as any).role === "host");
-  if (!isHost) {
-    console.log(' ... a participant');
-    const participantsNumber = get(liveReadingStore).participantsNumber - 1;
-    liveReadingStore.update((state) => ({ ...state, participantsNumber }));
-    console.log("New participantsNumber: " + participantsNumber);
-  }
-}
-
-function syncHostState(channel: RealtimeChannel, duaState: DuaState) {
-  console.log("syncHostState called with verse", duaState.currentVerse, "at", Date.now());
-  channel.track({ currentVerse: duaState.currentVerse, role: "host" }).then((presenceTrackStatus) => {
-    console.log("Host sent message with " + duaState.currentVerse + " and with response " + JSON.stringify(presenceTrackStatus));
-  });
-}
-
-function updateParticipantsNumber(state: RealtimePresenceState<{ currentVerse: number }>) {
-  const participantsNumber = Object.values(state)
-    .length;
-  liveReadingStore.update((state) => ({ ...state, participantsNumber }));
-  console.log("New participantsNumber: " + participantsNumber);
-}
-
-export function leaveLiveReadingRoom() {
-  releaseWakeLock();
+export async function leaveLiveReadingRoom() {
+  await releaseWakeLock();
   const liveReadingState = get(liveReadingStore);
-  liveReadingState.room?.untrack();
-  liveReadingState.room?.unsubscribe()
+  await liveReadingState.room?.untrack();
+  await liveReadingState.room?.unsubscribe();
   liveReadingStore.update((state) => ({
     ...state,
     inLiveReadingRoom: false,
