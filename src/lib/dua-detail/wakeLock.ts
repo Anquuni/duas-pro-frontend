@@ -2,13 +2,10 @@ let wakeLock: WakeLockSentinel | null = null;
 
 export async function requestWakeLock() {
   try {
-    console.log('Trying to activate Wake Lock');
     if ('wakeLock' in navigator) {
       wakeLock = await navigator.wakeLock.request('screen');
-      console.log('Wake Lock activated');
 
       wakeLock.addEventListener('release', () => {
-        console.log('Wake Lock released');
       });
 
       // Re-request bei Sichtbarkeitswechsel
@@ -28,7 +25,6 @@ export async function releaseWakeLock() {
     if (wakeLock !== null) {
       await wakeLock.release();
       wakeLock = null;
-      console.log('Wake Lock manually released');
     }
   } catch (err) {
     console.error('Wake Lock Release Error:', err);

@@ -5,7 +5,6 @@ export const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_K
     realtime: {
         worker: true,
         heartbeatCallback: (status) => {
-            console.log("Realtime heartbeat:", status);
             if (status === "disconnected") {
                 supabase.realtime.connect();
             }
