@@ -7,8 +7,18 @@
   import { settingsStore } from "$lib/settings/settings.store";
   import { onMount, tick } from "svelte";
   import { fly, fade } from "svelte/transition";
+  import SvgQR from "@svelte-put/qr/svg/QR.svelte";
+  import { PUBLIC_BASE_URL } from "$env/static/public";
+  import logo from "$lib/assets/duas-pro-logo.png";
+  import { t } from "$lib/translations/i18n";
 
   let { lines } = $props();
+
+  const liveReadingLink = $derived(
+    $liveReadingStore.liveReadingRoomCode
+      ? `${PUBLIC_BASE_URL}/duas/${$liveReadingStore.duaRouteName}?code=${$liveReadingStore.liveReadingRoomCode}`
+      : "",
+  );
   let headerHeight: number = $state(0);
   let audioPlayerHeight: number = $state(0);
   let sectionTitle = $derived(lines[$duaStore.currentVerse]["section_title_" + $settingsStore.systemLanguage]);
@@ -98,7 +108,7 @@
   ontouchstart={handleTouchStart}
   ontouchend={handleTouchEnd} 
   class="flex flex-col " style="height: calc(100vh - 30px - {audioPlayerHeight}px);">
-  <Card class="relative flex-grow overflow-auto">
+  <Card class="relative flex-grow overflow-auto border-0 shadow-none">
 
   {#if sectionTitle}
     {#key sectionTitle}
@@ -109,6 +119,16 @@
         {sectionTitle}
       </span>
     {/key}
+  {/if}
+
+  {#if $liveReadingStore.inLiveReadingRoom && $liveReadingStore.liveReadingRoomCode}
+    <div class="fixed right-4 top-12 z-50 flex flex-col items-center gap-1 rounded-lg border border-gray-200 bg-card px-2 pb-2 pt-1 dark:border-gray-700">
+      <span class="text-xs font-semibold text-gray-600 dark:text-gray-400">{$t("live-reading.scan-to-join")}</span>
+      <SvgQR data={liveReadingLink} {logo} width={80} height={80} class="rounded" />
+      <span class="font-mono text-xs font-bold tracking-widest text-gray-700 dark:text-gray-300">
+        {$liveReadingStore.liveReadingRoomCode}
+      </span>
+    </div>
   {/if}
 
     <CardContent class="flex h-full items-center justify-center p-6">
