@@ -24,8 +24,8 @@
           </li>
           <li><a href="https://www.tiktok.com/@duas.pro" target="_blank" rel="noopener noreferrer" class="hover:text-white">TikTok</a></li>
           <li><a href="https://www.youtube.com/@duaspro" target="_blank" rel="noopener noreferrer" class="hover:text-white">YouTube</a></li>
+          <li><a href="https://www.facebook.com/people/Duaspro/61575336283297/" target="_blank" rel="noopener noreferrer" class="hover:text-white">Facebook</a></li>
           <li><a href="https://x.com/duas_pro" target="_blank" rel="noopener noreferrer" class="hover:text-white">Twitter / X</a></li>
-          <!-- <li><a href="https://x.com/duas_pro" target="_blank" rel="noopener noreferrer" class="hover:text-white">Facebook</a></li> -->
         </ul>
       </div>
 
