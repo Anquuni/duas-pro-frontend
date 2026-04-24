@@ -2,6 +2,14 @@
   import { Button } from "$lib/components/ui/button";
   import * as Popover from "$lib/components/ui/popover";
   import * as Sheet from "$lib/components/ui/sheet";
+  import {
+    NavigationMenu,
+    NavigationMenuList,
+    NavigationMenuItem,
+    NavigationMenuTrigger,
+    NavigationMenuContent,
+    NavigationMenuLink,
+  } from "$lib/components/ui/navigation-menu";
   import { settingsStore } from "$lib/settings/settings.store";
   import SettingsPopover from "../settings/SettingsPopover.svelte";
   import AuthDialog from "./AuthDialog.svelte";
@@ -14,24 +22,41 @@
 
   const base = $derived(`/${$settingsStore.systemLanguage}`);
 
-  type NavItem = { label: string; slug: string; exact?: boolean };
+  type NavSubItem = { label: string; description: string; slug: string };
+  type NavItem = { label: string; slug: string; exact?: boolean; subitems?: NavSubItem[] };
 
   const navItems: NavItem[] = [
-    { label: "Bittgebete", slug: "duas" },
-    { label: "Sammlungen", slug: "collections" },
-    { label: "Blog", slug: "blog" },
-    // { label: "Unterstützer", slug: "supporters" },
-    // { label: "Shop",         slug: "shop" },
-    // { label: "Über uns",     slug: "about" }
+    {
+      label: "Bittgebete",
+      slug: "duas",
+      subitems: [
+        // { label: "Alle Bittgebete", description: "Durchsuche alle Bittgebete", slug: "duas" },
+        // { label: "Duaa", description: "Bittgebete aus Koran und Sunna", slug: "duas?types=dua" },
+        // { label: "Ziyarat", description: "Besuche und Grüße an die Imame", slug: "duas?types=ziyarat" },
+      ],
+    },
+    {
+      label: "Sammlungen",
+      slug: "collections",
+      subitems: [
+        // { label: "Alle Sammlungen", description: "Kuratierte Themensammlungen", slug: "collections" },
+      ],
+    },
+    {
+      label: "Blog",
+      slug: "blog",
+      subitems: [
+        // { label: "Alle Beiträge", description: "Artikel und Texte", slug: "blog" },
+      ],
+    },
   ];
 
-  function hrefOf(item: NavItem) {
-    return `${base}/${item.slug}`;
+  function hrefOf(slug: string) {
+    return `${base}/${slug}`;
   }
 
-  // exact=false: auch Unterseiten markieren (z. B. /de/collections/ramadan → Collections aktiv)
   function isActive(href: string, exact = false) {
-    const current = page.url.pathname.replace(/\/+$/, ""); // ohne trailing slash
+    const current = page.url.pathname.replace(/\/+$/, "");
     const target = href.replace(/\/+$/, "");
     if (exact) return current === target;
     return current === target || current.startsWith(target + "/");
@@ -43,9 +68,9 @@
 </script>
 
 <div class="flex h-[60px] items-center justify-between px-2 py-1 sm:px-4">
-  <!-- Links: Menu (mobile) + Logo -->
+  <!-- Left: Menu (mobile) + Logo -->
   <div class="flex items-center gap-3">
-    <!-- Mobile: Sheet Trigger (nur < md) -->
+    <!-- Mobile: Sheet Trigger (< md only) -->
     <div class="md:hidden">
       <Sheet.Root bind:open>
         <Sheet.Trigger>
@@ -61,49 +86,83 @@
 
           <nav class="mt-4 flex flex-col gap-1">
             {#each navItems as item}
-              {#key item.slug}
-                <a
-                  href={hrefOf(item)}
-                  data-active={isActive(hrefOf(item), item.exact)}
-                  aria-current={ariaCurrent(hrefOf(item), item.exact)}
-                  onclick={() => (open = false)}
-                  class="rounded px-3 py-2 text-xl hover:bg-muted data-[active=true]:bg-primary/10 data-[active=true]:text-primary">
-                  {item.label}
-                </a>
-              {/key}
+              <a
+                href={hrefOf(item.slug)}
+                data-active={isActive(hrefOf(item.slug), item.exact)}
+                aria-current={ariaCurrent(hrefOf(item.slug), item.exact)}
+                onclick={() => (open = false)}
+                class="rounded px-3 py-2 text-xl hover:bg-muted data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+              >
+                {item.label}
+              </a>
+              {#if item.subitems && item.subitems.length > 1}
+                <div class="ml-4 flex flex-col gap-0.5">
+                  {#each item.subitems.slice(1) as sub}
+                    <a
+                      href={hrefOf(sub.slug)}
+                      onclick={() => (open = false)}
+                      class="rounded px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                    >
+                      {sub.label}
+                    </a>
+                  {/each}
+                </div>
+              {/if}
             {/each}
           </nav>
         </Sheet.Content>
       </Sheet.Root>
     </div>
 
-    <!-- Brand (Logo + Text) -->
+    <!-- Brand -->
     <a
       href={base}
-      class="flex items-center gap-2 text-xl font-bold transition-transform duration-500 ease-out active:scale-95">
+      class="flex items-center gap-2 text-xl font-bold transition-transform duration-500 ease-out active:scale-95"
+    >
       <img src={logo} alt="duas.pro logo" class="h-8 w-auto" />
       <span>duas.pro</span>
     </a>
   </div>
 
-  <!-- Desktop Nav (ab md:) -->
-  <nav class="hidden items-center gap-6 md:flex">
-    {#each navItems as item}
-      {#key item.slug}
-        <a
-          href={hrefOf(item)}
-          data-active={isActive(hrefOf(item), item.exact)}
-          aria-current={ariaCurrent(hrefOf(item), item.exact)}
-          class="text-sm font-medium hover:underline data-[active=true]:font-semibold data-[active=true]:underline">
-          {item.label}
-        </a>
-      {/key}
-    {/each}
-  </nav>
+  <!-- Desktop Nav (md+) -->
+  <NavigationMenu class="hidden md:flex">
+    <NavigationMenuList>
+      {#each navItems as item}
+        <NavigationMenuItem>
+          {#if item.subitems && item.subitems.length > 0}
+            <NavigationMenuTrigger data-active={isActive(hrefOf(item.slug), item.exact)}>
+              {item.label}
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul class="grid w-[320px] gap-1 p-3">
+                {#each item.subitems as sub}
+                  <li>
+                    <NavigationMenuLink href={hrefOf(sub.slug)}>
+                      <div class="text-sm font-medium leading-none">{sub.label}</div>
+                      <p class="mt-1 line-clamp-2 text-xs leading-snug text-muted-foreground">
+                        {sub.description}
+                      </p>
+                    </NavigationMenuLink>
+                  </li>
+                {/each}
+              </ul>
+            </NavigationMenuContent>
+          {:else}
+            <NavigationMenuLink
+              href={hrefOf(item.slug)}
+              data-active={isActive(hrefOf(item.slug), item.exact)}
+              class="inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:underline focus:outline-none"
+            >
+              {item.label}
+            </NavigationMenuLink>
+          {/if}
+        </NavigationMenuItem>
+      {/each}
+    </NavigationMenuList>
+  </NavigationMenu>
 
-  <!-- Rechts: Aktionen -->
+  <!-- Right: Actions -->
   <div class="flex items-center gap-1 md:gap-2">
-    <!-- Login -->
     <Popover.Root>
       <Popover.Trigger>
         <Button variant="ghost" size="icon">
@@ -114,7 +173,6 @@
       <AuthDialog {user} />
     </Popover.Root>
 
-    <!-- Settings -->
     <Popover.Root>
       <Popover.Trigger>
         <Button variant="ghost" size="icon">

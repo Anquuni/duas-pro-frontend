@@ -14,7 +14,7 @@
   class:h-[90px]={$headerStore.isDuaPage && $headerStore.isExpandedHeader}
   class:h-[30px]={$headerStore.isDuaPage && !$headerStore.isExpandedHeader}>
 
-  <div class="relative h-full overflow-hidden">
+  <div class="relative h-full">
     <div class={`absolute w-full transition-transform duration-300 ${
       $headerStore.isExpandedHeader ? 'translate-y-0' : '-translate-y-full'
     }`}>
