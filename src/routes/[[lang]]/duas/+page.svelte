@@ -31,7 +31,7 @@
         params.delete("search-word");
       }
       params.set("page", "1");
-      goto(`${page.url.pathname}?${params.toString()}`, { replaceState: true });
+      goto(`${page.url.pathname}?${params.toString()}`, { replaceState: true, keepFocus: true, noScroll: true });
     }, 400);
   }
 
