@@ -6,6 +6,7 @@ export async function load({ params, url }) {
   const page = parseInt(url.searchParams.get('page') || '1');
   const size = parseInt(url.searchParams.get('size') || '20');
   const types = url.searchParams.get('types');
+  const searchWord = url.searchParams.get('search-word');
 
   const systemLang = params.lang?.toLowerCase();
   const languages = ["ar", "translit", systemLang && systemLang !== "ar" ? systemLang : "en"];
@@ -13,6 +14,9 @@ export async function load({ params, url }) {
   let requestUrl = `duas?languages=${languages}&page=${page}&size=${size}`;
   if (types) {
     requestUrl += `&types=${types}`;
+  }
+  if (searchWord) {
+    requestUrl += `&search-word=${encodeURIComponent(searchWord)}`;
   }
 
   const { data: response, error: errorResponse } = await supabase.functions.invoke(requestUrl);

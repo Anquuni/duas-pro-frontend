@@ -4,7 +4,6 @@
   import SeoHead from "$lib/SEOHead.svelte";
   import { t } from "$lib/translations/i18n";
   import * as Sheet from "$lib/components/ui/sheet/index.js";
-  import { toast } from "svelte-sonner";
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
   import DuaGrid from "$lib/dua-discovery/DuaGrid.svelte";
@@ -12,13 +11,27 @@
   let { data } = $props();
   let selectedTypes = $derived(page.url.searchParams.getAll("types"));
   let filterPanelOpen = $state(false);
-  let searchTerm = $state("");
+  let searchTerm = $state(page.url.searchParams.get("search-word") ?? "");
+  let urlSearchWord = $derived(page.url.searchParams.get("search-word") ?? "");
 
-  function handleSearchFocus() {
-    toast.info("Search is not implemented yet!", {
-      description:
-        "Contribute to the project by joining the GitHub community or clicking on Contact in the Footer section",
-    });
+  $effect(() => {
+    searchTerm = urlSearchWord;
+  });
+
+  let debounceTimer: ReturnType<typeof setTimeout>;
+
+  function handleSearchInput() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      const params = new URLSearchParams(page.url.searchParams);
+      if (searchTerm.trim()) {
+        params.set("search-word", searchTerm.trim());
+      } else {
+        params.delete("search-word");
+      }
+      params.set("page", "1");
+      goto(`${page.url.pathname}?${params.toString()}`, { replaceState: true });
+    }, 400);
   }
 
   function removeTypeFilter(typeToRemove: string) {
@@ -27,8 +40,7 @@
     const remainingTypes = params.getAll("types").filter((t) => t !== typeToRemove);
     params.delete("types");
     remainingTypes.forEach((t) => params.append("types", t));
-    params.delete("page");
-    params.append("page", "1");
+    params.set("page", "1");
 
     goto(`${page.url.pathname}?${params.toString()}`, { replaceState: true });
   }
@@ -52,12 +64,11 @@
     <input
       type="text"
       placeholder={"Search duas..."}
-      class="w-full flex-1 rounded-lg border border-gray-300 px-4 py-2 shadow-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:w-64"
+      class="w-full flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500 sm:w-64"
       bind:value={searchTerm}
-      readonly
-      onfocus={handleSearchFocus} />
+      oninput={handleSearchInput} />
     <Sheet.Root bind:open={filterPanelOpen}>
-      <Sheet.Trigger class="rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm hover:bg-gray-50">
+      <Sheet.Trigger class="rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700">
         {"Filter"}
       </Sheet.Trigger>
       <Sheet.Content side="right" class="p-0">

@@ -35,9 +35,13 @@
   function applyFilters() {
     filterPanelOpen = false;
     const size = Number(page.url.searchParams.get("size") ?? 20);
-    let url = `/${$settingsStore.systemLanguage}/duas?page=${1}&size=${size}`;
-    if (selectedTypes) {
+    const searchWord = page.url.searchParams.get("search-word");
+    let url = `/${$settingsStore.systemLanguage}/duas?page=1&size=${size}`;
+    if (selectedTypes.length) {
       url += `&types=${selectedTypes}`;
+    }
+    if (searchWord) {
+      url += `&search-word=${encodeURIComponent(searchWord)}`;
     }
     goto(url);
   }
