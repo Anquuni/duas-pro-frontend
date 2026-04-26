@@ -1,6 +1,24 @@
 import { supabase } from "$lib/supabase.config";
 import { error, fail } from '@sveltejs/kit';
 import type { Actions } from './$types'
+import type { DuaLine } from "$lib/types/dua.model";
+
+function transformLines(rawLines: any[]): DuaLine[] {
+  return rawLines.map((raw) => {
+    const flat: Record<string, any> = {
+      begin_of_section: raw.begin_of_section ?? false,
+      type: raw.type ?? "TEXT",
+      repetitions_number: raw.repetitions_number ?? null,
+    };
+    for (const t of raw.translations ?? []) {
+      flat[t.language] = t.text;
+      if (t.section_title) {
+        flat["section_title_" + t.language] = t.section_title;
+      }
+    }
+    return flat as DuaLine;
+  });
+}
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params, url }) {
@@ -18,8 +36,11 @@ export async function load({ params, url }) {
     error(404);
   }
 
+  const dua = response.data;
+  dua.lines = transformLines(dua.lines);
+
   return {
-    dua: response.data,
+    dua,
     duaSlug: params.duaRouteName,
     lang: systemLang,
   };
