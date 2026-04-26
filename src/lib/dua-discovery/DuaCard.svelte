@@ -7,12 +7,14 @@
   import { settingsStore } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
   import { cn } from "$lib/utils";
+  import { bookmarksStore, toggleBookmark } from "$lib/bookmarks/bookmarks.store";
   import { Bookmark, Clock, MicVocal, Share2, User } from "@lucide/svelte";
-  import { toast } from "svelte-sonner";
 
   let { dua } = $props();
   const isPopular = dua.tags.includes("popular");
   const isRecommendedToday = dua.tags.includes("daily");
+
+  let bookmarked = $derived($bookmarksStore.some((b) => b.slug === dua.slug));
 
   async function shareDua() {
     const url = page.url.toString() + "/duas/" + dua.slug;
@@ -22,13 +24,6 @@
     } else {
       await navigator.clipboard.writeText(url);
     }
-  }
-
-  function bookmarkDua() {
-    toast.info("Bookmark is not implemented yet!", {
-      description:
-        "Contribute to the project by joining the GitHub community or clicking on Contact in the Footer section",
-    });
   }
 
   function handleAction(event: Event, action: () => void) {
@@ -132,8 +127,8 @@
         <Button variant="ghost" size="icon" onclick={(e) => handleAction(e, () => shareDua())}>
           <Share2 size={20} />
         </Button>
-        <Button variant="ghost" size="icon" onclick={(e) => handleAction(e, () => bookmarkDua())}>
-          <Bookmark size={20} />
+        <Button variant="ghost" size="icon" onclick={(e) => handleAction(e, () => toggleBookmark({ slug: dua.slug, title: dua.title, image_url: dua.image_url }))}>
+          <Bookmark size={20} class={bookmarked ? "fill-current" : ""} />
         </Button>
       </div>
     </CardFooter>

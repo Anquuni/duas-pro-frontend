@@ -7,6 +7,7 @@
   import { page } from "$app/state";
   import { goto } from "$app/navigation";
   import DuaGrid from "$lib/dua-discovery/DuaGrid.svelte";
+  import BookmarkedDuas from "$lib/bookmarks/BookmarkedDuas.svelte";
 
   let { data } = $props();
   let selectedTypes = $derived(page.url.searchParams.getAll("types"));
@@ -58,6 +59,8 @@
         "Browse, search and filter authentic duas by topic, narrator or book."}
     </p>
   </div>
+
+  <BookmarkedDuas />
 
   <!-- 🔍 Suche + Filter -->
   <div class="mb-6 mt-2 flex w-full gap-2 sm:mt-0 sm:w-auto">

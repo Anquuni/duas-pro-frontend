@@ -2,11 +2,13 @@
   import { Button } from "$lib/components/ui/button";
   import { settingsStore } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
+  import { bookmarksStore, toggleBookmark } from "$lib/bookmarks/bookmarks.store";
   import { Bookmark, Share2 } from "@lucide/svelte";
   import { page } from "$app/state";
-  import { toast } from "svelte-sonner";
 
   let { dua } = $props();
+
+  let bookmarked = $derived($bookmarksStore.some((b) => b.slug === dua.slug));
 
   async function share() {
     const url = page.url.toString();
@@ -16,13 +18,6 @@
     } else {
       await navigator.clipboard.writeText(url);
     }
-  }
-
-  function bookmarkDua() {
-    toast.info("Bookmark is not implemented yet!", {
-      description:
-        "Contribute to the project by joining the GitHub community or clicking on Contact in the Footer section",
-    });
   }
 </script>
 
@@ -62,8 +57,8 @@
     <Button variant="outline" size="sm" onclick={share}>
       <Share2 size={20} />
     </Button>
-    <Button variant="outline" size="icon" onclick={bookmarkDua}>
-      <Bookmark size={20} />
+    <Button variant="outline" size="icon" onclick={() => toggleBookmark({ slug: dua.slug, title: dua.title, image_url: dua.image_url })}>
+      <Bookmark size={20} class={bookmarked ? "fill-current" : ""} />
     </Button>
   </div>
 </div>
