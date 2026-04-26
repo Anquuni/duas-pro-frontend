@@ -1,5 +1,6 @@
 import { browser } from "$app/environment";
 import { writable } from "svelte/store";
+import { cacheBookmarkContent, uncacheBookmarkContent } from "./offlineCache";
 
 export interface BookmarkedDua {
   slug: string;
@@ -26,9 +27,15 @@ if (browser) {
   });
 }
 
-export function toggleBookmark(dua: BookmarkedDua) {
+export function toggleBookmark(dua: BookmarkedDua, audioUrls: string[] = []) {
   bookmarksStore.update((bookmarks) => {
     const exists = bookmarks.some((b) => b.slug === dua.slug);
-    return exists ? bookmarks.filter((b) => b.slug !== dua.slug) : [...bookmarks, dua];
+    if (exists) {
+      uncacheBookmarkContent(dua.slug);
+      return bookmarks.filter((b) => b.slug !== dua.slug);
+    } else {
+      cacheBookmarkContent(dua.slug, dua.image_url, audioUrls);
+      return [...bookmarks, dua];
+    }
   });
 }

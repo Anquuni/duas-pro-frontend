@@ -57,7 +57,12 @@
     <Button variant="outline" size="sm" onclick={share}>
       <Share2 size={20} />
     </Button>
-    <Button variant="outline" size="icon" onclick={() => toggleBookmark({ slug: dua.slug, title: dua.title, image_url: dua.image_url })}>
+    <Button variant="outline" size="icon" onclick={() => {
+      const audioUrls = dua.recitations.flatMap((r: { audio_low_quality_url?: string; audio_high_quality_url?: string }) =>
+        [r.audio_low_quality_url, r.audio_high_quality_url].filter((u): u is string => !!u)
+      );
+      toggleBookmark({ slug: dua.slug, title: dua.title, image_url: dua.image_url }, audioUrls);
+    }}>
       <Bookmark size={20} class={bookmarked ? "fill-current" : ""} />
     </Button>
   </div>
