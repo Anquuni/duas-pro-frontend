@@ -8,9 +8,9 @@ export async function load({ params, url }) {
   const firstTranslation = systemLang && systemLang !== "ar" ? systemLang : "en";
   const languages = ["ar", "translit", firstTranslation];
 
-  const lang2 = url.searchParams.get("lang2");
-  if (lang2 && lang2 !== "ar" && lang2 !== "translit" && lang2 !== firstTranslation) {
-    languages.push(lang2);
+  const secondTranslation = url.searchParams.get("lang2");
+  if (secondTranslation && secondTranslation !== "ar" && secondTranslation !== "translit" && secondTranslation !== firstTranslation) {
+    languages.push(secondTranslation);
   }
 
   const { data: response, error: errorResponse } = await supabase.functions.invoke(`duas/${params.duaRouteName}?languages=${languages}`);
