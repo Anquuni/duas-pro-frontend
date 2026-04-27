@@ -8,7 +8,15 @@ import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/publi
 export const languageRedirect: Handle = async ({ event, resolve }) => {
   const { pathname } = event.url;
 
-  if (pathname.endsWith(".png") || pathname.endsWith(".svg") || pathname === "favicon.ico" || pathname === "/sitemap.xml" || pathname === "/robots.txt" || pathname === "/c8b81689dc7040adac7ee65a5f2e6cd3.txt") {
+  if (
+    pathname.endsWith(".png") ||
+    pathname.endsWith(".svg") ||
+    pathname === "favicon.ico" ||
+    pathname === "/sitemap.xml" ||
+    pathname === "/robots.txt" ||
+    pathname === "/c8b81689dc7040adac7ee65a5f2e6cd3.txt" ||
+    pathname.startsWith("/.well-known/")
+  ) {
     return resolve(event);
   }
 

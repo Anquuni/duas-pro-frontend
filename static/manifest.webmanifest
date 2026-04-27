@@ -8,6 +8,7 @@
   "background_color": "#ffffff",
   "theme_color": "#16a34a",
   "orientation": "portrait-primary",
+  "handle_links": "preferred",
   "icons": [
     {
       "src": "/icons/icon-192.png",
