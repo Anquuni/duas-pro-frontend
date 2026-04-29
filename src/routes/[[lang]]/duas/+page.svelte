@@ -66,13 +66,13 @@
   <div class="mb-6 mt-2 flex w-full gap-2 sm:mt-0 sm:w-auto">
     <input
       type="text"
-      placeholder={"Search duas..."}
+      placeholder={$t("duas.search-placeholder")}
       class="w-full flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 shadow-sm placeholder-gray-400 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500 sm:w-64"
       bind:value={searchTerm}
       oninput={handleSearchInput} />
     <Sheet.Root bind:open={filterPanelOpen}>
       <Sheet.Trigger class="rounded-lg border border-gray-300 bg-white px-4 py-2 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700">
-        {"Filter"}
+        {$t("filter.title")}
       </Sheet.Trigger>
       <Sheet.Content side="right" class="p-0">
         <FilterPanel bind:filterPanelOpen />

@@ -3,6 +3,7 @@
   import SessionCard from "$lib/live-reading/SessionCard.svelte";
   import SeoHead from "$lib/SEOHead.svelte";
   import { User } from "@lucide/svelte";
+  import { t } from "$lib/translations/i18n";
 
   let { data } = $props();
 </script>
@@ -16,13 +17,13 @@
       <User size={28} />
     </div>
     <div>
-      <p class="text-xs text-muted-foreground">Signed in as</p>
+      <p class="text-xs text-muted-foreground">{$t("profile.signed-in-as")}</p>
       <p class="font-semibold">{data.user?.email}</p>
     </div>
   </div>
 
   <!-- Sessions -->
-  <h2 class="mb-4 text-xl font-semibold">Planned Live Reading Sessions</h2>
+  <h2 class="mb-4 text-xl font-semibold">{$t("profile.planned-sessions")}</h2>
 
   {#if data.sessions.length === 0}
     <div class="rounded-lg border border-dashed p-10 text-center text-muted-foreground">

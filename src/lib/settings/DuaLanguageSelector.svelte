@@ -99,7 +99,7 @@
 
   <div class="flex justify-between items-center">
     <p class="flex-1 px-2 text-base font-medium">
-      {$t("settings.dua.second-translation")}
+      {$t("settings.dua.second-translation.label")}
     </p>
     {#if $settingsStore.secondTranslationLanguage}
       <p class="text-end text-base font-medium">

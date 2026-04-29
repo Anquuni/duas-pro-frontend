@@ -68,7 +68,7 @@
         </p>
         <div class="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
           <Calendar size={12} />
-          <span>{formatSchedule(session.schedule)}</span>
+          <span>{formatSchedule(session.schedule, $settingsStore.systemLanguage)}</span>
           <span class="font-mono font-bold tracking-widest text-foreground">{session.code}</span>
         </div>
       </div>

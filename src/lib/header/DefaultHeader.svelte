@@ -16,6 +16,7 @@
   import logo from "$lib/assets/duas-pro-logo.svg";
   import { Menu, Settings, User } from "@lucide/svelte";
   import { page } from "$app/state";
+  import { t } from "$lib/translations/i18n";
 
   let { user } = $props();
   let open = $state(false);
@@ -25,9 +26,9 @@
   type NavSubItem = { label: string; description: string; slug: string };
   type NavItem = { label: string; slug: string; exact?: boolean; subitems?: NavSubItem[] };
 
-  const navItems: NavItem[] = [
+  const navItems: NavItem[] = $derived([
     {
-      label: "Bittgebete",
+      label: $t("nav.duas"),
       slug: "duas",
       subitems: [
         // { label: "Alle Bittgebete", description: "Durchsuche alle Bittgebete", slug: "duas" },
@@ -36,20 +37,20 @@
       ],
     },
     {
-      label: "Sammlungen",
+      label: $t("nav.collections"),
       slug: "collections",
       subitems: [
         // { label: "Alle Sammlungen", description: "Kuratierte Themensammlungen", slug: "collections" },
       ],
     },
     {
-      label: "Blog",
+      label: $t("nav.blog"),
       slug: "blog",
       subitems: [
         // { label: "Alle Beiträge", description: "Artikel und Texte", slug: "blog" },
       ],
     },
-  ];
+  ]);
 
   function hrefOf(slug: string) {
     return `${base}/${slug}`;

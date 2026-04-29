@@ -3,6 +3,7 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/state";
   import { settingsStore } from "$lib/settings/settings.store";
+  import { t } from "$lib/translations/i18n";
 
   let { totalPages, totalCount } = $props();
 
@@ -56,7 +57,7 @@
 </script>
 
 <div class="mt-6 flex flex-wrap items-center justify-center gap-8">
-  <span class="">{firstDuaNumber} - {lastDuaNumber} of {totalCount} Duas</span>
+  <span class="">{$t("pagination.range", { first: firstDuaNumber, last: lastDuaNumber, total: totalCount })}</span>
 
   <!-- Pagination -->
   <nav class="flex flex-wrap items-center gap-2 text-base" aria-label="pagination">
@@ -99,7 +100,7 @@
 
   <!-- Selector -->
   <div class="flex items-center gap-2">
-    <span class="">Duas anzeigen:</span>
+    <span class="">{$t("pagination.show-duas")}</span>
 
     <Select.Root
       type="single"

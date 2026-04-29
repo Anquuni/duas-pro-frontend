@@ -91,7 +91,7 @@
         {#if dua.word_count[$settingsStore.systemLanguage]}
           <div class="flex items-center">
             <Clock size={14} class="mr-1" />
-            <span>{readingTime} Min. Lesedauer</span>
+            <span>{$t("dua-card.reading-time", { minutes: readingTime })}</span>
           </div>
         {/if}
         {#if dua.narrator !== null}
@@ -122,7 +122,7 @@
       </div>
     </CardContent>
     <CardFooter class="flex items-center justify-between pb-4">
-      <Button variant="outline" size="sm">Read Full Dua</Button>
+      <Button variant="outline" size="sm">{$t("dua-card.read-full")}</Button>
       <div class="flex space-x-2">
         <Button variant="ghost" size="icon" onclick={(e) => handleAction(e, () => shareDua())}>
           <Share2 size={20} />

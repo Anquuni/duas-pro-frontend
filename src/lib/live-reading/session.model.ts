@@ -19,10 +19,22 @@ export interface PlannedSession {
   created_at: string;
 }
 
-export function formatSchedule(schedule: SessionSchedule): string {
+const everyPrefix: Record<string, string> = {
+  en: "Every", de: "Jeden", ar: "كل", fa: "هر", tr: "Her",
+};
+
+// day index for a known Mon–Sun week (Jan 6–12 2025)
+const dayIndex: Record<string, number> = {
+  monday: 6, tuesday: 7, wednesday: 8, thursday: 9,
+  friday: 10, saturday: 11, sunday: 12,
+};
+
+export function formatSchedule(schedule: SessionSchedule, locale = "en"): string {
   if (schedule.type === "once") {
-    return new Intl.DateTimeFormat("en", { dateStyle: "long" }).format(new Date(schedule.date));
+    return new Intl.DateTimeFormat(locale, { dateStyle: "long" }).format(new Date(schedule.date));
   }
-  const day = schedule.day;
-  return `Every ${day.charAt(0).toUpperCase()}${day.slice(1)}`;
+  const date = new Date(2025, 0, dayIndex[schedule.day]);
+  const dayName = new Intl.DateTimeFormat(locale, { weekday: "long" }).format(date);
+  const prefix = everyPrefix[locale] ?? everyPrefix.en;
+  return `${prefix} ${dayName}`;
 }

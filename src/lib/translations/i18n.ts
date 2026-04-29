@@ -1,36 +1,37 @@
 import { settingsStore } from "$lib/settings/settings.store";
 import { derived } from "svelte/store";
-import translations from "./translations";
+import ar from "./ar";
+import de from "./de";
+import en from "./en";
+import fa from "./fa";
+import tr from "./tr";
+
+const translations: Record<string, Record<string, unknown>> = { ar, de, en, fa, tr };
 
 export const locales = Object.keys(translations);
 
-// Usage Example:
-// <h1>{$t("homepage.title")}!</h1>
-// <p>{@html $t("homepage.welcome", { name: "Jane Doe" })}!</p>
-
-function translate(locale: string, key: string, vars) {
-  // Fehlerbehandlung, falls keine gültigen Keys oder Locale angegeben werden
+function translate(locale: string, key: string, vars: Record<string, string | number | null | undefined>): string {
   if (!key) throw new Error("no key provided to $t()");
-  if (!locale) throw new Error(`no translation for key "${key}"`);
+  if (!locale) throw new Error(`no locale provided for key "${key}"`);
 
-  // Übersetzung aus dem translations-Objekt abrufen
-  let text = translations[locale][key];
+  const parts = key.split(".");
+  let value: unknown = translations[locale];
+  for (const part of parts) {
+    value = (value as Record<string, unknown>)?.[part];
+  }
 
-  if (!text) throw new Error(`no translation found for ${locale}.${key}`);
+  if (typeof value !== "string") throw new Error(`no translation found for ${locale}.${key}`);
 
-  // Ersetze Variablen in der Übersetzung
-  Object.keys(vars).map((k) => {
-    const regex = new RegExp(`{{${k}}}`, "g");
-    text = text.replace(regex, vars[k]);
+  Object.keys(vars).forEach((k) => {
+    value = (value as string).replace(new RegExp(`{{${k}}}`, "g"), String(vars[k] ?? ""));
   });
 
-  return text;
+  return value as string;
 }
 
-// Verwenden des systemlanguage-Werts aus settingsstore anstelle von locale
 export const t = derived(
   settingsStore,
   ($settingsStore) =>
-    (key: string, vars = {}) =>
+    (key: string, vars: Record<string, string | number | null | undefined> = {}) =>
       translate($settingsStore.systemLanguage, key, vars),
 );

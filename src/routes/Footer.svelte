@@ -1,6 +1,6 @@
 <script>
   import { settingsStore } from "$lib/settings/settings.store";
-
+  import { t } from "$lib/translations/i18n";
 </script>
 <footer class="bg-gray-900 pt-12 pb-20 text-gray-300">
   <div class="mx-auto max-w-6xl px-4">
@@ -17,7 +17,7 @@
 
       <!-- Social Media -->
       <div>
-        <h3 class="mb-3 text-lg font-semibold text-white">Social Media</h3>
+        <h3 class="mb-3 text-lg font-semibold text-white">{$t("footer.social-media")}</h3>
         <ul class="space-y-2">
           <li>
             <a href="https://www.instagram.com/duaspro/" target="_blank" rel="noopener noreferrer" class="hover:text-white">Instagram</a>
@@ -31,13 +31,13 @@
 
       <!-- Kontakt -->
       <div>
-        <h3 class="mb-3 text-lg font-semibold text-white">Info</h3>
+        <h3 class="mb-3 text-lg font-semibold text-white">{$t("footer.info")}</h3>
         <ul class="space-y-2">
           <li>
-            <a href="https://forms.gle/PXRZ8y2fUYiymvnr9" target="_blank" rel="noopener noreferrer" class="hover:text-white">Contact</a>
+            <a href="https://forms.gle/PXRZ8y2fUYiymvnr9" target="_blank" rel="noopener noreferrer" class="hover:text-white">{$t("footer.contact")}</a>
           </li>
           <li>
-            <a href="/{$settingsStore.systemLanguage}/privacy-policy" class="hover:text-white">Privacy Policy</a>
+            <a href="/{$settingsStore.systemLanguage}/privacy-policy" class="hover:text-white">{$t("footer.privacy-policy")}</a>
           </li>
           <!-- <li><a href="/about" class="hover:text-white">Impressum</a></li>
           <li><a href="/about" class="hover:text-white">FAQ</a></li>

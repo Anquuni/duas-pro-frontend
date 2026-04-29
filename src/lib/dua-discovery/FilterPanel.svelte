@@ -49,7 +49,7 @@
 
 <div class="flex h-full w-full flex-col">
   <div class="flex-none border-b p-6 text-left">
-    <h2 class="text-center text-lg font-semibold">Filter</h2>
+    <h2 class="text-center text-lg font-semibold">{$t("filter.title")}</h2>
   </div>
   <div class="flex-1 overflow-y-auto p-6">
     <!-- 🧭 Typ-Filter -->
@@ -81,5 +81,5 @@
 
   <!-- TODO: Add here more filters -->
 
-  <Button class="flex-none rounded-none p-6" onclick={applyFilters}>Anwenden</Button>
+  <Button class="flex-none rounded-none p-6" onclick={applyFilters}>{$t("filter.apply")}</Button>
 </div>
