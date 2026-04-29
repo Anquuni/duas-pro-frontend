@@ -3,10 +3,11 @@
   import { settingsStore } from "$lib/settings/settings.store";
   import { t } from "$lib/translations/i18n";
   import { bookmarksStore, toggleBookmark } from "$lib/bookmarks/bookmarks.store";
+  import CreateSessionDialog from "$lib/live-reading/CreateSessionDialog.svelte";
   import { Bookmark, Share2 } from "@lucide/svelte";
   import { page } from "$app/state";
 
-  let { dua } = $props();
+  let { dua, user } = $props();
 
   let bookmarked = $derived($bookmarksStore.some((b) => b.slug === dua.slug));
 
@@ -53,7 +54,7 @@
     {dua.description[$settingsStore.systemLanguage]}
   </p>
 
-  <div class="flex justify-center space-x-4">
+  <div class="flex flex-wrap justify-center gap-2">
     <Button variant="outline" size="sm" onclick={share}>
       <Share2 size={20} />
     </Button>
@@ -65,5 +66,8 @@
     }}>
       <Bookmark size={20} class={bookmarked ? "fill-current" : ""} />
     </Button>
+    {#if user}
+      <CreateSessionDialog {dua} />
+    {/if}
   </div>
 </div>

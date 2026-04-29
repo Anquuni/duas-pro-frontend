@@ -163,15 +163,23 @@
 
   <!-- Right: Actions -->
   <div class="flex items-center gap-1 md:gap-2">
-    <Popover.Root>
-      <Popover.Trigger>
+    {#if user}
+      <a href="/{$settingsStore.systemLanguage}/profile" aria-label="Profile">
         <Button variant="ghost" size="icon">
-          {#if user}<User class="!h-5 !w-5" />{:else}<span class="text-sm">Login</span>{/if}
-          <span class="sr-only">Login</span>
+          <User class="!h-5 !w-5" />
         </Button>
-      </Popover.Trigger>
-      <AuthDialog {user} />
-    </Popover.Root>
+      </a>
+    {:else}
+      <Popover.Root>
+        <Popover.Trigger>
+          <Button variant="ghost" size="icon">
+            <span class="text-sm">Login</span>
+            <span class="sr-only">Login</span>
+          </Button>
+        </Popover.Trigger>
+        <AuthDialog {user} />
+      </Popover.Root>
+    {/if}
 
     <Popover.Root>
       <Popover.Trigger>

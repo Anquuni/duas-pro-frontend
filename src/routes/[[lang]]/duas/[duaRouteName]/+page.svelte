@@ -195,7 +195,7 @@
 
 <div class="container mx-auto px-0 pt-8 sm:px-2">
   {#if $duaStore.currentView !== "presentation"}
-    <DuaContent dua={data.dua} />
+    <DuaContent dua={data.dua} {user} />
   {/if}
 
   <div class="mb-8 flex justify-center" bind:this={viewTabsElement}>

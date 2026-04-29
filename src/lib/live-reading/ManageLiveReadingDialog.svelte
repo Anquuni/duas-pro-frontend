@@ -3,7 +3,6 @@
   import {
     Dialog,
     DialogContent,
-    DialogDescription,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -12,10 +11,8 @@
   import { Label } from "$lib/components/ui/label";
   import { liveReadingStore } from "$lib/live-reading/live-reading.store";
   import {
-    generateCode,
     joinLiveReadingRoom,
     leaveLiveReadingRoom,
-    startLiveReadingRoom,
   } from "$lib/live-reading/live-reading.utils";
   import SvgQR from "@svelte-put/qr/svg/QR.svelte";
   import { Copy, Users, X } from "@lucide/svelte";
@@ -28,9 +25,6 @@
   let dialogOpen = $state(false);
   let inputCode = $state("");
   let isInputError = $state(false);
-  let active: "join" | "start" | "plan" | null = $state("join");
-  let showPlannedLink = $state(false);
-  let plannedCode = $state("");
 
   function validateAndJoinLiveReading() {
     if (!inputCode.trim()) {
@@ -42,9 +36,6 @@
   }
 
   function endLiveReadingAndCloseDialog() {
-    if ($liveReadingStore.isHost) {
-      console.log("TODO: Confirm ending of live reading session");
-    }
     leaveLiveReadingRoom();
     dialogOpen = false;
   }
@@ -60,19 +51,6 @@
       ? `${PUBLIC_BASE_URL}/duas/${$liveReadingStore.duaRouteName}?code=${$liveReadingStore.liveReadingRoomCode}`
       : "",
   );
-
-  const plannedLiveReadingLink = $derived(
-    `${PUBLIC_BASE_URL}/duas/${$liveReadingStore.duaRouteName}?code=${plannedCode}&isHost=true`,
-  );
-
-  function toggle(panel: typeof active) {
-    active = active === panel ? null : panel;
-  }
-
-  function planLiveReadingRoom() {
-    showPlannedLink = true;
-    plannedCode = generateCode();
-  }
 </script>
 
 <Dialog bind:open={dialogOpen}>
@@ -111,79 +89,21 @@
       </a> -->
 
       {#if !$liveReadingStore.inLiveReadingRoom}
-        <!-- Accordion Container -->
-        <div class="">
-          <!-- Panel 1: Bestehender Live-Lesung beitreten -->
-          <div class="rounded-lg border">
-            <button class="flex w-full items-center justify-between px-4 py-3 text-left" onclick={() => toggle("join")}>
-              <h2 class="font-semibold">{$t("live-reading.join.title")}</h2>
-              <span>{active === "join" ? "−" : "+"}</span>
-            </button>
-            {#if active === "join"}
-              <div class="rounded-lg border p-4">
-                <Label for="inputc" class="text-sm font-medium">{$t("live-reading.join.label")}</Label>
-                <Input
-                  id="inputc"
-                  bind:value={inputCode}
-                  placeholder="Code der Live-Lesung"
-                  class="mb-3 mt-1 w-full {isInputError ? 'border-red-500' : 'border-gray-300'}"
-                  onkeydown={(event) => event.key === "Enter" && validateAndJoinLiveReading()} />
-                {#if isInputError}
-                  <p class="mb-3 text-xs text-red-500">{$t("live-reading.join.validation")}</p>
-                {/if}
-                <p class="mb-3 text-xs text-gray-500">{$t("live-reading.join.spelling")}</p>
-                <Button onclick={validateAndJoinLiveReading} class="w-full">{$t("live-reading.join.button")}</Button>
-              </div>
-            {/if}
-          </div>
-          <!-- Panel 2: Neue Live-Lesung starten -->
-          <div class="rounded-lg border">
-            <button
-              class="flex w-full items-center justify-between px-4 py-3 text-left"
-              onclick={() => toggle("start")}>
-              <h2 class="font-semibold">{$t("live-reading.start.title")}</h2>
-              <span>{active === "start" ? "−" : "+"}</span>
-            </button>
-            {#if active === "start"}
-              <div class="rounded-lg border p-4">
-                <DialogDescription>
-                  {$t("live-reading.start.description")}
-                </DialogDescription>
-                <Button onclick={() => startLiveReadingRoom(generateCode())} class="mt-3 w-full"
-                  >{$t("live-reading.start.button")}</Button>
-              </div>
-            {/if}
-          </div>
-          <!-- Panel 3: Neue Live-Lesung planen -->
-          <div class="rounded-lg border">
-            <button class="flex w-full items-center justify-between px-4 py-3 text-left" onclick={() => toggle("plan")}>
-              <h2 class="font-semibold">{$t("live-reading.plan.title")}</h2>
-              <span>{active === "plan" ? "−" : "+"}</span>
-            </button>
-            {#if active === "plan"}
-              <div class="rounded-lg border p-4">
-                <DialogDescription class="mb-2">
-                  {$t("live-reading.plan.description")}
-                </DialogDescription>
-
-                {#if !showPlannedLink}
-                  <Button onclick={() => planLiveReadingRoom()} class="mt-3 w-full"
-                    >{$t("live-reading.plan.button")}</Button>
-                {:else}
-                  <div class="flex flex-row">
-                    <Input id="link" value={plannedLiveReadingLink} readonly class="mb-2 sm:mb-0" />
-                    <Button onclick={() => copyLiveReadingLink(plannedLiveReadingLink)} class="whitespace-nowrap px-3">
-                      <Copy class="h-4 w-4" />
-                    </Button>
-                  </div>
-                  {#if copied}
-                    <span class="ml-2 text-sm text-gray-600">{$t("live-reading.active.copied")}</span>
-                  {/if}
-                {/if}
-              </div>
-            {/if}
-          </div>
+        <div class="rounded-lg border p-4">
+          <Label for="inputc" class="text-sm font-medium">{$t("live-reading.join.label")}</Label>
+          <Input
+            id="inputc"
+            bind:value={inputCode}
+            placeholder={$t('live-reading.placeholder')}
+            class="mb-3 mt-1 w-full {isInputError ? 'border-red-500' : 'border-gray-300'}"
+            onkeydown={(event) => event.key === "Enter" && validateAndJoinLiveReading()} />
+          {#if isInputError}
+            <p class="mb-3 text-xs text-red-500">{$t("live-reading.join.validation")}</p>
+          {/if}
+          <p class="mb-3 text-xs text-gray-500">{$t("live-reading.join.spelling")}</p>
+          <Button onclick={validateAndJoinLiveReading} class="w-full">{$t("live-reading.join.button")}</Button>
         </div>
+        <p class="text-xs text-gray-500">{$t("live-reading.create.profile-hint")}</p>
       {:else}
         <div class="text-center">
           <p class="text-sm text-gray-600">{$t("live-reading.code.label")}</p>
