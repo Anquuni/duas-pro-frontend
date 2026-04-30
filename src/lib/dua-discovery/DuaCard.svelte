@@ -10,7 +10,7 @@
   import { bookmarksStore, toggleBookmark } from "$lib/bookmarks/bookmarks.store";
   import { Bookmark, Clock, MicVocal, Share2, User } from "@lucide/svelte";
 
-  let { dua } = $props();
+  let { dua, basePath = "duas" }: { dua: any; basePath?: string } = $props();
   const isPopular = dua.tags.includes("popular");
   const isRecommendedToday = dua.tags.includes("daily");
 
@@ -33,7 +33,7 @@
   }
 
   function navigate() {
-    goto(`/${$settingsStore.systemLanguage}/duas/${dua.slug}`);
+    goto(`/${$settingsStore.systemLanguage}/${basePath}/${dua.slug}`);
   }
 
   function navgiateToCollection(slug: string) {
@@ -45,7 +45,7 @@
 
 <a
   onclick={(e) => handleAction(e, () => navigate())}
-  href="/{$settingsStore.systemLanguage}/duas/{dua.slug}"
+  href="/{$settingsStore.systemLanguage}/{basePath}/{dua.slug}"
   class="block h-full transition-transform duration-500 ease-out active:scale-95">
   <Card class="relative flex h-full flex-col overflow-hidden transition-shadow hover:shadow-lg">
     {#if isPopular || isRecommendedToday}

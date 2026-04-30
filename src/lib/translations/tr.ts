@@ -1,5 +1,13 @@
 export default {
   seo: {
+    "sahifa-sajjadia": {
+      title: "Sahife-i Seccadiyye",
+      description: "Tam Sahife-i Seccadiyye – İmam Ali ibn Hüseyin'den rivayet edilen dua kitabı.",
+    },
+    ziyarat: {
+      title: "Ziyaret – İmamlara Selamlar",
+      description: "Arapça metin, transliterasyon ve çevirilerle otantik Ziyaret dualarını keşfet.",
+    },
     home: {
       title: "Otantik İslami duaları keşfet",
       description: "Arapça metin, birçok dilde satır satır çeviri, sesli okuma, transliterasyon ve birlikte okumak için canlı okuma modu ile sürekli büyüyen otantik İslami dua koleksiyonunu keşfet.",

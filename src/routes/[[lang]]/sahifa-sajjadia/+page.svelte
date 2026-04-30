@@ -3,4 +3,8 @@
   let { data } = $props();
 </script>
 
-<BrowsePage {data} />
+<BrowsePage
+  {data}
+  titleKey="seo.sahifa-sajjadia.title"
+  descriptionKey="seo.sahifa-sajjadia.description"
+/>

@@ -1,5 +1,13 @@
 export default {
   seo: {
+    "sahifa-sajjadia": {
+      title: "Sahifa Sajjadia",
+      description: "The complete Sahifa Sajjadia – the book of supplications narrated by Imam Ali ibn al-Husayn.",
+    },
+    ziyarat: {
+      title: "Ziyarat – Salutations to the Imams",
+      description: "Browse authentic Ziyarat prayers with Arabic text, transliteration, and translations.",
+    },
     home: {
       title: "Discover authentic Islamic supplications",
       description: "Explore a growing collection of authentic Islamic duas with Arabic text, line-by-line translations in multiple languages, audio playback, transliteration, and live reading mode for shared recitation.",

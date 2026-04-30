@@ -14,12 +14,24 @@
   import SettingsPopover from "../settings/SettingsPopover.svelte";
   import AuthDialog from "./AuthDialog.svelte";
   import logo from "$lib/assets/duas-pro-logo.svg";
-  import { Menu, Settings, User } from "@lucide/svelte";
+  import { ChevronDown, Menu, Settings, User } from "@lucide/svelte";
   import { page } from "$app/state";
   import { t } from "$lib/translations/i18n";
 
   let { user } = $props();
   let open = $state(false);
+  let expandedItem = $state<string | null>(null);
+
+  $effect(() => {
+    const active = navItems.find(item =>
+      item.subitems?.some(sub => isActive(hrefOf(sub.slug)))
+    );
+    if (active) expandedItem = active.label;
+  });
+
+  function toggleMobileItem(label: string) {
+    expandedItem = expandedItem === label ? null : label;
+  }
 
   const base = $derived(`/${$settingsStore.systemLanguage}`);
 
@@ -27,29 +39,40 @@
   type NavItem = { label: string; slug: string; exact?: boolean; subitems?: NavSubItem[] };
 
   const navItems: NavItem[] = $derived([
+    // {
+    //   label: "Startseite",
+    //   slug: "",
+    //   subitems: [],
+    // },
     {
-      label: $t("nav.duas"),
+      label: "Kategorien", // $t("nav.duas")
       slug: "duas",
       subitems: [
-        // { label: "Alle Bittgebete", description: "Durchsuche alle Bittgebete", slug: "duas" },
-        // { label: "Duaa", description: "Bittgebete aus Koran und Sunna", slug: "duas?types=dua" },
-        // { label: "Ziyarat", description: "Besuche und Grüße an die Imame", slug: "duas?types=ziyarat" },
+        { label: "Dua", description: "Persönliche Bittgebete, mit denen man sich direkt an Allah wendet.", slug: "duas" },
+        { label: "Ziyarat", description: "Gebete und Audienzen beim Besuch heiliger Persönlichkeiten oder ihrer Grabstätten.", slug: "ziyarat" },
       ],
     },
     {
-      label: $t("nav.collections"),
+      label: "Bücher",
       slug: "collections",
       subitems: [
-        // { label: "Alle Sammlungen", description: "Kuratierte Themensammlungen", slug: "collections" },
+        { label: "Sahifa Sadschadiyya", description: "Berühmte Sammlung von 54 Bittgebeten von Imam Zayn al-Abidin.", slug: "sahifa-sajjadia" },
+        // { label: "Mafatihul-Jinan", description: "Umfangreiche Sammlung von Duas und Ziyarat, zusammengestellt von Scheich Abbas Qummi.", slug: "mafatih-ul-jinan" },
       ],
     },
-    {
-      label: $t("nav.blog"),
-      slug: "blog",
-      subitems: [
-        // { label: "Alle Beiträge", description: "Artikel und Texte", slug: "blog" },
-      ],
-    },
+    // {
+    //   label: $t("nav.collections"),
+    //   slug: "collections",
+    //   subitems: [
+    //     { label: "Monat Ramadan", description: "", slug: "collections" },
+    //     { label: "Imam Mahdi", description: "", slug: "collections" },
+    //   ],
+    // },
+    // {
+    //   label: "Shop",
+    //   slug: "collections",
+    //   subitems: [],
+    // },
   ]);
 
   function hrefOf(slug: string) {
@@ -87,27 +110,37 @@
 
           <nav class="mt-4 flex flex-col gap-1">
             {#each navItems as item}
-              <a
-                href={hrefOf(item.slug)}
-                data-active={isActive(hrefOf(item.slug), item.exact)}
-                aria-current={ariaCurrent(hrefOf(item.slug), item.exact)}
-                onclick={() => (open = false)}
-                class="rounded px-3 py-2 text-xl hover:bg-muted data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
-              >
-                {item.label}
-              </a>
-              {#if item.subitems && item.subitems.length > 1}
-                <div class="ml-4 flex flex-col gap-0.5">
-                  {#each item.subitems.slice(1) as sub}
-                    <a
-                      href={hrefOf(sub.slug)}
-                      onclick={() => (open = false)}
-                      class="rounded px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
-                    >
-                      {sub.label}
-                    </a>
-                  {/each}
-                </div>
+              {#if item.subitems && item.subitems.length > 0}
+                <button
+                  class="flex w-full items-center justify-between rounded px-3 py-2 text-xl hover:bg-muted"
+                  onclick={() => toggleMobileItem(item.label)}
+                >
+                  <span>{item.label}</span>
+                  <ChevronDown class="h-5 w-5 transition-transform duration-200 {expandedItem === item.label ? 'rotate-180' : ''}" />
+                </button>
+                {#if expandedItem === item.label}
+                  <div class="ml-4 flex flex-col gap-0.5">
+                    {#each item.subitems as sub}
+                      <a
+                        href={hrefOf(sub.slug)}
+                        onclick={() => { open = false; expandedItem = null; }}
+                        class="rounded px-3 py-2 text-base text-muted-foreground hover:bg-muted hover:text-foreground"
+                      >
+                        {sub.label}
+                      </a>
+                    {/each}
+                  </div>
+                {/if}
+              {:else}
+                <a
+                  href={hrefOf(item.slug)}
+                  data-active={isActive(hrefOf(item.slug), item.exact)}
+                  aria-current={ariaCurrent(hrefOf(item.slug), item.exact)}
+                  onclick={() => (open = false)}
+                  class="rounded px-3 py-2 text-xl hover:bg-muted data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                >
+                  {item.label}
+                </a>
               {/if}
             {/each}
           </nav>

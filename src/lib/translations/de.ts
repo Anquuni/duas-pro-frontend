@@ -1,5 +1,13 @@
 export default {
   seo: {
+    "sahifa-sajjadia": {
+      title: "Sahifa Sadschadiyya",
+      description: "Die vollständige Sahifa Sadschadiyya – das Buch der Bittgebete, überliefert von Imam Ali ibn al-Husain.",
+    },
+    ziyarat: {
+      title: "Ziyarat – Grüße an die Imame",
+      description: "Entdecke authentische Ziyarat-Gebete mit arabischem Text, Umschrift und Übersetzungen.",
+    },
     home: {
       title: "Authentische islamische Bittgebete entdecken",
       description: "Entdecke eine wachsende Sammlung authentischer islamischer Duas mit arabischem Text, zeilenweiser Übersetzung in vielen Sprachen, Audio-Wiedergabe, Umschrift und einem Live-Lesemodus für gemeinsames Rezitieren.",

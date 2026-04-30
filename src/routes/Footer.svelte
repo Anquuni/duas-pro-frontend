@@ -39,6 +39,9 @@
           <li>
             <a href="/{$settingsStore.systemLanguage}/privacy-policy" class="hover:text-white">{$t("footer.privacy-policy")}</a>
           </li>
+          <li>
+            <a href="/{$settingsStore.systemLanguage}/blog" class="hover:text-white">{$t("nav.blog")}</a>
+          </li>
           <!-- <li><a href="/about" class="hover:text-white">Impressum</a></li>
           <li><a href="/about" class="hover:text-white">FAQ</a></li>
           <li><a href="/about" class="hover:text-white">API</a></li> -->
