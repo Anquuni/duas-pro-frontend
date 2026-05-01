@@ -44,7 +44,7 @@
   });
 
   function buildPaginationUrl(currentPage: number, size: number) {
-    let url = `/${$settingsStore.systemLanguage}/duas?page=${currentPage}&size=${size}`;
+    let url = `${page.url.pathname}?page=${currentPage}&size=${size}`;
     const types = page.url.searchParams.getAll("types");
     if (types.length > 0) {
       url += `&types=${types}`;

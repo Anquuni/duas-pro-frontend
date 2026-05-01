@@ -77,7 +77,7 @@
 
     headerStore.update((state) => ({
       ...state,
-      duaTitle: data.dua.title["translit"],
+      duaTitle: data.dua.title["translit"] ?? data.dua.title[$settingsStore.systemLanguage],
       showViewTabs: false,
       isDuaPage: true,
       isExpandedHeader: true,

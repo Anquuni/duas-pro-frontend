@@ -37,7 +37,7 @@
   }
 
   function navgiateToCollection(slug: string) {
-    goto(`/${$settingsStore.systemLanguage}/collections/${slug}`);
+    goto(`/${$settingsStore.systemLanguage}/${slug}`);
   }
 
   const readingTime = $derived(Math.ceil((dua.word_count[$settingsStore.systemLanguage] ?? 0) / 100));
@@ -72,12 +72,14 @@
     <CardContent class="flex-1 py-2">
       <div class="mb-2 mt-2 flex flex-wrap gap-2">
         {#each dua.collections as collection}
-          <a
-            href="/{$settingsStore.systemLanguage}/collections/{collection.slug}"
-            onclick={(e) => handleAction(e, () => navgiateToCollection(collection.slug))}
-            class="rounded-full bg-primary/90 px-2 py-0.5 text-xs font-medium text-white transition-colors hover:bg-primary/20 hover:text-black">
-            {collection.title[$settingsStore.systemLanguage]}
-          </a>
+          {#if collection.type === "book"}
+            <a
+              href="/{$settingsStore.systemLanguage}/{collection.slug}"
+              onclick={(e) => handleAction(e, () => navgiateToCollection(collection.slug))}
+              class="rounded-full bg-primary/90 px-2 py-0.5 text-xs font-medium text-white transition-colors hover:bg-primary/20 hover:text-black">
+              {collection.title[$settingsStore.systemLanguage]}
+            </a>
+          {/if}
         {/each}
       </div>
 

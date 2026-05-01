@@ -32,12 +32,14 @@
   {#if dua.collections.length > 0}
     <div class="mb-4 flex flex-wrap justify-center gap-2">
       {#each dua.collections as collection}
-        <!-- <Badge variant="outline">{tag}</Badge> -->
+        {#if collection.type === "book"}
           <a
-            href="/{$settingsStore.systemLanguage}/collections/{collection.slug}"
+            href="/{$settingsStore.systemLanguage}/{collection.slug}"
             class="rounded-full bg-primary/90 px-2 py-0.5 text-xs font-medium text-white transition-colors hover:bg-primary/20 hover:text-black">
             {collection.title[$settingsStore.systemLanguage]}
           </a>
+        {/if}
+        <!-- <Badge variant="outline">{tag}</Badge> -->
       {/each}
     </div>
   {/if}
