@@ -104,10 +104,15 @@
   });
 </script>
 
-<div bind:this={presentationContainer} 
+<div
+  bind:this={presentationContainer}
+  role="region"
+  aria-label="Dua presentation"
   ontouchstart={handleTouchStart}
-  ontouchend={handleTouchEnd} 
-  class="flex flex-col " style="height: calc(100vh - 30px - {audioPlayerHeight}px);">
+  ontouchend={handleTouchEnd}
+  class="flex flex-col"
+  style="height: calc(100vh - 30px - {audioPlayerHeight}px);"
+>
   <Card class="relative flex-grow overflow-auto border-0 shadow-none">
 
   {#if sectionTitle}
@@ -139,7 +144,7 @@
 
         {#if $settingsStore.showTranslit}
           <p class="secondary-dua-font-size">
-            {lines[$duaStore.currentVerse]["translit"]}
+            {lines[$duaStore.currentVerse]["translit"].toLowerCase()}
           </p>
         {/if}
 
