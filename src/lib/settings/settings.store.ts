@@ -28,6 +28,7 @@ export const languages: LanguageItem[] = [
   { value: "de", label: "German 🇩🇪", rtl: false },
   { value: "fa", label: "Persian 🇮🇷", rtl: true },
   { value: "tr", label: "Turkish 🇹🇷", rtl: false },
+  { value: "ur", label: "Urdu 🇵🇰", rtl: true },
 ];
 
 // export const languages: LanguageItem[] = [
